@@ -135,7 +135,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10773477}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c0b6472670d4417ab8173561183817f, type: 3}
   m_Name: 
@@ -336,6 +336,189 @@ MonoBehaviour:
   - {fileID: 1197263058}
   targetDestination: {x: 0, y: 0, z: 0}
   hasDestination: 0
+--- !u!114 &10773490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10773477}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3516d1bcd0fb024d99e7c5e2b9b2d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForce: 10
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onJump:
+    m_PersistentCalls:
+      m_Calls: []
+  selectedMethod: 6
+  controller: {fileID: 0}
+--- !u!114 &10773492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10773477}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: deabb6536f62dd34eb6a88868963096d, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 10773490}
+        m_TargetAssemblyTypeName: WASDController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 86753310-c21e-406e-bdef-6da8cb0d48fb
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c1849e81-2fdf-41fb-baad-bad65a646f97
+    m_ActionName: Player/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: abadbf79-e919-4011-b146-e9b4dab407c1
+    m_ActionName: Player/Fire[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 10773490}
+        m_TargetAssemblyTypeName: WASDController, Assembly-CSharp
+        m_MethodName: Submit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 25235aca-32e9-4b50-941a-06be521f3fb9
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 10773490}
+        m_TargetAssemblyTypeName: WASDController, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 08e6c8a1-65f0-4842-ad88-c5ff9eee7b72
+    m_ActionName: Player/Jump[/Keyboard/space]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!54 &10773493
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10773477}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &10773494
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10773477}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9, y: 18, z: 9}
+  m_Center: {x: 0, y: 12, z: 0}
+--- !u!114 &10773495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10773477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ee49d6832c7c64d81aa7b8a55bc752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 5
+--- !u!114 &10773496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10773477}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096ab0a1c3a45b145a97b487dac57235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickMarkerPrefab: {fileID: 1794962039}
+  visualObjectsParent: {fileID: 0}
 --- !u!43 &33427776
 Mesh:
   m_ObjectHideFlags: 0
@@ -4114,7 +4297,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4122,7 +4305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4176,6 +4359,9 @@ PrefabInstance:
       addedObject: {fileID: 10773481}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 10773496}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 10773480}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
       insertIndex: -1
@@ -4189,6 +4375,21 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
       insertIndex: -1
       addedObject: {fileID: 10773488}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 10773490}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 10773492}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 10773493}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 10773494}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 10773495}
   m_SourcePrefab: {fileID: 100100000, guid: 37617114c833b4bafbd8a9dc28b7b214, type: 3}
 --- !u!43 &1104440150
 Mesh:
