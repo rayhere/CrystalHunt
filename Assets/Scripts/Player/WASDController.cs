@@ -768,8 +768,13 @@ public class WASDController : MonoBehaviour
     private void GroundCheck() 
     {
         grounded = CheckGround();
+        //GroundCheck0();
     }
     
+    private void GroundCheck0()
+    {
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.4f, whatIsGround);
+    }
     private void GroundCheck1() // work
     {
         // Cast a single raycast straight down from the player's position
@@ -859,5 +864,16 @@ public class WASDController : MonoBehaviour
         // Draw wire spheres.
         Gizmos.DrawWireSphere(start, _groundCheckRadius);
         Gizmos.DrawWireSphere(end, _groundCheckRadius);
+    }
+
+    // Debug Check variable
+    private void checkVar()
+    {
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            Debug.Log("check var ");
+        }
+
+        
     }
 }
