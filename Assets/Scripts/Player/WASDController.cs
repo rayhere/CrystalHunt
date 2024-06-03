@@ -73,6 +73,12 @@ public class WASDController : MonoBehaviour
     // Ground check variables
     //bool grounded;
     bool onSteepGround;
+
+    [Header("Ground Check3")]
+    [SerializeField] private float _groundCheckOffset = 0.2f;
+    [SerializeField] private float _groundCheckDistance = 0.4f;
+    [SerializeField] private float _groundCheckRadius = 0.25f;
+    private Vector3 _groundNormal;
     
     [Header("References")]
     public Climbing climbingScript;
@@ -737,6 +743,59 @@ public class WASDController : MonoBehaviour
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 
+    
+
+
+    private void TextStuff()
+    {
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        if (OnSlope())
+            text_speed.SetText("Speed: " + Round(rb.velocity.magnitude, 1) + " / " + Round(moveSpeed, 1));
+
+        else
+            text_speed.SetText("Speed: " + Round(flatVel.magnitude, 1) + " / " + Round(moveSpeed, 1));
+
+        text_mode.SetText(state.ToString());
+    }
+
+    public static float Round(float value, int digits)
+    {
+        float mult = Mathf.Pow(10.0f, (float)digits);
+        return Mathf.Round(value * mult) / mult;
+    }
+
+    private void GroundCheck() 
+    {
+        grounded = CheckGround();
+    }
+    
+    private void GroundCheck1() // work
+    {
+        // Cast a single raycast straight down from the player's position
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight * 0.5f + 0.2f, whatIsGround))
+        {
+            grounded = true;
+
+            // Check if the slope angle exceeds the threshold
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+            if (slopeAngle > maxSlopeAngle)
+            {
+                onSteepGround = true;
+            }
+            else
+            {
+                onSteepGround = false;
+            }
+        }
+        else
+        {
+            grounded = false;
+            onSteepGround = false;
+        }
+    }
+
     private void GroundCheck2()
     {
         grounded = false;
@@ -767,48 +826,38 @@ public class WASDController : MonoBehaviour
         }
     }
 
-    private void GroundCheck() // work
-    {
-        // Cast a single raycast straight down from the player's position
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight * 0.5f + 0.2f, whatIsGround))
-        {
-            grounded = true;
 
-            // Check if the slope angle exceeds the threshold
-            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-            if (slopeAngle > maxSlopeAngle)
-            {
-                onSteepGround = true;
-            }
-            else
-            {
-                onSteepGround = false;
-            }
-        }
-        else
+    // Check if the player is grounded using a sphere cast.
+    private bool CheckGround()
+    {
+        // Start position for the sphere cast.
+        Vector3 start = transform.position + Vector3.up * _groundCheckOffset;
+
+        // Perform sphere cast.
+        if (Physics.SphereCast(start, _groundCheckRadius, Vector3.down, out RaycastHit hit, _groundCheckDistance, whatIsGround))
         {
-            grounded = false;
-            onSteepGround = false;
+            // If the player is grounded, save the ground normal and return true.
+            _groundNormal = hit.normal;
+            return true;
         }
+        _groundNormal = Vector3.up;
+        return false;
     }
 
-    private void TextStuff()
+    // Draw debug spheres for ground checking.
+    private void OnDrawGizmosSelected() 
     {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        // Set gizmos color.
+        //Gizmos.color = Color.red;
+        //if (_isGrounded) Gizmos.color = Color.green;
+        Gizmos.color = grounded ? Color.green : Color.red;
 
-        if (OnSlope())
-            text_speed.SetText("Speed: " + Round(rb.velocity.magnitude, 1) + " / " + Round(moveSpeed, 1));
+        // Find start/end positions of sphere cast.
+        Vector3 start = transform.position + Vector3.up * _groundCheckOffset;
+        Vector3 end = start + Vector3.down * _groundCheckDistance;
 
-        else
-            text_speed.SetText("Speed: " + Round(flatVel.magnitude, 1) + " / " + Round(moveSpeed, 1));
-
-        text_mode.SetText(state.ToString());
-    }
-
-    public static float Round(float value, int digits)
-    {
-        float mult = Mathf.Pow(10.0f, (float)digits);
-        return Mathf.Round(value * mult) / mult;
+        // Draw wire spheres.
+        Gizmos.DrawWireSphere(start, _groundCheckRadius);
+        Gizmos.DrawWireSphere(end, _groundCheckRadius);
     }
 }
