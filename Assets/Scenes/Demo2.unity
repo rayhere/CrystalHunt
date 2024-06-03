@@ -2708,9 +2708,9 @@ MonoBehaviour:
   groundCheckDistance: 0.5
   numRaycasts: 5
   slopeThreshold: 30
-  _groundCheckOffset: 0.2
-  _groundCheckDistance: 0.4
-  _groundCheckRadius: 0.25
+  _groundCheckOffset: 0.35
+  _groundCheckDistance: 0.35
+  _groundCheckRadius: 0.3
   climbingScript: {fileID: 1986005906}
   orientation: {fileID: 1048110988}
   state: 0

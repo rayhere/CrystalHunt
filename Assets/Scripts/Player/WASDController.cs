@@ -75,9 +75,9 @@ public class WASDController : MonoBehaviour
     bool onSteepGround;
 
     [Header("Ground Check3")]
-    [SerializeField] private float _groundCheckOffset = 0.2f;
-    [SerializeField] private float _groundCheckDistance = 0.4f;
-    [SerializeField] private float _groundCheckRadius = 0.25f;
+    [SerializeField] private float _groundCheckOffset = 0.35f;
+    [SerializeField] private float _groundCheckDistance = 0.35f;
+    [SerializeField] private float _groundCheckRadius = 0.3f;
     private Vector3 _groundNormal;
     
     [Header("References")]
