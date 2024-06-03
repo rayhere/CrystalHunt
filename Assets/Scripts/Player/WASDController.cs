@@ -83,6 +83,7 @@ public class WASDController : MonoBehaviour
     [Header("References")]
     public Climbing climbingScript;
     public Transform orientation;
+    public Animator myAnim;
 
     float horizontalInput;
     float verticalInput;
@@ -198,6 +199,8 @@ public class WASDController : MonoBehaviour
 
         jumpAnimationId = Animator.StringToHash("Jump");
         blendAnimationParameterID = Animator.StringToHash("Blend");
+
+        //myAnim = GetComponent<Animator>(); // allow to control animations of the GameObject
 
         // Assign the selected update method based on the selectedMethod enum value
         switch (selectedMethod)
@@ -584,6 +587,9 @@ public class WASDController : MonoBehaviour
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed; 
+            myAnim.SetBool("isRunning", true);
+            myAnim.SetBool("isWalking", false);
+            myAnim.SetBool("isStandingIdle", false);
         }
 
         // Mode - Walking
@@ -591,6 +597,35 @@ public class WASDController : MonoBehaviour
         {
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
+
+            Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+            if (rb.velocity.magnitude > 0.1f || flatVel.magnitude > 0.1f)
+            {
+                //Debug.Log("moveSpeed is " + moveSpeed);
+                //Debug.Log(" isRunning anim true");
+                myAnim.SetBool("isWalking", true); //change condition for Animator
+                myAnim.SetBool("isRunning", false);
+                myAnim.SetBool("isStandingIdle", false);
+            } else {
+                
+                myAnim.SetBool("isStandingIdle", true);
+                myAnim.SetBool("isWalking", false);
+                myAnim.SetBool("isRunning", false); //change condition for Animator
+            }
+            
+        // Trigger movement animation or sound
+/*             if (movementInput.magnitude > 0)
+            {
+                animator.Play(walkAnimation);
+                if (!walkSound.isPlaying)
+                    walkSound.Play();
+            }
+            else
+            {
+                animator.Play(idleAnimation);
+                walkSound.Stop();
+            } */
         }
 
         // Mode - Air
@@ -601,6 +636,8 @@ public class WASDController : MonoBehaviour
             if (moveSpeed < airMinSpeed)
                 desiredMoveSpeed = airMinSpeed;
         }
+
+
 
         // check if desiredMoveSpeed has changed drastically
         //if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)

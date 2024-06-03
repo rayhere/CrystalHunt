@@ -2713,6 +2713,7 @@ MonoBehaviour:
   _groundCheckRadius: 0.3
   climbingScript: {fileID: 1986005906}
   orientation: {fileID: 1048110988}
+  myAnim: {fileID: 5866666021034342675}
   state: 0
   freeze: 0
   unlimited: 0
