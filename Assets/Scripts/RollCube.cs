@@ -101,7 +101,7 @@ public class RollCube : MonoBehaviour
     {
         lengthOfCube = Mathf.Abs(lengthOfCube / 2);
         // Create an empty GameObject
-        GameObject emptyGameObject = new GameObject("Center");
+        GameObject emptyGameObject = new GameObject(gameObject.name + " Center");
 
         // Create empty GameObjects for Up, Down, Left, and Right
         GameObject upObject = new GameObject("Up");
@@ -123,9 +123,14 @@ public class RollCube : MonoBehaviour
         rightObject.transform.parent = emptyGameObject.transform;
 
         // Set the position, rotation, and scale of EmptyGameObject
-        emptyGameObject.transform.position = new Vector3(0, lengthOfCube, 0);
-        emptyGameObject.transform.rotation = Quaternion.identity;
-        emptyGameObject.transform.localScale = new Vector3(1, 1, 1);
+        // emptyGameObject.transform.position = new Vector3(0, lengthOfCube, 0);
+        // emptyGameObject.transform.rotation = Quaternion.identity;
+        // emptyGameObject.transform.localScale = new Vector3(1, 1, 1);
+        
+        // Set the position, rotation, and scale of EmptyGameObject to match _cube
+        emptyGameObject.transform.position = _cube.transform.position;
+        emptyGameObject.transform.rotation = _cube.transform.rotation;
+        emptyGameObject.transform.localScale = _cube.transform.localScale;
 
         // Set the positions of Up, Down, Left, and Right relative to EmptyGameObject
         upObject.transform.localPosition = new Vector3(0, -lengthOfCube, lengthOfCube);

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
 
-
 public class AutoRollCubeToTarget : MonoBehaviour
 {
     private Vector3 offset;
@@ -122,15 +121,14 @@ public class AutoRollCubeToTarget : MonoBehaviour
             yield return StartCoroutine(moveRight());
         } */
 
+
         // Wait for 5 seconds before choosing the next target
         yield return new WaitForSeconds(5f);
+
 
         // Enable input after moving
         input = true;
     }
-
-
-
 
     IEnumerator moveUP()
     {
@@ -140,7 +138,6 @@ public class AutoRollCubeToTarget : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
-
     }
 
     IEnumerator moveDown()
@@ -151,7 +148,6 @@ public class AutoRollCubeToTarget : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
-
     }
 
     IEnumerator moveLeft()
@@ -162,25 +158,24 @@ public class AutoRollCubeToTarget : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
-
     }
 
     IEnumerator moveRight()
     {
         for (int i = 0; i < (90 / step); i++)
         {
+            // Spin the object around the right position in number of step
             _cube.transform.RotateAround(right.transform.position, Vector3.back, step);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
-
     }
 
     public void CreateEmptyObject()
     {
         lengthOfCube = Mathf.Abs(lengthOfCube / 2);
         // Create an empty GameObject
-        GameObject emptyGameObject = new GameObject("Center");
+        GameObject emptyGameObject = new GameObject(gameObject.name + " Center");
 
         // Create empty GameObjects for Up, Down, Left, and Right
         GameObject upObject = new GameObject("Up");
@@ -202,9 +197,14 @@ public class AutoRollCubeToTarget : MonoBehaviour
         rightObject.transform.parent = emptyGameObject.transform;
 
         // Set the position, rotation, and scale of EmptyGameObject
-        emptyGameObject.transform.position = new Vector3(0, lengthOfCube, 0);
-        emptyGameObject.transform.rotation = Quaternion.identity;
-        emptyGameObject.transform.localScale = new Vector3(1, 1, 1);
+        // emptyGameObject.transform.position = new Vector3(0, lengthOfCube, 0);
+        // emptyGameObject.transform.rotation = Quaternion.identity;
+        // emptyGameObject.transform.localScale = new Vector3(1, 1, 1);
+        
+        // Set the position, rotation, and scale of EmptyGameObject to match _cube
+        emptyGameObject.transform.position = _cube.transform.position;
+        emptyGameObject.transform.rotation = _cube.transform.rotation;
+        emptyGameObject.transform.localScale = _cube.transform.localScale;
 
         // Set the positions of Up, Down, Left, and Right relative to EmptyGameObject
         upObject.transform.localPosition = new Vector3(0, -lengthOfCube, lengthOfCube);
