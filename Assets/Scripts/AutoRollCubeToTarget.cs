@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 
-public class RollCube : MonoBehaviour
+
+public class AutoRollCubeToTarget : MonoBehaviour
 {
     private Vector3 offset;
 
@@ -30,28 +33,104 @@ public class RollCube : MonoBehaviour
     {
         if (input)
         {
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                StartCoroutine(moveUP());
-                input = false;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                StartCoroutine(moveDown());
-                input = false;
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                StartCoroutine(moveLeft());
-                input = false;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                StartCoroutine(moveRight());
-                input = false;
-            }
+            StartCoroutine(ChooseAndMove());
         }
     }
+
+    IEnumerator ChooseAndMove()
+    {
+        // Disable input while choosing and moving
+        input = false;
+
+        // Choose a random target
+        int randomIndex = UnityEngine.Random.Range(0, Targets.Length);
+        Vector3 targetPosition = Targets[randomIndex].position;
+
+        // Calculate the direction to the target
+        Vector3 direction = (targetPosition - _cube.transform.position).normalized;
+
+        // Check if the target position is at Vector3.zero
+        if (targetPosition == Vector3.zero)
+        {
+            // Choose a random direction if the target is at Vector3.zero
+            direction = UnityEngine.Random.onUnitSphere;
+        }
+
+        // Determine which direction to move based on the dot product with the world axes
+        float dotUp = direction.x;
+        float dotDown = Vector3.Dot(direction, Vector3.down);
+        float dotLeft = Vector3.Dot(direction, Vector3.left);
+        float dotRight = Vector3.Dot(direction, Vector3.right);
+
+        /* Debug.Log("direction is " + direction + " Vector3 up is " + Vector3.up);
+        Debug.Log("dotUp is " + dotUp + " Vector3 up is " + Vector3.up);
+        Debug.Log("dotDown is " + dotDown + " Vector3 down is " + Vector3.down);
+        Debug.Log("dotLeft is " + dotLeft + " Vector3 left is " + Vector3.left);
+        Debug.Log("dotRight is " + dotRight + " Vector3 right is " + Vector3.right); */
+
+        Debug.Log("Mathf.Abs(direction.x) " + Mathf.Abs(direction.x));
+        Debug.Log("Mathf.Abs(direction.z) " + Mathf.Abs(direction.z));
+        if (Mathf.Abs(direction.x) ==0 && Mathf.Abs(direction.z) ==0 )
+        {
+            // don't do anything
+            Debug.Log("don't do anything " + direction);
+        }
+        if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.z))
+        {
+            // move Left or Right
+            Debug.Log("move Left or Right " + direction);
+            if (direction.x > 0)
+            {
+                yield return StartCoroutine(moveRight());
+            }
+            else if (direction.x < 0)
+            {
+                yield return StartCoroutine(moveLeft());
+            }
+        }
+        else if (Mathf.Abs(direction.x) <= Mathf.Abs(direction.z))
+        {
+            // move Up or Down
+            Debug.Log("move Up or Down " + direction);
+            if (direction.z > 0)
+            {
+                yield return StartCoroutine(moveUP());
+            }
+            else if (direction.z < 0)
+            {
+                yield return StartCoroutine(moveDown());
+            }
+        }
+
+        /* if (direction.x > 0.1 || direction.x < -0.1)
+
+
+        if (dotUp > dotDown && dotUp > dotLeft && dotUp > dotRight)
+        {
+            yield return StartCoroutine(moveUP());
+        }
+        else if (dotDown > dotLeft && dotDown > dotRight)
+        {
+            yield return StartCoroutine(moveDown());
+        }
+        else if (dotLeft > dotRight)
+        {
+            yield return StartCoroutine(moveLeft());
+        }
+        else
+        {
+            yield return StartCoroutine(moveRight());
+        } */
+
+        // Wait for 5 seconds before choosing the next target
+        yield return new WaitForSeconds(5f);
+
+        // Enable input after moving
+        input = true;
+    }
+
+
+
 
     IEnumerator moveUP()
     {
@@ -61,7 +140,7 @@ public class RollCube : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
-        input = true;
+
     }
 
     IEnumerator moveDown()
@@ -72,7 +151,7 @@ public class RollCube : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
-        input = true;
+
     }
 
     IEnumerator moveLeft()
@@ -83,7 +162,7 @@ public class RollCube : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
-        input = true;
+
     }
 
     IEnumerator moveRight()
@@ -94,7 +173,7 @@ public class RollCube : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
-        input = true;
+
     }
 
     public void CreateEmptyObject()
@@ -132,23 +211,5 @@ public class RollCube : MonoBehaviour
         downObject.transform.localPosition = new Vector3(0, -lengthOfCube, -lengthOfCube);
         leftObject.transform.localPosition = new Vector3(-lengthOfCube, -lengthOfCube, 0);
         rightObject.transform.localPosition = new Vector3(lengthOfCube, -lengthOfCube, 0);
-    }
-
-    public void ChooseTarget(Vector3 targetPosition)
-    {
-        StartCoroutine(MoveToTarget(targetPosition));
-    }
-
-    IEnumerator MoveToTarget(Vector3 targetPosition)
-    {
-        // Calculate the direction to the target
-        Vector3 direction = (targetPosition - _cube.transform.position).normalized;
-        
-        // Move the cube towards the target
-        while (Vector3.Distance(_cube.transform.position, targetPosition) > 0.01f)
-        {
-            _cube.transform.position += direction * speed * Time.deltaTime;
-            yield return null;
-        }
     }
 }

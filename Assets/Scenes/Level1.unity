@@ -1947,6 +1947,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557b5190af4adaa47abafdb58a89e361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &836050645 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2244465484593408765, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
+  m_PrefabInstance: {fileID: 7449253440093963699}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &912109360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3111,6 +3116,7 @@ GameObject:
   - component: {fileID: 1972828298}
   - component: {fileID: 1972828300}
   - component: {fileID: 1972828301}
+  - component: {fileID: 1972828302}
   m_Layer: 0
   m_Name: StoneCube
   m_TagString: Untagged
@@ -3175,12 +3181,36 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972828297}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e52e0f3b8e5e254d946db89f3871c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1972828297}
+  Targets: []
+  _cube: {fileID: 0}
+  center: {fileID: 0}
+  up: {fileID: 0}
+  down: {fileID: 0}
+  left: {fileID: 0}
+  right: {fileID: 0}
+  lengthOfCube: 10
+  step: 9
+  speed: 0.01
+--- !u!114 &1972828302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972828297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1f3cf530b6b8c4787e540a05e3be80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Targets:
+  - {fileID: 836050645}
+  _cube: {fileID: 1972828297}
   center: {fileID: 0}
   up: {fileID: 0}
   down: {fileID: 0}
