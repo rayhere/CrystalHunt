@@ -3430,7 +3430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Targets: []
-  _cube: {fileID: 0}
+  _cube: {fileID: 1972828297}
   center: {fileID: 0}
   up: {fileID: 0}
   down: {fileID: 0}

@@ -21,11 +21,16 @@ public class AutoRollCubeToTarget : MonoBehaviour
     public int step = 9;
     public float speed = 0.01f;
 
-    private bool input = true;
+    private bool input = false;
 
     private void Awake()
     {
         CreateEmptyObject();
+    }
+
+    void Start()
+    {
+        StartCoroutine(StartMovementTimer());
     }
 
     void Update()
@@ -123,7 +128,7 @@ public class AutoRollCubeToTarget : MonoBehaviour
 
 
         // Wait for 5 seconds before choosing the next target
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
 
         // Enable input after moving
@@ -211,5 +216,14 @@ public class AutoRollCubeToTarget : MonoBehaviour
         downObject.transform.localPosition = new Vector3(0, -lengthOfCube, -lengthOfCube);
         leftObject.transform.localPosition = new Vector3(-lengthOfCube, -lengthOfCube, 0);
         rightObject.transform.localPosition = new Vector3(lengthOfCube, -lengthOfCube, 0);
+    }
+
+    IEnumerator StartMovementTimer()
+    {
+        // Wait for 5 seconds before starting the movement
+        yield return new WaitForSeconds(2f);
+
+        // Start the movement
+        input = true;
     }
 }
