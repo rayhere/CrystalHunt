@@ -1,0 +1,133 @@
+.TitleContainer {
+    flex-grow: 0;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-top: 0;
+    margin-bottom: 0;
+    flex-basis: 20%;
+    padding-right: 20%;
+    padding-left: 20%;
+    padding-top: 5%;
+    padding-bottom: 1%;
+    align-self: flex-start;
+    height: 100%;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.TitleLabel {
+    font-size: 400%;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-self: center;
+    align-items: center;
+    -unity-text-align: middle-center;
+    width: 100%;
+    height: 100%;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    -unity-font-style: bold;
+    flex-basis: 100%;
+    margin-top: 0;
+    padding-top: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    padding-right: 10%;
+    padding-left: 10%;
+}
+
+.BodyContainer {
+    flex-grow: 0;
+    flex-direction: row;
+    padding-right: 10%;
+    padding-left: 10%;
+    flex-basis: 60%;
+}
+
+.PosContainer {
+    flex-grow: 0;
+    flex-basis: 20%;
+    padding-right: 1%;
+    align-items: stretch;
+    justify-content: flex-start;
+    align-self: center;
+    background-color: rgba(0, 0, 0, 0.38);
+    padding-left: 1%;
+    margin-right: 1%;
+    margin-left: 1%;
+    height: 100%;
+    width: 100%;
+}
+
+.ListContainer {
+    flex-grow: 1;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-right: 1%;
+    align-self: center;
+    background-color: rgba(0, 0, 0, 0.24);
+    margin-bottom: 0;
+    margin-left: 1%;
+    height: 100%;
+    width: 100%;
+}
+
+.PosLabel {
+    font-size: 300%;
+    -unity-text-align: middle-center;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.47);
+    width: 100%;
+    height: 10%;
+    justify-content: flex-start;
+    align-self: center;
+    flex-basis: 15%;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    color: rgb(255, 255, 255);
+}
+
+.NameLabel {
+    font-size: 300%;
+    -unity-text-align: middle-center;
+    background-color: rgba(0, 0, 0, 0.58);
+    height: 10%;
+    width: 100%;
+    align-items: flex-start;
+    align-self: center;
+    flex-basis: 15%;
+}
+
+.ScoreLabel {
+    font-size: 300%;
+    background-color: rgba(0, 0, 0, 0.33);
+    -unity-text-align: middle-right;
+    height: 10%;
+    width: 100%;
+    align-items: flex-start;
+    align-self: center;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    flex-basis: 15%;
+}
+
+.LowerContainer {
+    flex-grow: 0;
+    flex-basis: 20%;
+    align-self: center;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 1%;
+    padding-bottom: 4%;
+    margin-right: 1%;
+    margin-left: 1%;
+    width: 30%;
+    height: 50%;
+}
+
+.BackButton {
+    width: 100%;
+    align-self: center;
+    height: 100%;
+    align-items: center;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    font-size: 300%;
+    -unity-text-align: middle-center;
+}

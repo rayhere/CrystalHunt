@@ -15,6 +15,7 @@
                 <ui:VisualElement name="OptionsButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
                     <ui:Button text="Options" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OptionsButton" class="button" />
                 </ui:VisualElement>
+                <ui:RadioButtonGroup label="Radio Button Group" value="-1" choices="UnityEngine.UIElements.RadioButtonGroup+&lt;get_choices&gt;d__7" class="RadioButtonGroup" />
                 <ui:VisualElement name="CreditsButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
                     <ui:Button text="Credit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreditsButton" class="button" />
                 </ui:VisualElement>
@@ -22,6 +23,7 @@
                     <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="button" />
                 </ui:VisualElement>
             </ui:VisualElement>
+            <ui:VisualElement name="LowerContainer" class="LowerContainer" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

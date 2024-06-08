@@ -1,0 +1,34 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/HighScoreboard.uss?fileID=7433441132597879392&amp;guid=2a5c86c5622820341a922f85c03eb2be&amp;type=3#HighScoreboard" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:VisualElement name="TitleContainer" class="TitleContainer">
+            <ui:Label text="HIGH SCORES" class="TitleLabel" style="-unity-text-align: middle-center; text-overflow: clip;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="BodyContainer" class="BodyContainer">
+            <ui:VisualElement name="PosContainer" class="PosContainer">
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" class="PosLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" class="PosLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" class="PosLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" class="PosLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" class="PosLabel" />
+            </ui:VisualElement>
+            <ui:VisualElement name="NameContainer" class="ListContainer">
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name1" class="NameLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name2" class="NameLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name3" class="NameLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name4" class="NameLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name5" class="NameLabel" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ScoreContainer" class="ListContainer" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Score1" class="ScoreLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Score2" class="ScoreLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Score3" class="ScoreLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Score4" class="ScoreLabel" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Score5" class="ScoreLabel" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="LowerContainer" class="LowerContainer">
+            <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BackButton" class="BackButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
