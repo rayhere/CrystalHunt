@@ -8,6 +8,7 @@ public class PersistentData : MonoBehaviour
     [SerializeField] int playerLevel;
     [SerializeField] int playerScore;
     [SerializeField] float elapsedTime;
+    [SerializeField] int crystalCount;
 
     public static PersistentData Instance;
 
@@ -45,6 +46,8 @@ public class PersistentData : MonoBehaviour
         //     playerScore = 0;
 
         elapsedTime = 0;
+        crystalCount = 0;
+
     }
 
     // Update is called once per frame
@@ -98,5 +101,15 @@ public class PersistentData : MonoBehaviour
     public float GetElapsedTime()
     {
         return elapsedTime;
+    }
+
+    public int GetCrystalCount()
+    {
+        return crystalCount; // crystalCollected
+    }
+
+    public void SetCrystalCount(int i)
+    {
+        crystalCount = i; // crystalCollected
     }
 }

@@ -19,6 +19,7 @@ public class InGameUI : MonoBehaviour
     private Label text_speed;
     private Label text_mode;
     private Label text_cursorStatus;
+    private Label text_crystalcollectStatus;
 
     private Button _pauseButton;
     private Button _resumeButton;
@@ -30,8 +31,11 @@ public class InGameUI : MonoBehaviour
 
     private bool cursorLocked = true;
 
+    private const string CrystalCountKey = "CrystalCount";
+
     private void Awake()
     {
+        CheckGameDataObject();
         _document = GetComponent<UIDocument>();
         if (_document == null)
         {
@@ -133,6 +137,7 @@ public class InGameUI : MonoBehaviour
         text_speed = _document.rootVisualElement.Q<Label>("BottomLeftLabel");
         text_mode = _document.rootVisualElement.Q<Label>("BottomRightLabel");
         text_cursorStatus = _document.rootVisualElement.Q<Label>("CursorStatusLabel");
+        text_crystalcollectStatus = _document.rootVisualElement.Q<Label>("CrystalCollectLabel");
 
         if (text_speed == null)
         {
@@ -158,7 +163,16 @@ public class InGameUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("BottomRightLabel found!");
+            Debug.Log("CursorStatusLabel found!");
+        }
+
+        if (text_crystalcollectStatus == null)
+        {
+            Debug.LogError("CrystalCollectLabel not found!");
+        }
+        else
+        {
+            Debug.Log("CrystalCollectLabel found!");
         }
 
         // Lock the cursor initially
@@ -183,18 +197,29 @@ public class InGameUI : MonoBehaviour
 
     void UpdateUI()
     {
+        UpdatePlayerMovementStatus();
+        UpdateCursorStatus();
+        UpdateCrystalCollectStatus();
+    }
+
+    private void UpdatePlayerMovementStatus()
+    {
         if (pm != null)
         {
             text_speed.text = pm.GetTextSpeed();
             text_mode.text = pm.GetTextMode();
         }
-
-        UpdateCursorStatus();
     }
 
     private void UpdateCursorStatus()
     {
         text_cursorStatus.text = ("cursorLockState: " + UnityEngine.Cursor.lockState);
+    }
+
+    private void UpdateCrystalCollectStatus()
+    {
+        int currentCount = PlayerPrefs.GetInt(CrystalCountKey, 0);
+        text_crystalcollectStatus.text = ("Crystal: " + PersistentData.Instance.GetCrystalCount());
     }
 
     private void CheckInput()
@@ -234,21 +259,22 @@ public class InGameUI : MonoBehaviour
     private void OnPauseClick(ClickEvent evt)
     {
         Debug.Log("You press the Pause Button");
-        // HideUIElement("MidContainer");
-        ShowUIElement("MidContainer");
+        HideUIElement("MidContainerEmpty");
+        ShowUIElement("MidContainer1");
         Debug.Log(" cursorLocked : " + cursorLocked);
     }
 
     private void OnResumeClick(ClickEvent evt)
     {
         Debug.Log("You press the Resume Button");
-        HideUIElement("MidContainer");
+        HideUIElement("MidContainer1");
+        ShowUIElement("MidContainerEmpty");
     }
 
     private void OnQuitClick(ClickEvent evt)
     {
         Debug.Log("You press the Quit Button");
-        HideUIElement("MidContainer");
+        HideUIElement("MidContainer1");
         ShowUIElement("MidContainer2");
         //ActivateSelector("MidContainer", "hide");
     }
@@ -335,5 +361,15 @@ public class InGameUI : MonoBehaviour
         // }
 
         visualElement.RemoveFromClassList(selector); // Remove the CSS class corresponding to the selector
+    }
+    
+    void CheckGameDataObject()
+    {
+        // Check if the PersistentData object does not exist in the scene
+        if (GameObject.Find("GameData") == null)
+        {
+            // Load the MainMenu scene
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }
