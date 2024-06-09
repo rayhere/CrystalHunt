@@ -38,16 +38,16 @@
 }
 
 .LeftContainer {
-    flex-basis: 10%;
+    flex-basis: 25%;
 }
 
 .MidContainer {
     flex-grow: 1;
-    flex-basis: 80%;
+    flex-basis: 50%;
 }
 
 .RighContainer {
-    flex-basis: 10%;
+    flex-basis: 25%;
 }
 
 .BottomPanel {
@@ -75,4 +75,33 @@
     margin-right: 2%;
     margin-bottom: 2%;
     margin-left: 2%;
+}
+
+.TimerLabel {
+    align-self: center;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+    -unity-text-align: upper-center;
+    font-size: 300%;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    color: rgb(255, 255, 255);
+}
+
+.GroupContainer {
+    flex-grow: 1;
+    margin-top: 30%;
+}
+
+.PauseMenuButtons {
+    align-self: center;
+    width: 50%;
+    height: 20%;
+    font-size: 400%;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    flex-basis: auto;
+}
+
+.hide {
+    display: none;
 }

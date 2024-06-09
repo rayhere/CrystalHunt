@@ -814,7 +814,7 @@ public class WASDController : MonoBehaviour
     public string GetTextMode()
     {
         string _textMode = state.ToString();
-        Debug.Log("GetTextMode: " + _textMode);
+        //Debug.Log("GetTextMode: " + _textMode);
         return _textMode;
     }
 

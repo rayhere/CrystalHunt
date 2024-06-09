@@ -6,16 +6,33 @@
                 <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-basis: 100%; height: 100%; width: 100%;" />
             </ui:VisualElement>
             <ui:VisualElement name="TopMidContainer" class="TopMidContainer">
-                <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TimerLabel" class="TimerLabel" />
             </ui:VisualElement>
             <ui:VisualElement name="TopRightContainer" class="TopRightContainer">
-                <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" style="height: 100%; width: 100%;" />
+                <ui:Button text="Pause" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PauseButton" style="height: 100%; width: 100%;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BodyPanel" class="BodyPanel">
             <ui:VisualElement name="LeftContainer" class="LeftContainer" />
-            <ui:VisualElement name="MidContainer" class="MidContainer" />
-            <ui:VisualElement name="RighContainer" class="RighContainer" />
+            <ui:VisualElement name="MidContainer" class="MidContainer hide">
+                <ui:VisualElement name="GroupContainer" class="GroupContainer">
+                    <ui:Button text="Resume" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ResumeButton" class="PauseMenuButtons" />
+                    <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="PauseMenuButtons" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="MidContainer2" class="MidContainer">
+                <ui:VisualElement name="GroupContainer" class="GroupContainer">
+                    <ui:Label tabindex="-1" text="Are you sure you want to quit the game?" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitConfirmation" style="align-items: center; justify-content: center; align-self: center; height: 20%; width: 100%; font-size: 48%; color: rgb(255, 255, 255); -unity-text-align: upper-center; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; align-items: flex-start; align-self: flex-start; width: 100%; height: 20%; flex-basis: 50%; padding-bottom: 0; margin-bottom: 0;">
+                        <ui:Button text="Yes" parse-escape-sequences="true" display-tooltip-when-elided="true" name="YesButton" class="PauseMenuButtons" />
+                        <ui:Button text="No" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NoButton" class="PauseMenuButtons" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="RighContainer" class="RighContainer">
+                <ui:Label tabindex="-1" text="Press ESC to unlock Cursor" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CursorLabel" style="align-items: center; align-self: flex-end; flex-basis: 25%; -unity-text-align: upper-right; font-size: 36%; color: rgb(255, 255, 255); white-space: normal; height: 30%; width: 100%; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
+                <ui:Label tabindex="-1" text="Cursor State Lock/ unLock" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CursorStatusLabel" style="align-items: center; align-self: flex-end; flex-basis: 25%; -unity-text-align: upper-right; font-size: 36%; color: rgb(255, 255, 255); white-space: normal; height: 30%; width: 100%; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BottomPanel" class="BottomPanel">
             <ui:VisualElement name="BottomLeftContainer" class="BottomLeftContainer">

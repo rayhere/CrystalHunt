@@ -72,17 +72,17 @@ public class AutoRollCubeToTarget : MonoBehaviour
         Debug.Log("dotLeft is " + dotLeft + " Vector3 left is " + Vector3.left);
         Debug.Log("dotRight is " + dotRight + " Vector3 right is " + Vector3.right); */
 
-        Debug.Log("Mathf.Abs(direction.x) " + Mathf.Abs(direction.x));
-        Debug.Log("Mathf.Abs(direction.z) " + Mathf.Abs(direction.z));
+        //Debug.Log("Mathf.Abs(direction.x) " + Mathf.Abs(direction.x));
+        //Debug.Log("Mathf.Abs(direction.z) " + Mathf.Abs(direction.z));
         if (Mathf.Abs(direction.x) ==0 && Mathf.Abs(direction.z) ==0 )
         {
             // don't do anything
-            Debug.Log("don't do anything " + direction);
+            //Debug.Log("don't do anything " + direction);
         }
         if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.z))
         {
             // move Left or Right
-            Debug.Log("move Left or Right " + direction);
+            //Debug.Log("move Left or Right " + direction);
             if (direction.x > 0)
             {
                 yield return StartCoroutine(moveRight());
@@ -95,7 +95,7 @@ public class AutoRollCubeToTarget : MonoBehaviour
         else if (Mathf.Abs(direction.x) <= Mathf.Abs(direction.z))
         {
             // move Up or Down
-            Debug.Log("move Up or Down " + direction);
+            //Debug.Log("move Up or Down " + direction);
             if (direction.z > 0)
             {
                 yield return StartCoroutine(moveUP());

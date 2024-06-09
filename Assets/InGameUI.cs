@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class InGameUI : MonoBehaviour
 {
@@ -16,8 +18,17 @@ public class InGameUI : MonoBehaviour
 
     private Label text_speed;
     private Label text_mode;
+    private Label text_cursorStatus;
+
+    private Button _pauseButton;
+    private Button _resumeButton;
+    private Button _quitButton;
+    private Button _yesButton;
+    private Button _noButton;
 
     //private TextField text_mode;
+
+    private bool cursorLocked = true;
 
     private void Awake()
     {
@@ -42,6 +53,74 @@ public class InGameUI : MonoBehaviour
         {
             Debug.Log("WASDController component found!");
         }
+
+        // "PauseButton" is the Button name you created in UI Builder
+        _pauseButton = _document.rootVisualElement.Q("PauseButton") as Button;
+        _pauseButton.RegisterCallback<ClickEvent>(OnPauseClick);
+
+        // "ResumeButton" is the Button name you created in UI Builder
+        _resumeButton = _document.rootVisualElement.Q("ResumeButton") as Button;
+        _resumeButton.RegisterCallback<ClickEvent>(OnResumeClick);
+
+        // "QuitButton" is the Button name you created in UI Builder
+        _quitButton = _document.rootVisualElement.Q("QuitButton") as Button;
+        _quitButton.RegisterCallback<ClickEvent>(OnQuitClick);
+
+        // "YesButton" is the Button name you created in UI Builder
+        _yesButton = _document.rootVisualElement.Q("YesButton") as Button;
+        _yesButton.RegisterCallback<ClickEvent>(OnYesClick);
+
+        // "NoButton" is the Button name you created in UI Builder
+        _noButton = _document.rootVisualElement.Q("NoButton") as Button;
+        _noButton.RegisterCallback<ClickEvent>(OnNoClick);
+
+        if (_pauseButton == null)
+        {
+            Debug.LogError("PauseButton not found!");
+        }
+        else
+        {
+            Debug.Log("PauseButton found!");
+        }
+
+        if (_resumeButton == null)
+        {
+            Debug.LogError("ResumeButton not found!");
+        }
+        else
+        {
+            Debug.Log("ResumeButton found!");
+        }
+
+        if (_quitButton == null)
+        {
+            Debug.LogError("QuitButton not found!");
+        }
+        else
+        {
+            Debug.Log("QuitButton found!");
+        }
+
+        if (_yesButton == null)
+        {
+            Debug.LogError("YesButton not found!");
+        }
+        else
+        {
+            Debug.Log("YesButton found!");
+        }
+
+        if (_noButton == null)
+        {
+            Debug.LogError("NoButton not found!");
+        }
+        else
+        {
+            Debug.Log("NoButton found!");
+        }
+
+        HideUIElement("MidContainer");
+        HideUIElement("MidContainer2");
     }
 
     void Start()
@@ -53,6 +132,7 @@ public class InGameUI : MonoBehaviour
         // pm = GetComponent<WASDController>();
         text_speed = _document.rootVisualElement.Q<Label>("BottomLeftLabel");
         text_mode = _document.rootVisualElement.Q<Label>("BottomRightLabel");
+        text_cursorStatus = _document.rootVisualElement.Q<Label>("CursorStatusLabel");
 
         if (text_speed == null)
         {
@@ -72,40 +152,188 @@ public class InGameUI : MonoBehaviour
             Debug.Log("BottomRightLabel found!");
         }
 
+        if (text_cursorStatus == null)
+        {
+            Debug.LogError("CursorStatusLabel not found!");
+        }
+        else
+        {
+            Debug.Log("BottomRightLabel found!");
+        }
+
+        // Lock the cursor initially
+        LockCursor();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // Start the coroutine to log messages every 5 seconds
+        // StartCoroutine(LogMessageRoutine(5f));
+
+        CheckInput();
     }
 
     void FixedUpdate ()
     {
-        updateUI();
+        UpdateUI();
+        
     }
 
-    void updateUI()
+    void UpdateUI()
     {
-        // text_speed.value = ToString(pm.getTextMode());
-        //string textMode = pm.GetTextMode();
-
-        //text_speed.text = pm.GetTextSpeed();
-        //text_speed.text = ("LMAO");
-        //text_mode.text = textMode;
-
-        //text_speed.text = "New Speed Value";
-        //text_mode.text = "New Mode Value";
-
         if (pm != null)
         {
             text_speed.text = pm.GetTextSpeed();
             text_mode.text = pm.GetTextMode();
         }
 
+        UpdateCursorStatus();
+    }
+
+    private void UpdateCursorStatus()
+    {
+        text_cursorStatus.text = ("cursorLockState: " + UnityEngine.Cursor.lockState);
+    }
+
+    private void CheckInput()
+    {
+        // Check for the Escape key press
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Escape key pressed");
+            // Toggle cursor lock state
+            if (cursorLocked)
+            {
+                UnlockCursor();
+            }
+            else
+            {
+                LockCursor();
+            }
+        }
+    }
+    private void LockCursor()
+    {
+        Debug.Log("LockCursor method");
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.visible = false;
+        cursorLocked = true;
+    }
+
+    private void UnlockCursor()
+    {
+        Debug.Log("UnlockCursor method");
+        cursorLocked = false;
+        UnityEngine.Cursor.visible = true;
+        
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+    }
+    
+    private void OnPauseClick(ClickEvent evt)
+    {
+        Debug.Log("You press the Pause Button");
+        // HideUIElement("MidContainer");
+        ShowUIElement("MidContainer");
+        Debug.Log(" cursorLocked : " + cursorLocked);
+    }
+
+    private void OnResumeClick(ClickEvent evt)
+    {
+        Debug.Log("You press the Resume Button");
+        HideUIElement("MidContainer");
+    }
+
+    private void OnQuitClick(ClickEvent evt)
+    {
+        Debug.Log("You press the Quit Button");
+        HideUIElement("MidContainer");
+        ShowUIElement("MidContainer2");
+        //ActivateSelector("MidContainer", "hide");
+    }
+
+    private void OnYesClick(ClickEvent evt)
+    {
+        Debug.Log("You press the Yes Button");
+        SceneManager.LoadScene("MainMenu");
+        // HideUIElement("MidContainer");
+        // ShowUIElement("MidContainer2");
+        //ActivateSelector("MidContainer", "hide");
+    }
+
+    private void OnNoClick(ClickEvent evt)
+    {
+        Debug.Log("You press the No Button");
+        HideUIElement("MidContainer2");
+        ShowUIElement("MidContainer");
+        //ActivateSelector("MidContainer", "hide");
     }
 
 
+    void ShowUIElement(string elementName)
+    {
+        Debug.Log("ShowUIElement : " + elementName);
+        // Find the element you want to show
+        VisualElement elementToShow = _document.rootVisualElement.Q<VisualElement>(elementName);
 
+        if (elementToShow != null)
+        {
+            // Set the display style to block (show the element)
+            elementToShow.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    void HideUIElement(string elementName)
+    {
+        Debug.Log("HideUIElement : " + elementName);
+        // Find the element you want to hide
+        VisualElement elementToHide = _document.rootVisualElement.Q<VisualElement>(elementName);
+
+        if (elementToHide != null)
+        {
+            // Set the display style to none (hide the element)
+            elementToHide.style.display = DisplayStyle.None;
+        }
+    }
+
+    private IEnumerator LogMessageRoutine(float waitTime)
+    {
+        while (true)
+        {
+            // Wait for 5 seconds
+            yield return new WaitForSeconds(waitTime);
+
+            // Log a debug message
+            //Debug.Log("Debug message every 5 seconds.");
+        }
+    }
+
+    // Method to activate a specific USS selector
+    public void ActivateSelector(string elementName, string selector)
+    {
+        VisualElement visualElement = _document.rootVisualElement.Q<VisualElement>(elementName);
+
+        // if (visualElement != null)
+        // {
+        //     // Set the display style to block (show the element)
+        //     visualElement.style.display = DisplayStyle.Flex;
+        // }
+
+        visualElement.AddToClassList(selector); // Add the CSS class corresponding to the selector
+    }
+
+    // Method to deactivate a specific USS selector
+    public void DeactivateSelector(string elementName, string selector)
+    {
+        VisualElement visualElement = _document.rootVisualElement.Q<VisualElement>(elementName);
+
+        // if (visualElement != null)
+        // {
+        //     // Set the display style to none (hide the element)
+        //     visualElement.style.display = DisplayStyle.None;
+        // }
+
+        visualElement.RemoveFromClassList(selector); // Remove the CSS class corresponding to the selector
+    }
 }

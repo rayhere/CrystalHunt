@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/PauseMenu.uss?fileID=7433441132597879392&amp;guid=25b46359d5face34f89b298823736755&amp;type=3#PauseMenu" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:VisualElement name="TopPanel" class="TopPanel" />
+        <ui:VisualElement name="BodyPanel" class="BodyPanel">
+            <ui:VisualElement name="LeftContainer" class="LeftContainer" />
+            <ui:VisualElement name="MidContainer" class="MidContainer" style="padding-top: 20%; justify-content: flex-start;">
+                <ui:Button text="Resume" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ResumeButton" class="groupButton" />
+                <ui:Button text="Give Up" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="groupButton" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RightContainer" class="RightContainer" />
+        </ui:VisualElement>
+        <ui:VisualElement name="BottomPanel" class="BottomPanel" />
+    </ui:VisualElement>
+</ui:UXML>

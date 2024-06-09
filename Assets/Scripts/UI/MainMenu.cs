@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class MainMenu : MonoBehaviour
     private void OnStartClick(ClickEvent evt)
     {
         Debug.Log("You press the Start Button");
+        SceneManager.LoadScene("Level1");
     }
 
     private void OnLoadClick(ClickEvent evt)

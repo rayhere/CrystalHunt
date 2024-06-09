@@ -1,0 +1,40 @@
+.TopPanel {
+    flex-grow: 0;
+    flex-basis: 10%;
+}
+
+.BodyPanel {
+    flex-grow: 1;
+    flex-basis: 80%;
+    flex-direction: row;
+}
+
+.LeftContainer {
+    flex-grow: 1;
+}
+
+.MidContainer {
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.RightContainer {
+    flex-grow: 1;
+}
+
+.BottomPanel {
+    flex-grow: 0;
+    flex-basis: 10%;
+}
+
+.groupButton {
+    flex-basis: 20%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 70%;
+    height: 100%;
+    align-self: center;
+    font-size: 400%;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    -unity-text-align: middle-center;
+}
