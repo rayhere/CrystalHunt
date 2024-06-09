@@ -1582,7 +1582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &539728001
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2441,7 +2441,7 @@ GameObject:
   - component: {fileID: 1290392749}
   - component: {fileID: 1290392748}
   - component: {fileID: 1290392747}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2456,7 +2456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290392745}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
@@ -2546,7 +2546,7 @@ GameObject:
   - component: {fileID: 1297383913}
   - component: {fileID: 1297383912}
   - component: {fileID: 1297383911}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2791,7 +2791,7 @@ Transform:
   m_GameObject: {fileID: 1426941528}
   serializedVersion: 2
   m_LocalRotation: {x: 0.04763198, y: -0.0000000021483566, z: 1.02446746e-10, w: 0.99886495}
-  m_LocalPosition: {x: 0, y: 22, z: -7}
+  m_LocalPosition: {x: 0, y: 12, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2898,7 +2898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1499321160
 Transform:
   m_ObjectHideFlags: 0
@@ -2927,6 +2927,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557b5190af4adaa47abafdb58a89e361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1563042046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1563042048}
+  - component: {fileID: 1563042047}
+  - component: {fileID: 1563042049}
+  m_Layer: 0
+  m_Name: UIDocument
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1563042047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563042046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 43b071f6a0052b6478194d7c07e8ae71, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 3a81f05ec840144418e483508acdf216, type: 3}
+  m_SortingOrder: 0
+--- !u!4 &1563042048
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563042046}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1327.68, y: 48.719986, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1563042049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563042046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fae870d4e406ca4588ce50dece9b0ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerGameObject: {fileID: 1986005900}
+  pm: {fileID: 0}
 --- !u!1 &1630289794
 GameObject:
   m_ObjectHideFlags: 3
@@ -3067,7 +3130,7 @@ GameObject:
   - component: {fileID: 1639424517}
   - component: {fileID: 1639424516}
   - component: {fileID: 1639424515}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: StoneCube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3162,7 +3225,7 @@ Transform:
   m_GameObject: {fileID: 1639424514}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 5, z: 0}
+  m_LocalPosition: {x: -40, y: 5, z: 40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3179,7 +3242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1679283701}
   - component: {fileID: 1679283700}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3337,7 +3400,7 @@ GameObject:
   - component: {fileID: 1972828300}
   - component: {fileID: 1972828302}
   - component: {fileID: 1972828301}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: StoneCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3373,7 +3436,7 @@ Transform:
   m_GameObject: {fileID: 1972828297}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: -50, y: 5, z: 40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3415,7 +3478,7 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   lengthOfCube: 10
-  step: 9
+  step: 1
   speed: 0.01
 --- !u!114 &1972828302
 MonoBehaviour:
@@ -3462,7 +3525,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1986005901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3502,7 +3565,7 @@ MonoBehaviour:
   playerHeight: 1
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 1280
+    m_Bits: 3328
   grounded: 0
   maxSlopeAngle: 40
   groundCheckDistance: 0.5
@@ -3633,7 +3696,7 @@ Transform:
   m_GameObject: {fileID: 1986005900}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3681,7 +3744,7 @@ MonoBehaviour:
   lg: {fileID: 1986005907}
   whatIsWall:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2304
   climbSpeed: 10
   maxClimbTime: 0.75
   climbJumpUpForce: 14
@@ -3915,7 +3978,7 @@ GameObject:
   - component: {fileID: 2003723458}
   - component: {fileID: 2003723457}
   - component: {fileID: 2003723456}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4254,7 +4317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2047250250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6868,8 +6931,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 1986005904}
+  m_Follow: {fileID: 1986005904}
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 45
@@ -8173,7 +8236,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &6514210124965742286
 GameObject:
   m_ObjectHideFlags: 0
@@ -8964,7 +9027,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7305913332617088882}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09252102, y: -0.000000017659856, z: 0.0000000016409463, w: 0.99571073}
+  m_LocalRotation: {x: 0.09252102, y: 0.000000017659858, z: -0.0000000016409465, w: 0.99571073}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9445,7 +9508,7 @@ Transform:
   m_GameObject: {fileID: 6507268355185815663}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 22, z: -7}
+  m_LocalPosition: {x: 0, y: 12, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9880,3 +9943,4 @@ SceneRoots:
   - {fileID: 539728003}
   - {fileID: 1058579059}
   - {fileID: 2031124942}
+  - {fileID: 1563042048}

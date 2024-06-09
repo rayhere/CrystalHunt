@@ -4,6 +4,8 @@ using UnityEngine.Events;
 using UnityEditor;
 using TMPro;
 using System.Collections;
+using System;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody), typeof(PlayerInput))]
 public class WASDController : MonoBehaviour
@@ -794,6 +796,26 @@ public class WASDController : MonoBehaviour
             text_speed.SetText("Speed: " + Round(flatVel.magnitude, 1) + " / " + Round(moveSpeed, 1));
 
         text_mode.SetText(state.ToString());
+    }
+
+
+    public string GetTextSpeed()
+    {
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        string _text_speed;
+        if (OnSlope())
+            _text_speed = "Speed: " + Round(rb.velocity.magnitude, 1) + " / " + Round(moveSpeed, 1);
+         else
+            _text_speed = "Speed: " + Round(flatVel.magnitude, 1) + " / " + Round(moveSpeed, 1);
+
+        return _text_speed;
+    }
+
+    public string GetTextMode()
+    {
+        string _textMode = state.ToString();
+        Debug.Log("GetTextMode: " + _textMode);
+        return _textMode;
     }
 
     public static float Round(float value, int digits)

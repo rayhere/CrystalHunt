@@ -1,0 +1,78 @@
+.TopPanel {
+    flex-basis: 10%;
+    flex-direction: row;
+}
+
+.TopLeftContainer {
+    flex-grow: 0;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    flex-basis: 10%;
+    align-self: flex-start;
+}
+
+.TopMidContainer {
+    flex-grow: 0;
+    flex-basis: 80%;
+    width: 100%;
+    height: 100%;
+    align-self: center;
+    align-items: stretch;
+}
+
+.TopRightContainer {
+    flex-grow: 0;
+    flex-basis: 10%;
+    width: 100%;
+    align-self: flex-end;
+    align-items: flex-end;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.BodyPanel {
+    flex-basis: 80%;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.LeftContainer {
+    flex-basis: 10%;
+}
+
+.MidContainer {
+    flex-grow: 1;
+    flex-basis: 80%;
+}
+
+.RighContainer {
+    flex-basis: 10%;
+}
+
+.BottomPanel {
+    flex-basis: 10%;
+    justify-content: flex-end;
+    align-self: auto;
+    flex-direction: row;
+}
+
+.BottomLeftContainer {
+    flex-grow: 1;
+}
+
+.BottomMidContainer {
+    flex-grow: 1;
+}
+
+.BottomRightContainer {
+    flex-grow: 1;
+}
+
+.Canvas {
+    flex-grow: 1;
+    margin-top: 2%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+}

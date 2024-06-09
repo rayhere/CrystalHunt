@@ -1,0 +1,30 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/InGameUI.uss?fileID=7433441132597879392&amp;guid=f0e09f4a39a82754c8c74f49755107f0&amp;type=3#InGameUI" />
+    <ui:VisualElement name="VisualElement" class="Canvas">
+        <ui:VisualElement name="TopPanel" class="TopPanel" style="width: 100%; height: 100%; align-self: stretch; align-items: flex-start; justify-content: center;">
+            <ui:VisualElement name="TopLeftContainer" class="TopLeftContainer">
+                <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" style="flex-basis: 100%; height: 100%; width: 100%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="TopMidContainer" class="TopMidContainer">
+                <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            </ui:VisualElement>
+            <ui:VisualElement name="TopRightContainer" class="TopRightContainer">
+                <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" style="height: 100%; width: 100%;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="BodyPanel" class="BodyPanel">
+            <ui:VisualElement name="LeftContainer" class="LeftContainer" />
+            <ui:VisualElement name="MidContainer" class="MidContainer" />
+            <ui:VisualElement name="RighContainer" class="RighContainer" />
+        </ui:VisualElement>
+        <ui:VisualElement name="BottomPanel" class="BottomPanel">
+            <ui:VisualElement name="BottomLeftContainer" class="BottomLeftContainer">
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BottomLeftLabel" style="font-size: 50%; -unity-text-align: lower-left; color: rgb(255, 255, 255);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BottomMidContainer" class="BottomMidContainer" />
+            <ui:VisualElement name="BottomRightContainer" class="BottomRightContainer">
+                <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BottomRightLabel" style="font-size: 50%; -unity-text-align: lower-right; white-space: nowrap; color: rgb(255, 255, 255);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

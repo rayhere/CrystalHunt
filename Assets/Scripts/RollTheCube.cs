@@ -73,7 +73,7 @@ public class RollTheCube : MonoBehaviour
         {
             elapsed += Time.deltaTime;
 
-            // Rotate the cube around the point with the given axis and angle
+            // Rotate the cube around the point with the given axis and anglea
             transform.RotateAround(
                 point, axis, angle / duration * Time.deltaTime
             );
