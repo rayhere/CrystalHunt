@@ -11,11 +11,14 @@ public class AutoRollCubeToTarget : MonoBehaviour
     public Transform[] Targets; // Target positions for cube movement
 
     public GameObject _cube;
-    public GameObject center;
-    public GameObject up;
-    public GameObject down;
-    public GameObject left;
-    public GameObject right;
+    private GameObject center;
+    private GameObject up;
+    private GameObject down;
+    private GameObject left;
+    private GameObject right;
+
+    private GameObject emptyGameObject; // Allow to control this object even _cube return to pool
+
     public float lengthOfCube = 1f;
 
     public int step = 9;
@@ -180,7 +183,8 @@ public class AutoRollCubeToTarget : MonoBehaviour
     {
         lengthOfCube = Mathf.Abs(lengthOfCube / 2);
         // Create an empty GameObject
-        GameObject emptyGameObject = new GameObject(gameObject.name + " Center");
+        //GameObject emptyGameObject = new GameObject(gameObject.name + " Center");
+        emptyGameObject = new GameObject(gameObject.name + " Center");
 
         // Create empty GameObjects for Up, Down, Left, and Right
         GameObject upObject = new GameObject("Up");
@@ -225,5 +229,24 @@ public class AutoRollCubeToTarget : MonoBehaviour
 
         // Start the movement
         input = true;
+    }
+
+    public void ActiveEmptyObj()
+    {
+        ResetEmptyObj();
+        emptyGameObject.SetActive(true);
+    }
+
+    public void DeactiveEmptyObj()
+    {
+        emptyGameObject.SetActive(false);
+    }
+
+    private void ResetEmptyObj()
+    {
+        // Set the position, rotation, and scale of EmptyGameObject to match _cube
+        emptyGameObject.transform.position = _cube.transform.position;
+        emptyGameObject.transform.rotation = _cube.transform.rotation;
+        emptyGameObject.transform.localScale = _cube.transform.localScale;
     }
 }
