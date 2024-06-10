@@ -63,12 +63,30 @@ public static class ObjectPooler
         // Add the prefab to the lookup dictionary
         poolLookup.Add(dictionaryEntry, pooledItemPrefab);
 
+        // Create a parent GameObject for the pooled objects
+         GameObject parent = new GameObject(dictionaryEntry + " Pool");
+
         // Instantiate and add the specified number of instances to the pool
         for(int i = 0; i < poolSize; i++)
         {
+            //T pooledInstance = Object.Instantiate(pooledItemPrefab, Vector3.zero, Quaternion.identity, parent.transform);
             T pooledInstance = Object.Instantiate(pooledItemPrefab);
             pooledInstance.gameObject.SetActive(false);
             poolDictionary[dictionaryEntry].Enqueue((T)pooledInstance);
+            //poolDictionary[dictionaryEntry].Enqueue(pooledInstance);
         }
+    }
+
+    // Method to set up the initial pool for a prefab
+    public static void SetupPool<T>(T pooledItemPrefab, string dictionaryEntry) where T : Component
+    {
+        // Create a new queue for the prefab
+        poolDictionary.Add(dictionaryEntry, new Queue<Component>());
+
+        // Add the prefab to the lookup dictionary
+        poolLookup.Add(dictionaryEntry, pooledItemPrefab);
+
+        // Create a parent GameObject for the pooled objects
+        GameObject parent = new GameObject(dictionaryEntry + " Pool");
     }
 }

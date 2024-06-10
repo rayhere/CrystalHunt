@@ -16,6 +16,8 @@ public class Shooter : MonoBehaviour
 
             if(cabbageInstance != null)
             {
+                cabbageInstance.transform.SetParent(transform, false);
+
                 cabbageInstance.Initialise(Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 cabbageInstance.gameObject.SetActive(true); // Accessing the GameObject directly to set active
             }

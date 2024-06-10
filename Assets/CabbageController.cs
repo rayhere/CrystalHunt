@@ -10,8 +10,18 @@ public class CabbageController : MonoBehaviour
     // Initialize the cabbage's movement and lifetime
     public void Initialise(Vector3 targetPosition)
     {
+        
+        FountainDirectionMovement();
+
+    }
+
+
+    void FountainDirectionMovement()
+    {
         // Calculate the direction towards the target position
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        //Vector3 direction = (targetPosition - transform.position).normalized;
+
+        Vector3 direction = Vector3.up;
 
         // Move the object towards the target position
         GetComponent<Rigidbody>().velocity = direction * speed;
@@ -22,8 +32,13 @@ public class CabbageController : MonoBehaviour
 
         lifetime = 3f;
     }
-
+            
     void Update()
+    {
+        ReturnToPool();
+    }
+
+    void ReturnToPool()
     {
         // Reduce lifetime
         lifetime -= Time.deltaTime;
@@ -36,9 +51,5 @@ public class CabbageController : MonoBehaviour
     }
 
     // Reset the cabbage's state when returning to the pool
-    public void ResetCabbage()
-    {
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        lifetime = 3f;
-    }
+    // EnqueueObject<T> will Reset the cabbage's state in ObjectPooler.cs
 }
