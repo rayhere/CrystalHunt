@@ -27,7 +27,7 @@ public class Crystal : MonoBehaviour
 
     private int goLeft = 0;
 
-    private ObjectPool objectPool;
+
 
     void Start()
     {
@@ -49,7 +49,7 @@ public class Crystal : MonoBehaviour
 
     private void ReturnToPool()
     {
-        objectPool.ReturnCrystal(gameObject); // Return this crystal to the object pool
+        // Return this crystal to the object pool
     }
 
     private void ConfirmationReturnToPool()
