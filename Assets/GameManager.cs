@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
         SetupCrystalPool(crystalPrefab, 5, "Crystal");
     }
 
+    private void Start()
+    {
+        
+    }
+
     private void SetupPool()
     {
         //ObjectPooler.SetupPool(cabbagePrefab, 1, "Cabbage");

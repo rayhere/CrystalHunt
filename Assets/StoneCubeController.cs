@@ -11,7 +11,7 @@ public class StoneCubeController : MonoBehaviour
     public Transform[] Targets; // Target positions for cube movement
 
     public GameObject _cube;
-    private GameObject center;
+    public GameObject center;
     private GameObject up;
     private GameObject down;
     private GameObject left;
@@ -19,7 +19,7 @@ public class StoneCubeController : MonoBehaviour
 
     private GameObject emptyGameObject; // Allow to control this object even _cube return to pool
 
-    public float lengthOfCube = 1f;
+    public float lengthOfCube = 10f;
 
     public int step = 9;
     public float speed = 0.01f;
@@ -43,6 +43,14 @@ public class StoneCubeController : MonoBehaviour
         {
             StartCoroutine(ChooseAndMove());
         }
+    }
+
+    // Initialize the Setup for Stone's Transform, movement and lifetime
+    public void Initialise(Vector3 targetPosition)
+    {
+        
+        transform.position = targetPosition;
+
     }
 
     IEnumerator ChooseAndMove()

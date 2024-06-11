@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2430bcdb0dbdcd40ae4ed8e02bdbc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Targets:
-  - {fileID: 0}
+  Targets: []
   _cube: {fileID: 770738283966029520}
-  lengthOfCube: 1
+  center: {fileID: 0}
+  lengthOfCube: 10
   step: 9
   speed: 0.01
 --- !u!1 &7418572793810553607
