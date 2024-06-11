@@ -138,7 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7043675394317489741}
   - component: {fileID: 5654828481172871625}
-  - component: {fileID: 7383972414434084661}
+  - component: {fileID: 3067567751504766819}
   m_Layer: 0
   m_Name: Crystal
   m_TagString: Untagged
@@ -183,7 +183,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7383972414434084661
+--- !u!114 &3067567751504766819
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,6 +192,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 9165328445014396882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbda2755ecc89a04f91eee68fbb2776f, type: 3}
+  m_Script: {fileID: 11500000, guid: f25d0a96fd3de1744b20a756d323a970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _crystal: {fileID: 9165328445014396882}
+  animator: {fileID: 0}
+  _audio: {fileID: 0}
+  timer: 0.5
+  canDestory: 0
+  ttime: 0
+  maxScale: {x: 0, y: 0, z: 0}
+  collisionTriggered: 0
+  swingForce: 0
+  swingTime: 0

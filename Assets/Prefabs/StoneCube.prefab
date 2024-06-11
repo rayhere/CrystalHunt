@@ -9,8 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1755606847497633956}
-  - component: {fileID: 6146619825916811789}
-  - component: {fileID: 3193121004984748460}
+  - component: {fileID: 3611886312623775688}
   m_Layer: 11
   m_Name: StoneCube
   m_TagString: Untagged
@@ -34,7 +33,7 @@ Transform:
   - {fileID: 4502494503407289775}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6146619825916811789
+--- !u!114 &3611886312623775688
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,27 +42,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 770738283966029520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea1f3cf530b6b8c4787e540a05e3be80, type: 3}
+  m_Script: {fileID: 11500000, guid: c2430bcdb0dbdcd40ae4ed8e02bdbc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Targets:
   - {fileID: 0}
   _cube: {fileID: 770738283966029520}
-  lengthOfCube: 10
-  step: 1
+  lengthOfCube: 1
+  step: 9
   speed: 0.01
---- !u!114 &3193121004984748460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 770738283966029520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbda2755ecc89a04f91eee68fbb2776f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7418572793810553607
 GameObject:
   m_ObjectHideFlags: 0

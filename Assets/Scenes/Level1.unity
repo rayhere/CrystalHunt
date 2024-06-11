@@ -1180,7 +1180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &266120903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3089,7 +3089,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426941528}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.04763198, y: 0.0000000021483566, z: -1.02446746e-10, w: 0.99886495}
+  m_LocalRotation: {x: 0.04763198, y: -0.0000000021483566, z: 1.02446746e-10, w: 0.99886495}
   m_LocalPosition: {x: 0, y: 12, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3573,7 +3573,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cabbagePrefab: {fileID: 840510069140427928, guid: b0f8bb867cb9aa54ba63a399efa74c9f, type: 3}
-  stoneCubePrefab: {fileID: 6146619825916811789, guid: 64854799044b035429197d6d191da25c, type: 3}
+  crystalPrefab: {fileID: 3067567751504766819, guid: 216af937136fe784bbc2b870bad21a12, type: 3}
+  stoneCubePrefab: {fileID: 3611886312623775688, guid: 64854799044b035429197d6d191da25c, type: 3}
+  targetObject: {fileID: 7449253440093963700}
 --- !u!4 &1673984821
 Transform:
   m_ObjectHideFlags: 0
@@ -5961,7 +5963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2156315837164842319
 Transform:
   m_ObjectHideFlags: 0
@@ -9329,11 +9331,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: CubePrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2413368294748668595, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
+      propertyPath: m_TagString
+      value: StoneCube
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
+--- !u!1 &7449253440093963700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2413368294748668595, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
+  m_PrefabInstance: {fileID: 7449253440093963699}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7469980863414377954
 GameObject:
   m_ObjectHideFlags: 3
@@ -9359,7 +9370,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5009002210567566676}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.047631975, y: 0.0000000021483564, z: -1.02446746e-10, w: 0.99886495}
+  m_LocalRotation: {x: 0.047631975, y: -0.0000000021483564, z: 1.02446746e-10, w: 0.99886495}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
