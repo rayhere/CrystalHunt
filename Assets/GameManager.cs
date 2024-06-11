@@ -5,11 +5,13 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public CabbageController cabbagePrefab;
+    public AutoRollCubeToTarget stoneCubePrefab;
 
     private void Awake()
     {
         // SetupPool();
         SetupGreenCabbagePool(6);
+        SetupStoneCubePool(stoneCubePrefab, 5, "StoneCube");
     }
 
     private void SetupPool()
@@ -17,21 +19,53 @@ public class GameManager : MonoBehaviour
         //ObjectPooler.SetupPool(cabbagePrefab, 1, "Cabbage");
     }
 
-    private void SetupGreenCabbagePool0(int poolSize)
+    private void SetupPool<T>(T pooledItemPrefab, int poolSize, string poolDictionary) where T : Component
     {
-        //ObjectPooler.SetupPool(cabbagePrefab, 1, "Cabbage");
-        ObjectPooler.SetupPool(cabbagePrefab, "Cabbage");
+        ObjectPooler.SetupPool(pooledItemPrefab, poolDictionary);
+
         for (int i = 0; i < poolSize; i++)
         {
-            CabbageController cabbageInstance = ObjectPooler.DequeueObject<CabbageController>("Cabbage");
-            if(cabbageInstance != null)
+            T newInstance = ObjectPooler.EnqueueNewInstance<T>(pooledItemPrefab, poolDictionary);
+
+            if (newInstance != null)
             {
-                cabbageInstance.transform.SetParent(transform, false); // will set the parent of the pooled instance
-                //cabbageInstance.Initialise(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                cabbageInstance.gameObject.SetActive(false); // Accessing the GameObject directly to set active
+                newInstance.transform.SetParent(transform, false);
+                
+                // Check if the instance is of type T
+                if (newInstance is T)
+                {
+                    T objInstance = newInstance as T;
+                    // CALL Prefab Method
+                    //objInstance.method();
+                }
+
+                newInstance.gameObject.SetActive(false); // Accessing the GameObject directly to set deactive
             }
         }
-        
+    }
+
+    private void SetupStoneCubePool<T>(T pooledItemPrefab, int poolSize, string poolDictionary) where T : Component
+    {
+        ObjectPooler.SetupPool(pooledItemPrefab, poolDictionary);
+
+        for (int i = 0; i < poolSize; i++)
+        {
+            T newInstance = ObjectPooler.EnqueueNewInstance<T>(pooledItemPrefab, poolDictionary);
+
+            if (newInstance != null)
+            {
+                newInstance.transform.SetParent(transform, false);
+                
+                // Check if the instance is of type AutoRollCubeToTarget
+                if (newInstance is AutoRollCubeToTarget)
+                {
+                    AutoRollCubeToTarget cubeInstance = newInstance as AutoRollCubeToTarget;
+                    cubeInstance.DeactiveEmptyObj();
+                }
+
+                newInstance.gameObject.SetActive(false); // Accessing the GameObject directly to set deactive
+            }
+        }
     }
 
     private void SetupGreenCabbagePool(int poolSize)
@@ -44,7 +78,7 @@ public class GameManager : MonoBehaviour
             if (cabbageInstance != null)
             {
                 cabbageInstance.transform.SetParent(transform, false);
-                cabbageInstance.gameObject.SetActive(true); // Set the object active after dequeuing from the pool
+                cabbageInstance.gameObject.SetActive(false); // Accessing the GameObject directly to set deactive
             }
         }
     }
