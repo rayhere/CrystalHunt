@@ -89,6 +89,8 @@ public class StoneCubeSpawner : MonoBehaviour
                     int offsetZ = yTopLeft;
                     stoneCubeInstance.Initialise(new Vector3((x+i)*unitSize + offsetX*unitSize, height, y*unitSize + offsetZ*unitSize));
 
+                    Debug.Log("StoneCube Spawn at " + ((x+i)*unitSize + offsetX*unitSize) + ", " + height + ", " + (y*unitSize + offsetZ*unitSize));
+
                     // Update grid status for the current position (0,0)
                     coordinatesTable.SetGridUnitInfo(x, y+i, false, "", 0);
 

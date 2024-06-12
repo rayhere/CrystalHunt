@@ -26,8 +26,18 @@ public class StoneCubeController : MonoBehaviour
 
     private bool input = false;
 
+    public CoordinatesTable coordinatesTable;
+    public string objName; // Name of the object
+
+
+    private GridStat gridStat; // Reference to the GridStat component
+
     private void Awake()
     {
+        gridStat = GetComponent<GridStat>(); // Get reference to the GridStat component
+        // To get a reference to the CoordinatesTable component attached to a GameObject named "CoordinateMap" in the scene
+        coordinatesTable = GameObject.Find("CoordinateMap").GetComponent<CoordinatesTable>();
+
         CreateEmptyObject();
     }
 
@@ -39,10 +49,23 @@ public class StoneCubeController : MonoBehaviour
 
     void Update()
     {
-        if (input)
+        if (coordinatesTable != null)
+        {
+            //MoveToRandomNearbyGrid();
+            if (input)
+            {
+                StartCoroutine(ChooseAndMoveGrid());
+            }
+        }
+        else
+        {
+            Debug.LogError("CoordinatesTable reference not set!");
+        }
+
+        /* if (input)
         {
             StartCoroutine(ChooseAndMove());
-        }
+        } */
     }
 
     // Initialize the Setup for Stone's Transform, movement and lifetime
@@ -116,6 +139,76 @@ public class StoneCubeController : MonoBehaviour
             {
                 yield return StartCoroutine(moveDown());
             }
+        }
+
+        // Wait for 5 seconds before choosing the next target
+        yield return new WaitForSeconds(3f);
+
+
+        // Enable input after moving
+        input = true;
+    }
+
+    IEnumerator ChooseAndMoveGrid()
+    {
+        // Disable input while choosing and moving
+        input = false;
+
+        // Choose a random target
+        int randomIndex = UnityEngine.Random.Range(0, Targets.Length);
+        Vector3 targetPosition = Targets[randomIndex].position;
+
+        // Calculate the direction to the target
+        Vector3 direction = (targetPosition - _cube.transform.position).normalized;
+
+        // Check if the target position is at Vector3.zero
+        if (targetPosition == Vector3.zero)
+        {
+            // Choose a random direction if the target is at Vector3.zero
+            direction = UnityEngine.Random.onUnitSphere;
+        }
+
+        if (Mathf.Abs(direction.x) ==0 && Mathf.Abs(direction.z) ==0 )
+        {
+            // don't do anything
+            //Debug.Log("don't do anything " + direction);
+        }
+        if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.z))
+        {
+            // move Left or Right
+            //Debug.Log("move Left or Right " + direction);
+            if (direction.x > 0 && CheckGridRight())
+            {
+                UpdateCoordinates(gridStat.x + 1, gridStat.y);
+                yield return StartCoroutine(moveRight());
+            }
+            else if (direction.x < 0 && CheckGridLeft())
+            {
+                UpdateCoordinates(gridStat.x - 1, gridStat.y);
+                yield return StartCoroutine(moveLeft());
+            }
+        }
+        else if (Mathf.Abs(direction.x) <= Mathf.Abs(direction.z))
+        {
+            // move Up or Down
+            //Debug.Log("move Up or Down " + direction);
+            if (direction.z > 0 && CheckGridUp())
+            {
+                UpdateCoordinates(gridStat.x, gridStat.y + 1);
+                yield return StartCoroutine(moveUP());
+            }
+            else if (direction.z < 0 && CheckGridDown())
+            {
+                UpdateCoordinates(gridStat.x, gridStat.y - 1);
+                yield return StartCoroutine(moveDown());
+            }
+        }
+        else
+        {
+            Debug.Log("Fail to move!");
+            Debug.Log("This gridStat.x " + gridStat.x + " gridStat.y " + gridStat.x );
+            Debug.Log("coordinatesTable.IsWithinBounds(gridStat.x, gridStat.y - 1); " + coordinatesTable.IsWithinBounds(gridStat.x, gridStat.y - 1));
+            
         }
 
         // Wait for 5 seconds before choosing the next target
@@ -252,4 +345,97 @@ public class StoneCubeController : MonoBehaviour
     {
         Targets = new Transform[] { target };
     }
+
+    private void MoveToRandomNearbyGrid()
+    {
+        // Read grid position from GridStat script
+        Vector2Int currentGridPosition = coordinatesTable.WorldToGridCoordinates(transform.position);
+
+
+        // Check each of the four adjacent grid positions
+        Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+
+
+        foreach (Vector2Int direction in directions)
+        {
+            Vector2Int targetGridPosition = currentGridPosition + direction;
+
+
+            if (coordinatesTable.IsWithinBounds(targetGridPosition.x, targetGridPosition.y))
+            {
+                bool targetIsEmpty = coordinatesTable.IsEmpty(targetGridPosition.x, targetGridPosition.y);
+                bool targetIsNotTooOld = coordinatesTable.GetGridUnit(targetGridPosition.x, targetGridPosition.y).checkoutTime + 1f > Time.deltaTime;
+
+
+                if (targetIsEmpty && targetIsNotTooOld)
+                {
+                    // Move to the target grid position
+                    transform.position = coordinatesTable.GridToWorldCoordinates(targetGridPosition.x, targetGridPosition.y);
+
+
+                    // Update grid status for the target position
+                    coordinatesTable.SetGridUnitInfo(targetGridPosition.x, targetGridPosition.y, false, objName, 0f);
+
+
+                    // Update grid status for the current position (0,0)
+                    coordinatesTable.SetGridUnitInfo(currentGridPosition.x, currentGridPosition.y, true, "", Time.deltaTime);
+
+
+                    // Update GridStat component attached to the cube object
+                    if (gridStat != null)
+                    {
+                        gridStat.x = targetGridPosition.x;
+                        gridStat.y = targetGridPosition.y;
+                    }
+
+
+                    // Exit the loop after moving to the first available position
+                    return;
+                }
+            }
+        }
+    }
+
+    // Check if coordinates on Up is within bounds
+    private bool CheckGridUp()
+    {
+        // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
+        return coordinatesTable.IsWithinBounds(gridStat.x, gridStat.y + 1) && coordinatesTable.IsEmpty(gridStat.x, gridStat.y + 1) && (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.y + 1)+1f > Time.deltaTime);
+    }
+
+    // Check if coordinates on Down is within bounds
+    private bool CheckGridDown()
+    {
+        // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
+        return coordinatesTable.IsWithinBounds(gridStat.x, gridStat.y - 1) && coordinatesTable.IsEmpty(gridStat.x, gridStat.y - 1) && (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.y - 1)+1f > Time.deltaTime);
+    }
+
+    // Check if coordinates on Left is within bounds
+    private bool CheckGridLeft()
+    {
+        // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
+        return coordinatesTable.IsWithinBounds(gridStat.x - 1, gridStat.y) && coordinatesTable.IsEmpty(gridStat.x - 1, gridStat.y) && (coordinatesTable.GetCheckoutTime(gridStat.x - 1, gridStat.y)+1f > Time.deltaTime);
+    }
+
+    // Check if coordinates on Right is within bounds
+    private bool CheckGridRight()
+    {
+        // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
+        return coordinatesTable.IsWithinBounds(gridStat.x + 1, gridStat.y) && coordinatesTable.IsEmpty(gridStat.x + 1, gridStat.y) && (coordinatesTable.GetCheckoutTime(gridStat.x + 1, gridStat.y)+1f > Time.deltaTime);
+
+    }
+
+    private void UpdateCoordinates(int x, int y)
+    {
+        // Set Current gridStat.x and gridStat.y IsEmpty in coordinatesTable
+        coordinatesTable.SetGridUnitInfo(gridStat.x, gridStat.y, true, "", Time.deltaTime);
+
+        // Set Destination Grid x, y in coordinatesTable
+        coordinatesTable.SetGridUnitInfo(x, y, false, gameObject.name);
+
+        // Update GridStat
+        gridStat.x = x;
+        gridStat.y = y;
+    }
+
 }

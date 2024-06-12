@@ -57,6 +57,7 @@ public class CoordinatesTable : MonoBehaviour
     // Method to check if coordinates are within bounds
     public bool IsWithinBounds(int x, int y)
     {
+        Debug.Log("IsWithinBounds x is " + x + " and y is " + y);
         return x >= 0 && x < xAxisSize && y >= 0 && y < yAxisSize;
     }
 
@@ -109,6 +110,7 @@ public class CoordinatesTable : MonoBehaviour
         else
         {
             Debug.LogError("Coordinates out of bounds.");
+            Debug.LogError("IsWithinBounds x is " + x + " and y is " + y);
         }
     }
 
