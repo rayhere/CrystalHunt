@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         targetObject = GameObject.FindGameObjectWithTag("StoneCube");
 
         // Setup Stone Cube pool with the found target object
-        SetupStoneCubePool(stoneCubePrefab, 5, "StoneCube", targetObject.transform);
+        SetupStoneCubePool(stoneCubePrefab, 10, "StoneCube", targetObject.transform);
         //SetupStoneCubePool(stoneCubePrefab, 5, "StoneCube", target);
 
         SetupCrystalPool(crystalPrefab, 5, "Crystal");

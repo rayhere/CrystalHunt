@@ -8,7 +8,7 @@ public class Shooter : MonoBehaviour
 
     void Update() 
     {
-        if (Input.GetKey(KeyCode.Space))  
+        if (Input.GetKey(KeyCode.G))  
         {
             CabbageController cabbageInstance = ObjectPooler.DequeueObject<CabbageController>("Cabbage"); // Use CabbageController type
             // No need to get the component, as it's already the correct type
