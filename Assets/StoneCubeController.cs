@@ -12,8 +12,8 @@ public class StoneCubeController : MonoBehaviour
 
     public GameObject _cube;
     public GameObject center;
-    private GameObject up;
-    private GameObject down;
+    private GameObject forward;
+    private GameObject back;
     private GameObject left;
     private GameObject right;
 
@@ -26,7 +26,7 @@ public class StoneCubeController : MonoBehaviour
 
     private bool input = false;
 
-    public CoordinatesTable coordinatesTable;
+    public CoordinatePlane coordinatePlane;
     public string objName; // Name of the object
 
 
@@ -35,8 +35,8 @@ public class StoneCubeController : MonoBehaviour
     private void Awake()
     {
         gridStat = GetComponent<GridStat>(); // Get reference to the GridStat component
-        // To get a reference to the CoordinatesTable component attached to a GameObject named "CoordinateMap" in the scene
-        coordinatesTable = GameObject.Find("CoordinateMap").GetComponent<CoordinatesTable>();
+        // To get a reference to the CoordinatePlane component attached to a GameObject named "CoordinateMap" in the scene
+        coordinatePlane = GameObject.Find("CoordinateMap").GetComponent<CoordinatePlane>();
 
         CreateEmptyObject();
     }
@@ -49,7 +49,7 @@ public class StoneCubeController : MonoBehaviour
 
     void Update()
     {
-        if (coordinatesTable != null)
+        if (coordinatePlane != null)
         {
             //MoveToRandomNearbyGrid();
             if (input)
@@ -59,7 +59,7 @@ public class StoneCubeController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("CoordinatesTable reference not set!");
+            Debug.LogError("CoordinatePlane reference not set!");
         }
 
         /* if (input)
@@ -129,15 +129,15 @@ public class StoneCubeController : MonoBehaviour
         }
         else if (Mathf.Abs(direction.x) <= Mathf.Abs(direction.z))
         {
-            // move Up or Down
-            //Debug.Log("move Up or Down " + direction);
+            // move Forward or Back
+            //Debug.Log("move Forward or Back " + direction);
             if (direction.z > 0)
             {
-                yield return StartCoroutine(moveUP());
+                yield return StartCoroutine(moveForward());
             }
             else if (direction.z < 0)
             {
-                yield return StartCoroutine(moveDown());
+                yield return StartCoroutine(moveBack());
             }
         }
 
@@ -190,26 +190,26 @@ public class StoneCubeController : MonoBehaviour
         }
         else if (Mathf.Abs(direction.x) <= Mathf.Abs(direction.z))
         {
-            // move Up or Down
-            //Debug.Log("move Up or Down " + direction);
-            Debug.Log("CheckGridDown() is "+ CheckGridDown());
+            // move Forward or Back
+            //Debug.Log("move Forward or Back " + direction);
+            Debug.Log("CheckGridBack() is "+ CheckGridBack());
 
-            if (direction.z > 0 && CheckGridUp())
+            if (direction.z > 0 && CheckGridForward())
             {
                 UpdateCoordinates(gridStat.x, gridStat.z + 1);
-                yield return StartCoroutine(moveUP());
+                yield return StartCoroutine(moveForward());
             }
-            else if (direction.z < 0 && CheckGridDown())
+            else if (direction.z < 0 && CheckGridBack())
             {
                 UpdateCoordinates(gridStat.x, gridStat.z - 1);
-                yield return StartCoroutine(moveDown());
+                yield return StartCoroutine(moveBack());
             }
         }
         else
         {
             Debug.Log("Fail to move!");
             Debug.Log("This gridStat.x " + gridStat.x + " gridStat.z " + gridStat.x );
-            Debug.Log("coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1); " + coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1));
+            Debug.Log("coordinatePlane.IsWithinBounds(gridStat.x, gridStat.z - 1); " + coordinatePlane.IsWithinBounds(gridStat.x, gridStat.z - 1));
             
         }
 
@@ -221,23 +221,23 @@ public class StoneCubeController : MonoBehaviour
         input = true;
     }
 
-    IEnumerator moveUP()
+    IEnumerator moveForward()
     {
         for (int i
 
  = 0; i < (90 / step); i++)
         {
-            _cube.transform.RotateAround(up.transform.position, Vector3.right, step);
+            _cube.transform.RotateAround(forward.transform.position, Vector3.right, step);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
     }
 
-    IEnumerator moveDown()
+    IEnumerator moveBack()
     {
         for (int i = 0; i < (90 / step); i++)
         {
-            _cube.transform.RotateAround(down.transform.position, Vector3.left, step);
+            _cube.transform.RotateAround(back.transform.position, Vector3.left, step);
             yield return new WaitForSeconds(speed);
         }
         center.transform.position = _cube.transform.position;
@@ -271,22 +271,22 @@ public class StoneCubeController : MonoBehaviour
         //GameObject emptyGameObject = new GameObject(gameObject.name + " Center");
         emptyGameObject = new GameObject(gameObject.name + " Center");
         
-        // Create empty GameObjects for Up, Down, Left, and Right
-        GameObject upObject = new GameObject("Up");
-        GameObject downObject = new GameObject("Down");
+        // Create empty GameObjects for Forward, Back, Left, and Right
+        GameObject forwardObject = new GameObject("Forward");
+        GameObject backObject = new GameObject("Back");
         GameObject leftObject = new GameObject("Left");
         GameObject rightObject = new GameObject("Right");
 
         // assign empty Gameobjet
         center = emptyGameObject;
-        up = upObject;
-        down = downObject;
+        forward = forwardObject;
+        back = backObject;
         left = leftObject;
         right = rightObject;
 
-        // Set the parent of Up, Down, Left, and Right to EmptyGameObject
-        upObject.transform.parent = emptyGameObject.transform;
-        downObject.transform.parent = emptyGameObject.transform;
+        // Set the parent of Forward, Back, Left, and Right to EmptyGameObject
+        forwardObject.transform.parent = emptyGameObject.transform;
+        backObject.transform.parent = emptyGameObject.transform;
         leftObject.transform.parent = emptyGameObject.transform;
         rightObject.transform.parent = emptyGameObject.transform;
         
@@ -295,9 +295,9 @@ public class StoneCubeController : MonoBehaviour
         emptyGameObject.transform.rotation = _cube.transform.rotation;
         emptyGameObject.transform.localScale = _cube.transform.localScale;
 
-        // Set the positions of Up, Down, Left, and Right relative to EmptyGameObject
-        upObject.transform.localPosition = new Vector3(0, -lengthOfCube, lengthOfCube);
-        downObject.transform.localPosition = new Vector3(0, -lengthOfCube, -lengthOfCube);
+        // Set the positions of Forward, Back, Left, and Right relative to EmptyGameObject
+        forwardObject.transform.localPosition = new Vector3(0, -lengthOfCube, lengthOfCube);
+        backObject.transform.localPosition = new Vector3(0, -lengthOfCube, -lengthOfCube);
         leftObject.transform.localPosition = new Vector3(-lengthOfCube, -lengthOfCube, 0);
         rightObject.transform.localPosition = new Vector3(lengthOfCube, -lengthOfCube, 0);
     }
@@ -353,7 +353,7 @@ public class StoneCubeController : MonoBehaviour
     private void MoveToRandomNearbyGrid()
     {
         // Read grid position from GridStat script
-        Vector2Int currentGridPosition = coordinatesTable.WorldToGridCoordinates(transform.position);
+        Vector2Int currentGridPosition = coordinatePlane.WorldToGridCoordinates(transform.position);
 
 
         // Check each of the four adjacent grid positions
@@ -365,24 +365,24 @@ public class StoneCubeController : MonoBehaviour
             Vector2Int targetGridPosition = currentGridPosition + direction;
 
 
-            if (coordinatesTable.IsWithinBounds(targetGridPosition.x, targetGridPosition.y))
+            if (coordinatePlane.IsWithinBounds(targetGridPosition.x, targetGridPosition.y))
             {
-                bool targetIsEmpty = coordinatesTable.IsEmpty(targetGridPosition.x, targetGridPosition.y);
-                bool targetIsNotTooOld = coordinatesTable.GetGridUnit(targetGridPosition.x, targetGridPosition.y).checkoutTime + 1f > Time.deltaTime;
+                bool targetIsEmpty = coordinatePlane.IsEmpty(targetGridPosition.x, targetGridPosition.y);
+                bool targetIsNotTooOld = coordinatePlane.GetGridUnit(targetGridPosition.x, targetGridPosition.y).checkoutTime + 1f > Time.deltaTime;
 
 
                 if (targetIsEmpty && targetIsNotTooOld)
                 {
                     // Move to the target grid position
-                    transform.position = coordinatesTable.GridToWorldCoordinates(targetGridPosition.x, targetGridPosition.y);
+                    transform.position = coordinatePlane.GridToWorldCoordinates(targetGridPosition.x, targetGridPosition.y);
 
 
                     // Update grid status for the target position
-                    coordinatesTable.SetGridUnitInfo(targetGridPosition.x, targetGridPosition.y, false, objName, 0f);
+                    coordinatePlane.SetGridUnitInfo(targetGridPosition.x, targetGridPosition.y, false, objName, 0f);
 
 
                     // Update grid status for the current position (0,0)
-                    coordinatesTable.SetGridUnitInfo(currentGridPosition.x, currentGridPosition.y, true, "", Time.deltaTime);
+                    coordinatePlane.SetGridUnitInfo(currentGridPosition.x, currentGridPosition.y, true, "", Time.deltaTime);
 
 
                     // Update GridStat component attached to the cube object
@@ -400,46 +400,50 @@ public class StoneCubeController : MonoBehaviour
         }
     }
 
-    // Check if coordinates on Up is within bounds
-    private bool CheckGridUp()
+    // Check if coordinates on Forward is within bounds
+    private bool CheckGridForward()
     {
+        // Vector3.forward Shorthand for writing Vector3(0, 0, 1)
         // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
-        return coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z + 1) && coordinatesTable.IsEmpty(gridStat.x, gridStat.z + 1) && (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.z + 1)+1f > Time.deltaTime);
+        return coordinatePlane.IsWithinBounds(gridStat.x, gridStat.z + 1) && coordinatePlane.IsEmpty(gridStat.x, gridStat.z + 1) && (coordinatePlane.GetCheckoutTime(gridStat.x, gridStat.z + 1)+1f > Time.deltaTime);
     }
 
-    // Check if coordinates on Down is within bounds
-    private bool CheckGridDown()
+    // Check if coordinates on Back is within bounds
+    private bool CheckGridBack()
     {
+        // Vector3.back Shorthand for writing Vector3(0, 0, -1)
         // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
-        Debug.Log("coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1) is " + coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1));
-        Debug.Log("coordinatesTable.IsEmpty(gridStat.x, gridStat.z - 1) is " + coordinatesTable.IsEmpty(gridStat.x, gridStat.z - 1));
-        Debug.Log("(coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime) is " + (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime));
+        Debug.Log("coordinatePlane.IsWithinBounds(gridStat.x, gridStat.z - 1) is " + coordinatePlane.IsWithinBounds(gridStat.x, gridStat.z - 1));
+        Debug.Log("coordinatePlane.IsEmpty(gridStat.x, gridStat.z - 1) is " + coordinatePlane.IsEmpty(gridStat.x, gridStat.z - 1));
+        Debug.Log("(coordinatePlane.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime) is " + (coordinatePlane.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime));
         
-        return coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1) && coordinatesTable.IsEmpty(gridStat.x, gridStat.z - 1) && (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime);
+        return coordinatePlane.IsWithinBounds(gridStat.x, gridStat.z - 1) && coordinatePlane.IsEmpty(gridStat.x, gridStat.z - 1) && (coordinatePlane.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime);
     }
 
     // Check if coordinates on Left is within bounds
     private bool CheckGridLeft()
     {
+        // Vector3.left Shorthand for writing Vector3(-1, 0, 0)
         // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
-        return coordinatesTable.IsWithinBounds(gridStat.x - 1, gridStat.z) && coordinatesTable.IsEmpty(gridStat.x - 1, gridStat.z) && (coordinatesTable.GetCheckoutTime(gridStat.x - 1, gridStat.z)+1f > Time.deltaTime);
+        return coordinatePlane.IsWithinBounds(gridStat.x - 1, gridStat.z) && coordinatePlane.IsEmpty(gridStat.x - 1, gridStat.z) && (coordinatePlane.GetCheckoutTime(gridStat.x - 1, gridStat.z)+1f > Time.deltaTime);
     }
 
     // Check if coordinates on Right is within bounds
     private bool CheckGridRight()
     {
+        // Vector3.right Shorthand for writing Vector3(1, 0, 0)
         // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
-        return coordinatesTable.IsWithinBounds(gridStat.x + 1, gridStat.z) && coordinatesTable.IsEmpty(gridStat.x + 1, gridStat.z) && (coordinatesTable.GetCheckoutTime(gridStat.x + 1, gridStat.z)+1f > Time.deltaTime);
+        return coordinatePlane.IsWithinBounds(gridStat.x + 1, gridStat.z) && coordinatePlane.IsEmpty(gridStat.x + 1, gridStat.z) && (coordinatePlane.GetCheckoutTime(gridStat.x + 1, gridStat.z)+1f > Time.deltaTime);
 
     }
 
     private void UpdateCoordinates(int x, int z)
     {
-        // Set Current gridStat.x and gridStat.y IsEmpty in coordinatesTable
-        coordinatesTable.SetGridUnitInfo(gridStat.x, gridStat.z, true, "", Time.deltaTime);
+        // Set Current gridStat.x and gridStat.y IsEmpty in CoordinatePlane
+        coordinatePlane.SetGridUnitInfo(gridStat.x, gridStat.z, true, "", Time.deltaTime);
 
-        // Set Destination Grid x, y in coordinatesTable
-        coordinatesTable.SetGridUnitInfo(x, z, false, gameObject.name);
+        // Set Destination Grid x, y in CoordinatePlane
+        coordinatePlane.SetGridUnitInfo(x, z, false, gameObject.name);
 
         // Update GridStat
         gridStat.x = x;
