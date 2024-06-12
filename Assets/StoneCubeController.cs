@@ -54,7 +54,9 @@ public class StoneCubeController : MonoBehaviour
             //MoveToRandomNearbyGrid();
             if (input)
             {
-                StartCoroutine(ChooseAndMoveGrid());
+                // StartCoroutine(ChooseAndMoveGrid());
+                // StartCoroutine(MoveToRandomNearbyGrid());
+                StartCoroutine(MoveCloseToTarget());
             }
         }
         else
@@ -149,7 +151,7 @@ public class StoneCubeController : MonoBehaviour
         input = true;
     }
 
-    IEnumerator ChooseAndMoveGrid()
+    IEnumerator ChooseAndMoveGridOld()
     {
         // Disable input while choosing and moving
         input = false;
@@ -220,6 +222,116 @@ public class StoneCubeController : MonoBehaviour
         // Enable input after moving
         input = true;
     }
+
+    IEnumerator ChooseAndMoveGrid()
+    {
+        // Disable input while choosing and moving
+        input = false;
+
+        // Choose a random target
+        int randomIndex = UnityEngine.Random.Range(0, Targets.Length);
+        Vector3 targetPosition = Targets[randomIndex].position;
+
+        // Calculate the direction to the target
+        Vector3 direction = (targetPosition - _cube.transform.position).normalized;
+
+        // Check if the target position is at Vector3.zero
+        if (targetPosition == Vector3.zero)
+        {
+            // Choose a random direction if the target is at Vector3.zero
+            direction = UnityEngine.Random.onUnitSphere;
+        }
+
+        if (Mathf.Abs(direction.x) == 0 && Mathf.Abs(direction.z) == 0)
+        {
+            // don't do anything
+        }
+        else
+        {
+            // Number of consecutive moves allowed in the same direction
+            int maxConsecutiveMoves = 3;
+            int consecutiveMoves = 0;
+            Vector3Int moveDirection = Vector3Int.zero;
+            Vector3Int lastDirection = Vector3Int.zero;
+
+            for (int moveAttempt = 0; moveAttempt < maxConsecutiveMoves; moveAttempt++)
+            {
+                if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.z))
+                {
+                    // move Left or Right
+                    if (direction.x > 0 && CheckGridRight())
+                    {
+                        moveDirection = new Vector3Int(1, 0, 0);
+                    }
+                    else if (direction.x < 0 && CheckGridLeft())
+                    {
+                        moveDirection = new Vector3Int(-1, 0, 0);
+                    }
+                }
+                else
+                {
+                    // move Forward or Back
+                    if (direction.z > 0 && CheckGridForward())
+                    {
+                        moveDirection = new Vector3Int(0, 0, 1);
+                    }
+                    else if (direction.z < 0 && CheckGridBack())
+                    {
+                        moveDirection = new Vector3Int(0, 0, -1);
+                    }
+                }
+
+                // Handle consecutive moves in the same direction
+                if (lastDirection == moveDirection)
+                {
+                    consecutiveMoves++;
+                    if (consecutiveMoves >= maxConsecutiveMoves)
+                    {
+                        // Choose an alternate direction if stuck
+                        moveDirection = (moveDirection == new Vector3Int(1, 0, 0) || moveDirection == new Vector3Int(-1, 0, 0)) ? new Vector3Int(0, 0, 1) : new Vector3Int(1, 0, 0);
+                        consecutiveMoves = 0;  // Reset consecutive moves
+                    }
+                }
+                else
+                {
+                    consecutiveMoves = 0;  // Reset if changing direction
+                }
+
+                // Attempt to move in the calculated direction
+                int newX = gridStat.x + moveDirection.x;
+                int newZ = gridStat.z + moveDirection.z;
+
+                if (coordinatePlane.IsWithinBounds(newX, newZ) && coordinatePlane.IsEmpty(newX, newZ) && (coordinatePlane.GetCheckoutTime(newX, newZ) + 1f > Time.deltaTime))
+                {
+                    UpdateCoordinates(newX, newZ);
+                    if (moveDirection == new Vector3Int(0, 0, 1))
+                    {
+                        yield return StartCoroutine(moveForward());
+                    }
+                    else if (moveDirection == new Vector3Int(0, 0, -1))
+                    {
+                        yield return StartCoroutine(moveBack());
+                    }
+                    else if (moveDirection == new Vector3Int(-1, 0, 0))
+                    {
+                        yield return StartCoroutine(moveLeft());
+                    }
+                    else if (moveDirection == new Vector3Int(1, 0, 0))
+                    {
+                        yield return StartCoroutine(moveRight());
+                    }
+                    lastDirection = moveDirection;
+                    break;
+                }
+            }
+
+            // Wait for a short time before enabling input again
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        input = true;
+    }
+
 
     IEnumerator moveForward()
     {
@@ -348,55 +460,236 @@ public class StoneCubeController : MonoBehaviour
         Targets = new Transform[] { target };
     }
 
-    private void MoveToRandomNearbyGrid()
+    IEnumerator MoveToRandomNearbyGrid()
     {
-        // Read grid position from GridStat script
-        Vector2Int currentGridPosition = coordinatePlane.WorldToGridCoordinates(transform.position);
+        // Disable input while choosing and moving
+        input = false;
 
+        // Get current grid coordinates
+        int currentX = gridStat.x;
+        int currentZ = gridStat.z;
 
-        // Check each of the four adjacent grid positions
-        Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
-
-
-        foreach (Vector2Int direction in directions)
+        // List of possible directions to move in (Forward, Back, Left, Right)
+        List<Vector3Int> directions = new List<Vector3Int>
         {
-            Vector2Int targetGridPosition = currentGridPosition + direction;
+            new Vector3Int(0, 0, 1),   // Forward
+            new Vector3Int(0, 0, -1),  // Back
+            new Vector3Int(-1, 0, 0),  // Left
+            new Vector3Int(1, 0, 0)    // Right
+        };
 
+        // Shuffle the directions list to pick a random direction
+        for (int i = 0; i < directions.Count; i++)
+        {
+            Vector3Int temp = directions[i];
+            int randomIndex = UnityEngine.Random.Range(i, directions.Count);
+            directions[i] = directions[randomIndex];
+            directions[randomIndex] = temp;
+        }
 
-            if (coordinatePlane.IsWithinBounds(targetGridPosition.x, targetGridPosition.y))
+        // Try to move in a random direction
+        foreach (Vector3Int direction in directions)
+        {
+            int newX = currentX + direction.x;
+            int newZ = currentZ + direction.z;
+
+            if (coordinatePlane.IsWithinBounds(newX, newZ) && coordinatePlane.IsEmpty(newX, newZ) && (coordinatePlane.GetCheckoutTime(newX, newZ) + 1f > Time.deltaTime))
             {
-                bool targetIsEmpty = coordinatePlane.IsEmpty(targetGridPosition.x, targetGridPosition.y);
-                bool targetIsNotTooOld = coordinatePlane.GetGridUnit(targetGridPosition.x, targetGridPosition.y).checkoutTime + 1f > Time.deltaTime;
-
-
-                if (targetIsEmpty && targetIsNotTooOld)
+                // Move in the chosen direction
+                if (direction == new Vector3Int(0, 0, 1))
                 {
-                    // Move to the target grid position
-                    transform.position = coordinatePlane.GridToWorldCoordinates(targetGridPosition.x, targetGridPosition.y);
-
-
-                    // Update grid status for the target position
-                    coordinatePlane.SetGridUnitInfo(targetGridPosition.x, targetGridPosition.y, false, objName, 0f);
-
-
-                    // Update grid status for the current position (0,0)
-                    coordinatePlane.SetGridUnitInfo(currentGridPosition.x, currentGridPosition.y, true, "", Time.deltaTime);
-
-
-                    // Update GridStat component attached to the cube object
-                    if (gridStat != null)
-                    {
-                        gridStat.x = targetGridPosition.x;
-                        gridStat.y = targetGridPosition.y;
-                    }
-
-
-                    // Exit the loop after moving to the first available position
-                    return;
+                    UpdateCoordinates(newX, newZ);
+                    yield return StartCoroutine(moveForward());
                 }
+                else if (direction == new Vector3Int(0, 0, -1))
+                {
+                    UpdateCoordinates(newX, newZ);
+                    yield return StartCoroutine(moveBack());
+                }
+                else if (direction == new Vector3Int(-1, 0, 0))
+                {
+                    UpdateCoordinates(newX, newZ);
+                    yield return StartCoroutine(moveLeft());
+                }
+                else if (direction == new Vector3Int(1, 0, 0))
+                {
+                    UpdateCoordinates(newX, newZ);
+                    yield return StartCoroutine(moveRight());
+                }
+                break;
             }
         }
+
+        // Wait for 3 seconds before choosing the next target
+        yield return new WaitForSeconds(3f);
+
+        // Enable input after moving
+        input = true;
     }
+
+    IEnumerator MoveCloseToTarget()
+    {
+        // If the best path is not possible, choose MoveToRandomNearbyGrid for 3 turns
+        // Move 3 same directions if possible, if the same direction is moved more than 3 times, choose another direction
+        // If the cube and target distance are less than 60f, choose MoveToRandomNearbyGrid()
+        input = false;
+
+        // Number of consecutive moves allowed in the same direction
+        int maxConsecutiveMoves = 3;
+        int consecutiveMoves = 0;
+        Vector3Int lastDirection = Vector3Int.zero;
+
+        for (int moveAttempt = 0; moveAttempt < maxConsecutiveMoves; moveAttempt++)
+        {
+            // Calculate direction to the closest target
+            Vector3 targetPosition = Targets[0].position;  // Assuming we have at least one target, can be extended for closest target
+            Vector3 direction = (targetPosition - _cube.transform.position).normalized;
+
+            // Check the distance to the target
+            if (Vector3.Distance(_cube.transform.position, targetPosition) < 60f)
+            {
+                yield return StartCoroutine(MoveToRandomNearbyGrid());
+                yield break;
+            }
+
+            // Determine the primary axis of movement (X or Z)
+            Vector3Int moveDirection;
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
+            {
+                moveDirection = new Vector3Int(Mathf.RoundToInt(Mathf.Sign(direction.x)), 0, 0);
+            }
+            else
+            {
+                moveDirection = new Vector3Int(0, 0, Mathf.RoundToInt(Mathf.Sign(direction.z)));
+            }
+
+            // Handle consecutive moves in the same direction
+            if (lastDirection == moveDirection)
+            {
+                consecutiveMoves++;
+                if (consecutiveMoves >= maxConsecutiveMoves)
+                {
+                    // Choose an alternate direction if stuck
+                    moveDirection = (moveDirection == new Vector3Int(1, 0, 0) || moveDirection == new Vector3Int(-1, 0, 0)) ? new Vector3Int(0, 0, 1) : new Vector3Int(1, 0, 0);
+                    consecutiveMoves = 0;  // Reset consecutive moves
+                }
+            }
+            else
+            {
+                consecutiveMoves = 0;  // Reset if changing direction
+            }
+
+            // Attempt to move in the calculated direction
+            int newX = gridStat.x + moveDirection.x;
+            int newZ = gridStat.z + moveDirection.z;
+
+            if (coordinatePlane.IsWithinBounds(newX, newZ) && coordinatePlane.IsEmpty(newX, newZ) && (coordinatePlane.GetCheckoutTime(newX, newZ) + 1f > Time.deltaTime))
+            {
+                UpdateCoordinates(newX, newZ);
+                if (moveDirection == new Vector3Int(0, 0, 1))
+                {
+                    yield return StartCoroutine(moveForward());
+                }
+                else if (moveDirection == new Vector3Int(0, 0, -1))
+                {
+                    yield return StartCoroutine(moveBack());
+                }
+                else if (moveDirection == new Vector3Int(-1, 0, 0))
+                {
+                    yield return StartCoroutine(moveLeft());
+                }
+                else if (moveDirection == new Vector3Int(1, 0, 0))
+                {
+                    yield return StartCoroutine(moveRight());
+                }
+                lastDirection = moveDirection;
+                break;
+            }
+        }
+
+        // Wait for a short time before enabling input again
+        yield return new WaitForSeconds(0.5f);
+
+        input = true;
+    }
+
+    IEnumerator RandomMoveGrid()
+    {
+        // move 3 same direction if possible, if same direction moved more than 3 time, choose other direction
+        // Disable input while choosing and moving
+        input = false;
+
+        // Number of consecutive moves allowed in the same direction
+        int maxConsecutiveMoves = 3;
+        int consecutiveMoves = 0;
+        Vector3Int lastDirection = Vector3Int.zero;
+
+        while (true)
+        {
+            // List of possible directions to move in (Forward, Back, Left, Right)
+            List<Vector3Int> directions = new List<Vector3Int>
+            {
+                new Vector3Int(0, 0, 1),   // Forward
+                new Vector3Int(0, 0, -1),  // Back
+                new Vector3Int(-1, 0, 0),  // Left
+                new Vector3Int(1, 0, 0)    // Right
+            };
+
+            // Shuffle the directions list to pick a random direction
+            for (int i = 0; i < directions.Count; i++)
+            {
+                Vector3Int temp = directions[i];
+                int randomIndex = UnityEngine.Random.Range(i, directions.Count);
+                directions[i] = directions[randomIndex];
+                directions[randomIndex] = temp;
+            }
+
+            // Try to move in a random direction
+            Vector3Int currentDirection = directions[0];
+            foreach (Vector3Int direction in directions)
+            {
+                if (currentDirection == direction)
+                {
+                    consecutiveMoves++;
+                    if (consecutiveMoves >= maxConsecutiveMoves)
+                    {
+                        // Choose an alternate direction if stuck
+                        currentDirection = (direction == new Vector3Int(1, 0, 0) || direction == new Vector3Int(-1, 0, 0)) ? new Vector3Int(0, 0, 1) : new Vector3Int(1, 0, 0);
+                        consecutiveMoves = 0; // Reset consecutive moves
+                    }
+                }
+            }
+
+            // Move in the chosen direction
+            if (currentDirection == new Vector3Int(0, 0, 1))
+            {
+                UpdateCoordinates(gridStat.x + currentDirection.x, gridStat.z + currentDirection.z);
+                yield return StartCoroutine(moveForward());
+            }
+            else if (currentDirection == new Vector3Int(0, 0, -1))
+            {
+                UpdateCoordinates(gridStat.x + currentDirection.x, gridStat.z + currentDirection.z);
+                yield return StartCoroutine(moveBack());
+            }
+            else if (currentDirection == new Vector3Int(-1, 0, 0))
+            {
+                UpdateCoordinates(gridStat.x + currentDirection.x, gridStat.z + currentDirection.z);
+                yield return StartCoroutine(moveLeft());
+            }
+            else if (currentDirection == new Vector3Int(1, 0, 0))
+            {
+                UpdateCoordinates(gridStat.x + currentDirection.x, gridStat.z + currentDirection.z);
+                yield return StartCoroutine(moveRight());
+            }
+            
+            // Wait for a short time before enabling input again
+            yield return new WaitForSeconds(0.5f);
+
+            // Enable input after moving
+            input = true;
+        }
+    }
+
 
     // Check if coordinates on Forward is within bounds
     private bool CheckGridForward()
