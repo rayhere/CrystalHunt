@@ -179,12 +179,12 @@ public class StoneCubeController : MonoBehaviour
             //Debug.Log("move Left or Right " + direction);
             if (direction.x > 0 && CheckGridRight())
             {
-                UpdateCoordinates(gridStat.x + 1, gridStat.y);
+                UpdateCoordinates(gridStat.x + 1, gridStat.z);
                 yield return StartCoroutine(moveRight());
             }
             else if (direction.x < 0 && CheckGridLeft())
             {
-                UpdateCoordinates(gridStat.x - 1, gridStat.y);
+                UpdateCoordinates(gridStat.x - 1, gridStat.z);
                 yield return StartCoroutine(moveLeft());
             }
         }
@@ -192,22 +192,24 @@ public class StoneCubeController : MonoBehaviour
         {
             // move Up or Down
             //Debug.Log("move Up or Down " + direction);
+            Debug.Log("CheckGridDown() is "+ CheckGridDown());
+
             if (direction.z > 0 && CheckGridUp())
             {
-                UpdateCoordinates(gridStat.x, gridStat.y + 1);
+                UpdateCoordinates(gridStat.x, gridStat.z + 1);
                 yield return StartCoroutine(moveUP());
             }
             else if (direction.z < 0 && CheckGridDown())
             {
-                UpdateCoordinates(gridStat.x, gridStat.y - 1);
+                UpdateCoordinates(gridStat.x, gridStat.z - 1);
                 yield return StartCoroutine(moveDown());
             }
         }
         else
         {
             Debug.Log("Fail to move!");
-            Debug.Log("This gridStat.x " + gridStat.x + " gridStat.y " + gridStat.x );
-            Debug.Log("coordinatesTable.IsWithinBounds(gridStat.x, gridStat.y - 1); " + coordinatesTable.IsWithinBounds(gridStat.x, gridStat.y - 1));
+            Debug.Log("This gridStat.x " + gridStat.x + " gridStat.z " + gridStat.x );
+            Debug.Log("coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1); " + coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1));
             
         }
 
@@ -221,7 +223,9 @@ public class StoneCubeController : MonoBehaviour
 
     IEnumerator moveUP()
     {
-        for (int i = 0; i < (90 / step); i++)
+        for (int i
+
+ = 0; i < (90 / step); i++)
         {
             _cube.transform.RotateAround(up.transform.position, Vector3.right, step);
             yield return new WaitForSeconds(speed);
@@ -400,42 +404,46 @@ public class StoneCubeController : MonoBehaviour
     private bool CheckGridUp()
     {
         // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
-        return coordinatesTable.IsWithinBounds(gridStat.x, gridStat.y + 1) && coordinatesTable.IsEmpty(gridStat.x, gridStat.y + 1) && (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.y + 1)+1f > Time.deltaTime);
+        return coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z + 1) && coordinatesTable.IsEmpty(gridStat.x, gridStat.z + 1) && (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.z + 1)+1f > Time.deltaTime);
     }
 
     // Check if coordinates on Down is within bounds
     private bool CheckGridDown()
     {
         // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
-        return coordinatesTable.IsWithinBounds(gridStat.x, gridStat.y - 1) && coordinatesTable.IsEmpty(gridStat.x, gridStat.y - 1) && (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.y - 1)+1f > Time.deltaTime);
+        Debug.Log("coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1) is " + coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1));
+        Debug.Log("coordinatesTable.IsEmpty(gridStat.x, gridStat.z - 1) is " + coordinatesTable.IsEmpty(gridStat.x, gridStat.z - 1));
+        Debug.Log("(coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime) is " + (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime));
+        
+        return coordinatesTable.IsWithinBounds(gridStat.x, gridStat.z - 1) && coordinatesTable.IsEmpty(gridStat.x, gridStat.z - 1) && (coordinatesTable.GetCheckoutTime(gridStat.x, gridStat.z - 1)+1f > Time.deltaTime);
     }
 
     // Check if coordinates on Left is within bounds
     private bool CheckGridLeft()
     {
         // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
-        return coordinatesTable.IsWithinBounds(gridStat.x - 1, gridStat.y) && coordinatesTable.IsEmpty(gridStat.x - 1, gridStat.y) && (coordinatesTable.GetCheckoutTime(gridStat.x - 1, gridStat.y)+1f > Time.deltaTime);
+        return coordinatesTable.IsWithinBounds(gridStat.x - 1, gridStat.z) && coordinatesTable.IsEmpty(gridStat.x - 1, gridStat.z) && (coordinatesTable.GetCheckoutTime(gridStat.x - 1, gridStat.z)+1f > Time.deltaTime);
     }
 
     // Check if coordinates on Right is within bounds
     private bool CheckGridRight()
     {
         // Check IsWithinBounds, IsEmpty, and GetCheckoutTime 1sec passed
-        return coordinatesTable.IsWithinBounds(gridStat.x + 1, gridStat.y) && coordinatesTable.IsEmpty(gridStat.x + 1, gridStat.y) && (coordinatesTable.GetCheckoutTime(gridStat.x + 1, gridStat.y)+1f > Time.deltaTime);
+        return coordinatesTable.IsWithinBounds(gridStat.x + 1, gridStat.z) && coordinatesTable.IsEmpty(gridStat.x + 1, gridStat.z) && (coordinatesTable.GetCheckoutTime(gridStat.x + 1, gridStat.z)+1f > Time.deltaTime);
 
     }
 
-    private void UpdateCoordinates(int x, int y)
+    private void UpdateCoordinates(int x, int z)
     {
         // Set Current gridStat.x and gridStat.y IsEmpty in coordinatesTable
-        coordinatesTable.SetGridUnitInfo(gridStat.x, gridStat.y, true, "", Time.deltaTime);
+        coordinatesTable.SetGridUnitInfo(gridStat.x, gridStat.z, true, "", Time.deltaTime);
 
         // Set Destination Grid x, y in coordinatesTable
-        coordinatesTable.SetGridUnitInfo(x, y, false, gameObject.name);
+        coordinatesTable.SetGridUnitInfo(x, z, false, gameObject.name);
 
         // Update GridStat
         gridStat.x = x;
-        gridStat.y = y;
+        gridStat.z = z;
     }
 
 }

@@ -12,14 +12,14 @@ public class StoneCubeSpawner : MonoBehaviour
     public float repeatInterval = 3f;
 
     // Controls cube objects and updates grid status
-    public CoordinatesTable coordinatesTable; // Drag CoordinateMap
+    public CoordinatePlane coordinatePlane; // Drag CoordinateMap
     public GridStat gridStat;
 
     private void Start()
     {
-        if(coordinatesTable == null)
+        if(coordinatePlane == null)
         {
-            Debug.LogError("CoordinatesTable is not assigned to StoneCubeSpawner.");
+            Debug.LogError("CoordinatePlane is not assigned to StoneCubeSpawner.");
             return;
         }
         if(stoneCubePrefab == null)
@@ -39,33 +39,33 @@ public class StoneCubeSpawner : MonoBehaviour
         // Repeat spawning process for the specified number of times
         //int i = numberOfSpawns;
 
-        // CooridinateMap [x,y]
+        // CooridinateMap [x,z]
         int x = 0;
-        int y = 0; // it is on axis z
+        int z = 0; // it is on axis z
         int height = 5; // offset pos.y for cube
-        int xAxisSize = coordinatesTable.GetXAxisSize();
-        int yAxisSize = coordinatesTable.GetYAxisSize();
-        int unitSize = coordinatesTable.GetUnitSize(); // pre grid
+        int xAxisSize = coordinatePlane.GetXAxisSize();
+        int zAxisSize = coordinatePlane.GetZAxisSize();
+        int unitSize = coordinatePlane.GetUnitSize(); // pre grid
 
         // The coordinate plane is divided into four quadrants
         // Quadrant 1 is in the top right.
-        int[] topRight = new int[2] { xAxisSize / 2, yAxisSize / 2 };
+        int[] topRight = new int[2] { xAxisSize / 2, zAxisSize / 2 };
 
         // Quadrant 2 is in the top left.
-        int[] topLeft = new int[2] { -xAxisSize / 2, yAxisSize / 2 };
+        int[] topLeft = new int[2] { -xAxisSize / 2, zAxisSize / 2 };
 
         // Quadrant 3 is in the bottom left.
-        int[] bottomLeft = new int[2] { -xAxisSize / 2, -yAxisSize / 2 };
+        int[] bottomLeft = new int[2] { -xAxisSize / 2, -zAxisSize / 2 };
         
         // Quadrant 4 is in the bottom right.
-        int[] bottomRight = new int[2] { xAxisSize / 2, -yAxisSize / 2 };
+        int[] bottomRight = new int[2] { xAxisSize / 2, -zAxisSize / 2 };
 
         //int xTopRight = topRight[0];
         //int yTopRight = topRight[1];
         int xTopLeft = topLeft[0];
         Debug.Log("xTopLeft is " + xTopLeft);
-        int yTopLeft = topLeft[1];
-        Debug.Log("yTopLeft is " + yTopLeft);
+        int zTopLeft = topLeft[1];
+        Debug.Log("zTopLeft is " + zTopLeft);
 
         //while (i > 0)
 
@@ -81,31 +81,33 @@ public class StoneCubeSpawner : MonoBehaviour
 
                 // stoneCubeInstance.Initialise(new Vector3(-50 + i*10, 5, 40));
                 // Debug.Log("stoneCubeInstance Spawned" + (-50 + i*10) + ", " + 5 + ", " + 40);
-                if (coordinatesTable.IsEmpty(x,y+i) && (coordinatesTable.GetCheckoutTime(x,y)+1f > Time.deltaTime))
+                if (coordinatePlane.IsEmpty(x,z+i) && (coordinatePlane.GetCheckoutTime(x,z)+1f > Time.deltaTime))
                 {
-                    //stoneCubeInstance.Initialise(new Vector3(x, height, y+i));
+                    //stoneCubeInstance.Initialise(new Vector3(x, height, z+i));
                     // Adjust with offset
-                    int offsetX = xTopLeft;
-                    int offsetZ = yTopLeft;
-                    stoneCubeInstance.Initialise(new Vector3((x+i)*unitSize + offsetX*unitSize, height, y*unitSize + offsetZ*unitSize));
+                    // int offsetX = xTopLeft;
+                    // int offsetZ = zTopLeft;
+                    int offsetX = -xAxisSize / 2;
+                    int offsetZ = -zAxisSize / 2;
+                    stoneCubeInstance.Initialise(new Vector3((x+i)*unitSize + offsetX*unitSize, height, z*unitSize + offsetZ*unitSize));
 
-                    Debug.Log("StoneCube Spawn at " + ((x+i)*unitSize + offsetX*unitSize) + ", " + height + ", " + (y*unitSize + offsetZ*unitSize));
+                    Debug.Log("StoneCube Spawn at " + ((x+i)*unitSize + offsetX*unitSize) + ", " + height + ", " + (z*unitSize + offsetZ*unitSize));
 
                     // Update grid status for the current position (0,0)
-                    coordinatesTable.SetGridUnitInfo(x, y+i, false, "", 0);
+                    coordinatePlane.SetGridUnitInfo(x, z+i, false, "", 0);
 
                     // Update GridStat component attached to the cube object
                     GridStat gridStat = stoneCubeInstance.GetComponent<GridStat>();
                     if (gridStat != null)
                     {
                         gridStat.x = x;
-                        gridStat.y = y+i;
+                        gridStat.y = z+i;
                     }
                 }
                 else
                 {
-                    Debug.Log("coordinatesTable.IsEmpty(x,y+i) is " + coordinatesTable.IsEmpty(x,y+i));
-                    Debug.Log("coordinatesTable.GetCheckoutTime(x,y)+1f > Time.deltaTime is " + (coordinatesTable.GetCheckoutTime(x,y)+1f > Time.deltaTime));
+                    Debug.Log("coordinatePlane.IsEmpty(x,z+i) is " + coordinatePlane.IsEmpty(x,z+i));
+                    Debug.Log("coordinatePlane.GetCheckoutTime(x,z)+1f > Time.deltaTime is " + (coordinatePlane.GetCheckoutTime(x,z)+1f > Time.deltaTime));
                 }
                 
 
@@ -141,16 +143,16 @@ public class StoneCubeSpawner : MonoBehaviour
 
     private void SetGridPosition()
     {
-        if (coordinatesTable != null && gridStat != null)
+        if (coordinatePlane != null && gridStat != null)
         {
             // Read grid position from GridStat script
             int currentX = gridStat.x;
-            int currentY = gridStat.y;
+            int currentZ = gridStat.z;
 
             // Check if the target grid position is within bounds
-            if (currentX == 0 && currentY == 1 && coordinatesTable.IsWithinBounds(currentX, currentY))
+            if (currentX == 0 && currentZ == 1 && coordinatePlane.IsWithinBounds(currentX, currentZ))
             {
-                CoordinatesTable.GridUnit gridUnit = coordinatesTable.GetGridUnit(currentX, currentY);
+                CoordinatePlane.GridUnit gridUnit = coordinatePlane.GetGridUnit(currentX, currentZ);
 
                 if (gridUnit.isEmpty && gridUnit.checkoutTime == 0f)
                 {
@@ -163,4 +165,3 @@ public class StoneCubeSpawner : MonoBehaviour
         }
     }
 }
-
