@@ -192,7 +192,7 @@ public class StoneCubeController : MonoBehaviour
         {
             // move Forward or Back
             //Debug.Log("move Forward or Back " + direction);
-            Debug.Log("CheckGridBack() is "+ CheckGridBack());
+            Debug.Log("Check move Forward or Back: gridStat.x is "+ gridStat.x + ", gridStat.z is " + gridStat.z);
 
             if (direction.z > 0 && CheckGridForward())
             {
@@ -223,9 +223,7 @@ public class StoneCubeController : MonoBehaviour
 
     IEnumerator moveForward()
     {
-        for (int i
-
- = 0; i < (90 / step); i++)
+        for (int i = 0; i < (90 / step); i++)
         {
             _cube.transform.RotateAround(forward.transform.position, Vector3.right, step);
             yield return new WaitForSeconds(speed);
@@ -266,7 +264,7 @@ public class StoneCubeController : MonoBehaviour
 
     public void CreateEmptyObject()
     {
-        lengthOfCube = Mathf.Abs(lengthOfCube / 2);
+        float halfLengthOfCube = Mathf.Abs(lengthOfCube / 2);
         // Create an empty GameObject
         //GameObject emptyGameObject = new GameObject(gameObject.name + " Center");
         emptyGameObject = new GameObject(gameObject.name + " Center");
@@ -296,10 +294,10 @@ public class StoneCubeController : MonoBehaviour
         emptyGameObject.transform.localScale = _cube.transform.localScale;
 
         // Set the positions of Forward, Back, Left, and Right relative to EmptyGameObject
-        forwardObject.transform.localPosition = new Vector3(0, -lengthOfCube, lengthOfCube);
-        backObject.transform.localPosition = new Vector3(0, -lengthOfCube, -lengthOfCube);
-        leftObject.transform.localPosition = new Vector3(-lengthOfCube, -lengthOfCube, 0);
-        rightObject.transform.localPosition = new Vector3(lengthOfCube, -lengthOfCube, 0);
+        forwardObject.transform.localPosition = new Vector3(0, -halfLengthOfCube, halfLengthOfCube);
+        backObject.transform.localPosition = new Vector3(0, -halfLengthOfCube, -halfLengthOfCube);
+        leftObject.transform.localPosition = new Vector3(-halfLengthOfCube, -halfLengthOfCube, 0);
+        rightObject.transform.localPosition = new Vector3(halfLengthOfCube, -halfLengthOfCube, 0);
     }
 
     IEnumerator StartMovementTimer()
@@ -439,10 +437,10 @@ public class StoneCubeController : MonoBehaviour
 
     private void UpdateCoordinates(int x, int z)
     {
-        // Set Current gridStat.x and gridStat.y IsEmpty in CoordinatePlane
+        // Set Current gridStat.x and gridStat.z IsEmpty in CoordinatePlane
         coordinatePlane.SetGridUnitInfo(gridStat.x, gridStat.z, true, "", Time.deltaTime);
 
-        // Set Destination Grid x, y in CoordinatePlane
+        // Set Destination Grid x, z in CoordinatePlane
         coordinatePlane.SetGridUnitInfo(x, z, false, gameObject.name);
 
         // Update GridStat

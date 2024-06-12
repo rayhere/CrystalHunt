@@ -66,7 +66,13 @@ public class CoordinatePlane : MonoBehaviour
         // return x >= -xAxisSize / 2 && x < xAxisSize / 2 && z >= -zAxisSize / 2 && z < zAxisSize / 2;
 
         // Return false is correct because range of z is -5.5 to 5.5
-        return x >= -xAxisSize / 2 && x < xAxisSize / 2 && z >= -zAxisSize / 2 && z < zAxisSize / 2;
+
+        int odd = 0;
+        if (xAxisSize%2 > 0) odd = 1;
+        Debug.Log(" x is " + x + " z is " + z);
+        Debug.Log("IsWithinBounds: " + -xAxisSize / 2 + ", " + (xAxisSize / 2) + ", " + ((-zAxisSize / 2)) + ", " + (zAxisSize / 2+odd));
+        Debug.Log("IsWithinBounds: " + (x >= -xAxisSize / 2) + ", " + (x < (xAxisSize / 2)) + ", " + (z >= (-zAxisSize / 2)) + ", " + (z < (zAxisSize / 2)+odd));
+        return x >= -xAxisSize / 2 && x < (xAxisSize / 2) + odd && z >= (-zAxisSize / 2) && z < (zAxisSize / 2)+odd;
     }
 
     // Method to check if given coordinates are empty
@@ -160,10 +166,14 @@ public class CoordinatePlane : MonoBehaviour
     // Method to log information for each grid unit
     public void LogGridInformation()
     {
+        // -5.5 -4.5 -3.5 -2.5 -1.5 -0.5 0.5 1.5 2.5 3.5 4.5 5.5 ***Don't need the last one
+        // -5 -4 -3 -2 -1 0 1 2 3 4 5 ***Don't need the last one
         // Iterate over the entire grid
-        for (int x = -xAxisSize / 2; x < xAxisSize / 2; x++)
+        int odd = 0;
+        if (xAxisSize%2 > 0) odd = 1;
+        for (int x = (-xAxisSize / 2); x < (xAxisSize / 2)+odd; x++)
         {
-            for (int z = -zAxisSize / 2; z < zAxisSize / 2; z++)
+            for (int z = (zAxisSize / 2); z > (-zAxisSize / 2)-odd; z--)
             {
                 // Get the grid unit at the current coordinates
                 GridUnit gridUnit = GetGridUnit(x, z);

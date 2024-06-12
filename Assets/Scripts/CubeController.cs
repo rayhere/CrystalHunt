@@ -9,7 +9,7 @@ public class CubeController : MonoBehaviour
 
     private void Start()
     {
-        if (coordinatesTable != null && gridStat != null)
+/*         if (coordinatesTable != null && gridStat != null)
         {
             // Read grid position from GridStat script
             int currentX = gridStat.x;
@@ -28,6 +28,6 @@ public class CubeController : MonoBehaviour
                     // You can leave checkoutTime unchanged if it's still 0f
                 }
             }
-        }
+        } */
     }
 }

@@ -81,7 +81,13 @@ public class StoneCubeSpawner : MonoBehaviour
 
                 // stoneCubeInstance.Initialise(new Vector3(-50 + i*10, 5, 40));
                 // Debug.Log("stoneCubeInstance Spawned" + (-50 + i*10) + ", " + 5 + ", " + 40);
-                if (coordinatePlane.IsEmpty(x,z+i) && (coordinatePlane.GetCheckoutTime(x,z)+1f > Time.deltaTime))
+
+                // Spawn Location
+                // Start from Top Left to Top Right
+                x = topLeft[0];
+                z = topLeft[1];
+                // next cube is z+i, move to right 
+                if (coordinatePlane.IsEmpty(x+i,z) && (coordinatePlane.GetCheckoutTime(x+i,z)+1f > Time.deltaTime))
                 {
                     //stoneCubeInstance.Initialise(new Vector3(x, height, z+i));
                     // Adjust with offset
@@ -92,24 +98,40 @@ public class StoneCubeSpawner : MonoBehaviour
                     //Initialize at the Bottom start from Left
                     //stoneCubeInstance.Initialise(new Vector3((x+i)*unitSize + offsetX*unitSize, height, z*unitSize + offsetZ*unitSize));
                     //Initialize at the Top start from Left
-                    stoneCubeInstance.Initialise(new Vector3((x+i)*unitSize + offsetX*unitSize, height, -offsetZ*unitSize));
-                    Debug.Log("StoneCube Spawn at " + ((x+i)*unitSize + offsetX*unitSize) + ", " + height + ", " + (z*unitSize + offsetZ*unitSize));
+                    //stoneCubeInstance.Initialise(new Vector3((x+i)*unitSize + offsetX*unitSize, height, -offsetZ*unitSize));
+                    //Debug.Log("StoneCube Spawn at " + ((x+i)*unitSize + offsetX*unitSize) + ", " + height + ", " + (z*unitSize + offsetZ*unitSize));
+
+                    // Find actual vector3 axis
+                    // x = -5.5, z = 5.5
+                    // x = -5.5 * unitSize + unitSize / 2
+                    // x = -5.5 * 10 + 5
+                    // x = -50
+                    // z = 5.5 * unitSize - unitSize / 2
+                    // z = 50
+                    int offset = unitSize/2;
+                    if (xAxisSize%2 > 0) offset = 0; // if odd, offset is zero
+                    // Even grid: 10x10
+                    // -5* unitSize + unitSize/2; 5*10 - unitSize/2
+                    // Odd grid: 11x11
+                    // -5* unitSize; 5* unitSize
+                    Debug.Log("stoneCubeInstance.Initialise : " + ((x+i)*unitSize + offset) + ", " + height  + ", " + (z * unitSize - offset));
+                    stoneCubeInstance.Initialise(new Vector3((x+i)*unitSize + offset, height, z * unitSize - offset));
 
                     // Update grid status for the current position (0,0)
-                    coordinatePlane.SetGridUnitInfo(x, z+i, false, "", 0);
+                    coordinatePlane.SetGridUnitInfo(x+i, z, false, "", 0);
 
                     // Update GridStat component attached to the cube object
                     GridStat gridStat = stoneCubeInstance.GetComponent<GridStat>();
                     if (gridStat != null)
                     {
-                        gridStat.x = x;
-                        gridStat.y = z+i;
+                        gridStat.x = x+i;
+                        gridStat.z = z;
                     }
                 }
                 else
                 {
-                    Debug.Log("coordinatePlane.IsEmpty(x,z+i) is " + coordinatePlane.IsEmpty(x,z+i));
-                    Debug.Log("coordinatePlane.GetCheckoutTime(x,z)+1f > Time.deltaTime is " + (coordinatePlane.GetCheckoutTime(x,z)+1f > Time.deltaTime));
+                    Debug.Log("coordinatePlane.IsEmpty(x+i,z) is " + coordinatePlane.IsEmpty(x+i,z));
+                    Debug.Log("coordinatePlane.GetCheckoutTime(x+i,z)+1f > Time.deltaTime is " + (coordinatePlane.GetCheckoutTime(x+i,z)+1f > Time.deltaTime));
                 }
                 
 

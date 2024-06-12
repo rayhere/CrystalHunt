@@ -116,6 +116,11 @@ public class GameManager : MonoBehaviour
                 if (newInstance is StoneCubeController)
                 {
                     StoneCubeController cubeInstance = newInstance as StoneCubeController;
+                    
+                    if (target == null)
+                    {
+                        target = GameObject.FindGameObjectWithTag("StoneCube").transform;
+                    }
                     cubeInstance.SetTarget(target); // Set the target for the stone cube
                     cubeInstance.SetEmptyObjectToParent();
                     cubeInstance.DeactiveEmptyObj();
