@@ -7,7 +7,10 @@ public class StoneCubeController : MonoBehaviour
 {
     private Vector3 offset;
 
-    public Transform[] Targets; // Target positions for cube movement
+    [SerializeField] public Transform[] targets; // Target positions for cube movement
+    [SerializeField] public bool moveRandomWithoutTarget = true; // Choose a random target or move randomly without target
+    [SerializeField] public float desiredRangeDistance = 60f; // Desired range distance between target
+    [SerializeField] public int maxConsecutiveMoves = 3; // Maximum consecutive moves
 
     public GameObject cube;
     public GameObject center;
@@ -65,16 +68,18 @@ public class StoneCubeController : MonoBehaviour
     {
         input = false;
 
-        int maxConsecutiveMoves = 3;
         int consecutiveMoves = 0;
         Vector3Int lastDirection = Vector3Int.zero;
 
         for (int moveAttempt = 0; moveAttempt < maxConsecutiveMoves; moveAttempt++)
         {
-            Vector3 targetPosition = Targets[0].position;
+            Vector3 targetPosition = targets != null && targets.Length > 0 && !moveRandomWithoutTarget
+                ? targets[UnityEngine.Random.Range(0, targets.Length)].position
+                : transform.position + new Vector3(UnityEngine.Random.Range(-1, 1), 0, UnityEngine.Random.Range(-1, 1)) * desiredRangeDistance;
+
             Vector3 direction = (targetPosition - cube.transform.position).normalized;
 
-            if (Vector3.Distance(cube.transform.position, targetPosition) < 60f)
+            if (Vector3.Distance(cube.transform.position, targetPosition) < desiredRangeDistance)
             {
                 yield return StartCoroutine(MoveToRandomNearbyGrid());
                 yield break;
@@ -315,11 +320,11 @@ public class StoneCubeController : MonoBehaviour
     
     public void SetTargets(Transform[] targets)
     {
-        Targets = targets;
+        this.targets = targets;
     }
 
     public void SetTarget(Transform target)
     {
-        Targets = new Transform[] { target };
+        targets = new Transform[] { target };
     }
 }

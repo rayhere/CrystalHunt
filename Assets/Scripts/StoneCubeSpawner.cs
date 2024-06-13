@@ -80,6 +80,8 @@ public class StoneCubeSpawner : MonoBehaviour
                     else
                     {
                         Debug.LogError("coordinatePlane.IsWithinBounds(x, z)" + coordinatePlane.IsWithinBounds(x, z) + " coordinatePlane.IsEmpty(x, z) is " +coordinatePlane.IsEmpty(x, z) + "(coordinatePlane.GetCheckoutTime(x, z) + 1f > Time.deltaTime) is " + (coordinatePlane.GetCheckoutTime(x, z) + 1f > Time.deltaTime) + "x is " + x + " z is "+ z);
+
+                        StartCoroutine(LateSpawnStoneCubes(x, z, unitSize, offset));
                     }
                 }
             }
@@ -97,6 +99,27 @@ public class StoneCubeSpawner : MonoBehaviour
         }
         yield return new WaitForSeconds(repeatInterval);
         Debug.Log("StoneCubeSpawner Coroutine Stopped");
+    }
+
+    private IEnumerator LateSpawnStoneCubes(int x, int z, int unitSize, int offset)
+    {
+        bool spawned = false;
+        while (spawned == false)
+        {
+            if (coordinatePlane.IsWithinBounds(x, z) && coordinatePlane.IsEmpty(x, z) && (coordinatePlane.GetCheckoutTime(x, z) + 1f > Time.deltaTime))
+            {
+                Debug.Log("LateSpawnStoneCubes SpawnStoneCube x is " + x + " z is "+ z + " offset is " +offset);
+                SpawnStoneCubes(x, z, unitSize, offset);
+
+                spawned = true;
+            }
+            else
+            {
+                Debug.LogError("coordinatePlane.IsWithinBounds(x, z)" + coordinatePlane.IsWithinBounds(x, z) + " coordinatePlane.IsEmpty(x, z) is " +coordinatePlane.IsEmpty(x, z) + "(coordinatePlane.GetCheckoutTime(x, z) + 1f > Time.deltaTime) is " + (coordinatePlane.GetCheckoutTime(x, z) + 1f > Time.deltaTime) + "x is " + x + " z is "+ z);
+
+                yield return new WaitForSeconds(spawnInterval);
+            }
+        }
     }
 
     private void SpawnStoneCubes(int x, int z, int unitSize, int offset)
