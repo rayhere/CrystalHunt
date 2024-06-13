@@ -3155,7 +3155,7 @@ Transform:
   m_GameObject: {fileID: 1426941528}
   serializedVersion: 2
   m_LocalRotation: {x: 0.04763198, y: -0.0000000021483566, z: 1.02446746e-10, w: 0.99886495}
-  m_LocalPosition: {x: -21, y: 16, z: -22}
+  m_LocalPosition: {x: -47, y: 14, z: -57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3705,11 +3705,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stoneCubePrefab: {fileID: 3611886312623775688, guid: 64854799044b035429197d6d191da25c, type: 3}
-  numberOfSpawns: 10
+  numberOfSpawns: 8
   spawnInterval: 5
   repeatInterval: 3
   coordinatePlane: {fileID: 1408370303}
   gridStat: {fileID: 0}
+  spawnDirection: 0
 --- !u!1 &1679283699
 GameObject:
   m_ObjectHideFlags: 0
@@ -4169,7 +4170,7 @@ Transform:
   m_GameObject: {fileID: 1986005900}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21, y: 14, z: -15}
+  m_LocalPosition: {x: -47, y: 12, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9419,6 +9420,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: StoneCube
       objectReference: {fileID: 0}
+    - target: {fileID: 5009931702285740392, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9577,7 +9582,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
@@ -10195,7 +10200,7 @@ Transform:
   m_GameObject: {fileID: 6507268355185815663}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21, y: 16, z: -22}
+  m_LocalPosition: {x: -47, y: 14, z: -57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

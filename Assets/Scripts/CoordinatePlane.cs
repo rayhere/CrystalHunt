@@ -46,14 +46,11 @@ public class CoordinatePlane : MonoBehaviour
     {
         if (IsWithinBounds(x, z))
         {
-            Debug.Log("GridUnit GetGridUnit(int x, int z): x is " + x + ", z is "+z);
             return gridUnits[x + xAxisSize / 2][z + zAxisSize / 2];
         }
         else
         {
             Debug.LogError("Coordinates out of bounds.");
-            Debug.Log("IsWithinBounds(x, z) is " + IsWithinBounds(x, z));
-            Debug.Log("x is " + x + ", z is " + z);
             return null;
         }
     }
@@ -61,36 +58,29 @@ public class CoordinatePlane : MonoBehaviour
     // Method to check if coordinates are within bounds
     public bool IsWithinBounds(int x, int z)
     {
-        // Error when x is 0, z is 5
-        // 0 >= -5.5 && 0 < 5.5 && 5 >= -5.5 && && 5 < 5.5
-        // return x >= -xAxisSize / 2 && x < xAxisSize / 2 && z >= -zAxisSize / 2 && z < zAxisSize / 2;
-
-        // Return false is correct because range of z is -5.5 to 5.5
-
-        int odd = 0;
-        if (xAxisSize%2 > 0) odd = 1;
-        Debug.Log(" x is " + x + " z is " + z);
-        Debug.Log("IsWithinBounds: " + -xAxisSize / 2 + ", " + (xAxisSize / 2) + ", " + ((-zAxisSize / 2)) + ", " + (zAxisSize / 2+odd));
-        Debug.Log("IsWithinBounds: " + (x >= -xAxisSize / 2) + ", " + (x < (xAxisSize / 2)) + ", " + (z >= (-zAxisSize / 2)) + ", " + (z < (zAxisSize / 2)+odd));
-        return x >= -xAxisSize / 2 && x < (xAxisSize / 2) + odd && z >= (-zAxisSize / 2) && z < (zAxisSize / 2)+odd;
+        int offset = xAxisSize % 2 > 0 ? 1 : 0;
+        return x >= -xAxisSize / 2 && x < (xAxisSize / 2) + offset && z >= -zAxisSize / 2 && z < (zAxisSize / 2) + offset;
     }
 
     // Method to check if given coordinates are empty
     public bool IsEmpty(int x, int z)
     {
-        return GetGridUnit(x, z).isEmpty;
+        GridUnit gridUnit = GetGridUnit(x, z);
+        return gridUnit != null && gridUnit.isEmpty;
     }
 
     // Method to get objName by given coordinates
     public string GetObjName(int x, int z)
     {
-        return GetGridUnit(x, z).objName;
+        GridUnit gridUnit = GetGridUnit(x, z);
+        return gridUnit != null ? gridUnit.objName : null;
     }
 
     // Method to get checkoutTime by given coordinates
     public float GetCheckoutTime(int x, int z)
     {
-        return GetGridUnit(x, z).checkoutTime;
+        GridUnit gridUnit = GetGridUnit(x, z);
+        return gridUnit != null ? gridUnit.checkoutTime : 0f;
     }
 
     // Method to get the number of units on the X axis
@@ -117,26 +107,30 @@ public class CoordinatePlane : MonoBehaviour
         if (IsWithinBounds(x, z))
         {
             GridUnit gridUnit = GetGridUnit(x, z);
-            gridUnit.isEmpty = isEmpty;
-            gridUnit.objName = objName;
-            gridUnit.checkoutTime = checkoutTime;
+            if (gridUnit != null)
+            {
+                gridUnit.isEmpty = isEmpty;
+                gridUnit.objName = objName;
+                gridUnit.checkoutTime = checkoutTime;
+            }
         }
         else
         {
             Debug.LogError("Coordinates out of bounds.");
-            Debug.LogError("IsWithinBounds x is " + x + " and z is " + z);
         }
     }
 
-    // Method to set grid unit information at specified coordinates
+    // Overloaded method to set grid unit information at specified coordinates without checkoutTime
     public void SetGridUnitInfo(int x, int z, bool isEmpty, string objName)
     {
         if (IsWithinBounds(x, z))
         {
             GridUnit gridUnit = GetGridUnit(x, z);
-            gridUnit.isEmpty = isEmpty;
-            gridUnit.objName = objName;
-            //gridUnit.checkoutTime = 0.0f;
+            if (gridUnit != null)
+            {
+                gridUnit.isEmpty = isEmpty;
+                gridUnit.objName = objName;
+            }
         }
         else
         {
@@ -148,7 +142,6 @@ public class CoordinatePlane : MonoBehaviour
     public Vector2Int WorldToGridCoordinates(Vector3 position)
     {
         int x = Mathf.FloorToInt(position.x / unitSize);
-        int y = Mathf.FloorToInt(position.y / unitSize);
         int z = Mathf.FloorToInt(position.z / unitSize);
         return new Vector2Int(x, z);
     }
@@ -157,7 +150,6 @@ public class CoordinatePlane : MonoBehaviour
     public Vector3 GridToWorldCoordinates(int x, int z)
     {
         float posX = (x - xAxisSize / 2) * unitSize;
-        //float posY = (y - zAxisSize / 2) * unitSize;
         float posY = 0f;
         float posZ = (z - zAxisSize / 2) * unitSize;
         return new Vector3(posX, posY, posZ);
@@ -166,25 +158,52 @@ public class CoordinatePlane : MonoBehaviour
     // Method to log information for each grid unit
     public void LogGridInformation()
     {
-        // -5.5 -4.5 -3.5 -2.5 -1.5 -0.5 0.5 1.5 2.5 3.5 4.5 5.5 ***Don't need the last one
-        // -5 -4 -3 -2 -1 0 1 2 3 4 5 ***Don't need the last one
-        // Iterate over the entire grid
-        int odd = 0;
-        if (xAxisSize%2 > 0) odd = 1;
-        for (int x = (-xAxisSize / 2); x < (xAxisSize / 2)+odd; x++)
+        int offset = xAxisSize % 2 > 0 ? 1 : 0;
+        for (int x = -xAxisSize / 2; x < (xAxisSize / 2) + offset; x++)
         {
-            for (int z = (zAxisSize / 2); z > (-zAxisSize / 2)-odd; z--)
+            for (int z = -zAxisSize / 2; z < (zAxisSize / 2) + offset; z++)
             {
-                // Get the grid unit at the current coordinates
                 GridUnit gridUnit = GetGridUnit(x, z);
-
-                // Calculate the relative coordinates for logging
-                int relativeX = x + xAxisSize / 2;
-                int relativeZ = z + zAxisSize / 2;
-
-                // Log the information for the grid unit
-                Debug.Log("Grid Unit at (" + x + ", " + z + "): isEmpty = " + gridUnit.isEmpty + ", objName = " + gridUnit.objName + ", checkoutTime = " + gridUnit.checkoutTime);
+                if (gridUnit != null)
+                {
+                    Debug.Log($"Grid Unit at ({x}, {z}): isEmpty = {gridUnit.isEmpty}, objName = {gridUnit.objName}, checkoutTime = {gridUnit.checkoutTime}");
+                }
             }
+        }
+    }
+
+    // Method to set a grid unit as empty
+    public void SetEmpty(int x, int z)
+    {
+        SetGridUnitInfo(x, z, true, "", 0f);
+    }
+
+    // Method to set a grid unit as busy
+    public void SetBusy(int x, int z)
+    {
+        SetGridUnitInfo(x, z, false, "", Time.time);
+    }
+
+    // Method to set a grid unit as busy
+    public void SetBusy(int x, int z, string objName)
+    {
+        SetGridUnitInfo(x, z, false, objName, Time.time);
+    }
+    
+    // Method to set the checkout time for a grid unit
+    public void CheckoutTime(int x, int z, float time)
+    {
+        if (IsWithinBounds(x, z))
+        {
+            GridUnit gridUnit = GetGridUnit(x, z);
+            if (gridUnit != null)
+            {
+                gridUnit.checkoutTime = time;
+            }
+        }
+        else
+        {
+            Debug.LogError("Coordinates out of bounds.");
         }
     }
 }

@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
                     }
                     cubeInstance.SetTarget(target); // Set the target for the stone cube
                     cubeInstance.SetEmptyObjectToParent();
-                    cubeInstance.DeactiveEmptyObj();
+                    cubeInstance.DeactivateEmptyObject();
                 }
 
                 newInstance.gameObject.SetActive(false); // Set the GameObject inactive
