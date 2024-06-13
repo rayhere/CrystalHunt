@@ -80,13 +80,25 @@ public static class ObjectPooler
     // Method to set up the initial pool for a prefab
     public static void SetupPool<T>(T pooledItemPrefab, string dictionaryEntry) where T : Component
     {
-        // Create a new queue for the prefab
-        poolDictionary.Add(dictionaryEntry, new Queue<Component>());
+        // Check if the dictionary already contains the entry
+        if (poolDictionary.ContainsKey(dictionaryEntry))
+        {
+            // If it does, clear the existing queue
+            poolDictionary[dictionaryEntry].Clear();
+        }
+        else
+        {
+            // If it doesn't, create a new queue for the prefab
+            poolDictionary.Add(dictionaryEntry, new Queue<Component>());
+        }
 
-        // Add the prefab to the lookup dictionary
-        poolLookup.Add(dictionaryEntry, pooledItemPrefab);
+        // Add the prefab to the lookup dictionary or update it if it exists
+        poolLookup[dictionaryEntry] = pooledItemPrefab;
 
-        // Create a parent GameObject for the pooled objects
-        GameObject parent = new GameObject(dictionaryEntry + " Pool");
+        // Create a parent GameObject for the pooled objects if it doesn't exist
+        if (GameObject.Find(dictionaryEntry + " Pool") == null)
+        {
+            GameObject parent = new GameObject(dictionaryEntry + " Pool");
+        }
     }
 }
