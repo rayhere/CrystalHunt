@@ -11,31 +11,26 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // SetupPool();
-        SetupGreenCabbagePool(6);
-        //SetupStoneCubePool(stoneCubePrefab, 5, "StoneCube");
+        
+    }
+
+    private void Start()
+    {
+        // SetupGreenCabbagePool(6);
+        //SetupStoneCubePool(stoneCubePrefab, 10, "StoneCube");
+
+        SetupGreenCabbagePool(cabbagePrefab, 20, "Cabbage");
 
         // Find the target object using tag
         targetObject = GameObject.FindGameObjectWithTag("StoneCube");
 
         // Setup Stone Cube pool with the found target object
         SetupStoneCubePool(stoneCubePrefab, 10, "StoneCube", targetObject.transform);
-        //SetupStoneCubePool(stoneCubePrefab, 5, "StoneCube", target);
 
         SetupCrystalPool(crystalPrefab, 5, "Crystal");
     }
 
-    private void Start()
-    {
-        
-    }
-
-    private void SetupPool()
-    {
-        //ObjectPooler.SetupPool(cabbagePrefab, 1, "Cabbage");
-    }
-
-    private void SetupPool<T>(T pooledItemPrefab, int poolSize, string poolDictionary) where T : Component
+    private void SetupGreenCabbagePool<T>(T pooledItemPrefab, int poolSize, string poolDictionary) where T : Component
     {
         ObjectPooler.SetupPool(pooledItemPrefab, poolDictionary);
 
@@ -45,7 +40,9 @@ public class GameManager : MonoBehaviour
 
             if (newInstance != null)
             {
-                newInstance.transform.SetParent(transform, false);
+                // Setting parent to Crystal Pool
+                newInstance.transform.SetParent(ObjectPooler.parentDictionary[poolDictionary].transform);
+                //newInstance.transform.SetParent(transform, false);
                 
                 // Check if the instance is of type T
                 if (newInstance is T)
@@ -69,7 +66,9 @@ public class GameManager : MonoBehaviour
             CabbageController cabbageInstance = ObjectPooler.EnqueueNewInstance<CabbageController>(cabbagePrefab, "Cabbage");
             if (cabbageInstance != null)
             {
-                cabbageInstance.transform.SetParent(transform, false);
+                // Setting parent to Cabbage Pool
+                cabbageInstance.transform.SetParent(ObjectPooler.parentDictionary["Cabbage"].transform);
+                //cabbageInstance.transform.SetParent(transform, false);
                 cabbageInstance.gameObject.SetActive(false); // Accessing the GameObject directly to set deactive
             }
         }
@@ -85,7 +84,9 @@ public class GameManager : MonoBehaviour
 
             if (newInstance != null)
             {
-                newInstance.transform.SetParent(transform, false);
+                // Setting parent to Crystal Pool
+                newInstance.transform.SetParent(ObjectPooler.parentDictionary[poolDictionary].transform);
+                //newInstance.transform.SetParent(transform, false);
                 
                 // Check if the instance is of type T
                 if (newInstance is T)
@@ -110,8 +111,8 @@ public class GameManager : MonoBehaviour
 
             if (newInstance != null)
             {
-                newInstance.transform.SetParent(transform, false);
-                
+                //newInstance.transform.SetParent(transform, false);
+                newInstance.transform.SetParent(ObjectPooler.parentDictionary[poolDictionary].transform);
                 // Check if the instance is of type StoneCubeController
                 if (newInstance is StoneCubeController)
                 {
@@ -121,6 +122,8 @@ public class GameManager : MonoBehaviour
                     {
                         target = GameObject.FindGameObjectWithTag("StoneCube").transform;
                     }
+                    // Setting parent to StoneCube Pool
+                    cubeInstance.transform.SetParent(ObjectPooler.parentDictionary[poolDictionary].transform);
                     cubeInstance.SetTarget(target); // Set the target for the stone cube
                     cubeInstance.SetEmptyObjectToParent();
                     cubeInstance.DeactivateEmptyObject();
