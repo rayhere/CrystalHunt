@@ -8,19 +8,19 @@ using UnityEngine.AI; //NavMesh
 public class PlayerController : MonoBehaviour
 {
     private NavMeshAgent myNavMeshAgent;
-    private Animator myAnim;
+    public Animator myAnim;
     private LineRenderer myLineRenderer; 
 
     [SerializeField] private GameObject clickMarkerPrefab;
     
     // Created empty object call VisualObjects, set a transform equals to VisualObjects
-    [SerializeField] private Transform visualObjectsParent;
+    [SerializeField] private Transform visualObjectsParent; // Create empty GameObject, Drag it here. VisualClickMarker
 
     // Start is called before the first frame update
     void Start()
     {
         myNavMeshAgent = GetComponent<NavMeshAgent>();
-        myAnim = GetComponent<Animator>(); // allow to control animations of the GameObject
+        //myAnim = GetComponent<Animator>(); // allow to control animations of the GameObject
         myLineRenderer = GetComponent<LineRenderer>();
 
         // Set Default value of LineRenderer

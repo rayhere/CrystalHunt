@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // EnemyMovement.cs
-[RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
+[RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover), typeof(LineRenderer))]
 public class CabbageController : MonoBehaviour
 {
     public Transform[] targets;
@@ -29,7 +29,7 @@ public class CabbageController : MonoBehaviour
     // Reference to the EnemyStats
     private EnemyStats enemyStats;
 
-    
+    private LineRenderer myLineRenderer;
 
     private void Awake()
     {
@@ -42,6 +42,10 @@ public class CabbageController : MonoBehaviour
 
         SetupTargetUsingTag();
         //SetupTargetUsingTag("Player");
+
+
+        SetupLineRenderer();
+        
     }
 
     private void Start()
@@ -50,9 +54,15 @@ public class CabbageController : MonoBehaviour
         StartCoroutine(FollowTarget());
     }
 
-    void Update()
+    private void Update()
     {
         //ReturnToPool();
+        
+    }
+
+    private void FixedUpdate()
+    {
+        DrawPath();
     }
 
     private void SetupTargetUsingTag()
@@ -194,5 +204,46 @@ public class CabbageController : MonoBehaviour
     public void SetTarget(Transform target)
     {
         targets = new Transform[] { target };
+    }
+
+    void SetupLineRenderer()
+    {
+        myLineRenderer = GetComponent<LineRenderer>();
+        myLineRenderer.positionCount = 0;
+
+        // Set the width of the LineRenderer
+        myLineRenderer.startWidth = 0.1f;
+        myLineRenderer.endWidth = 0.1f;
+
+        // Check if the LineRenderer has a material assigned
+        if (myLineRenderer.material == null)
+        {
+            // Create a new material if none is assigned
+            myLineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        }
+
+        // Set the color of the material to green
+        myLineRenderer.material.color = Color.green;
+    }
+
+    void DrawPath()
+    {
+        if (!Agent.hasPath) return;
+ 
+        myLineRenderer.positionCount = Agent.path.corners.Length;
+        myLineRenderer.SetPosition(0, transform.position);
+
+        
+
+        if (Agent.path.corners.Length < 2)
+        {
+            return;
+        }
+
+        for (int i = 1; i < Agent.path.corners.Length; i++)
+        {
+            Vector3 pointPosition = new Vector3(Agent.path.corners[i].x, Agent.path.corners[i].y, Agent.path.corners[i].z);
+            myLineRenderer.SetPosition(i, pointPosition);
+        }
     }
 }
