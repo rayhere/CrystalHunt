@@ -109,7 +109,7 @@ public class CabbageController : MonoBehaviour
             if (selectedTarget == null) 
             {
                 Debug.Log("selectedTarget == null, do SelectTargetFromTargets()");
-                SelectTargetFromTargets();
+                selectedTarget = SelectTargetFromTargets();
             }
             
             Agent.SetDestination(selectedTarget.transform.position);
