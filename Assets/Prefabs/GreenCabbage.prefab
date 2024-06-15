@@ -206,9 +206,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targets: []
+  selectedTarget: {fileID: 0}
   UpdateRate: 0.1
-  AttackRadius: {fileID: 0}
-  Animator: {fileID: 0}
+  Animator: {fileID: 6553213455133756626}
   Health: 0
 --- !u!114 &3730110651200779995
 MonoBehaviour:
@@ -275,7 +275,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 16
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!195 &4149087433079539462
 NavMeshAgent:

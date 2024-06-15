@@ -5,40 +5,48 @@ using UnityEngine.AI;
 
 // EnemyMovement.cs
 [RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
-public class CabbageController : MonoBehaviour, IDamageable
+public class CabbageController : MonoBehaviour
 {
     public Transform[] targets;
+    public Transform selectedTarget;
     public float UpdateRate = 0.1f;
     private NavMeshAgent Agent;
     private AgentLinkMover LinkMover;
     float speed = 5f;
     float lifetime = 3f;
 
+
     [SerializeField]
-    private AttackRadius AttackRadius;
-    [SerializeField]
-    private Animator Animator;
-    private Coroutine LookCoroutine;
+    private Animator Animator = null;
+    private const string IsWalking = "IsWalking";
+    private const string Jump = "Jump";
+    private const string Landed = "Landed";
+
+    private Coroutine FollowCoroutine;
 
     [SerializeField]
     private int Health; // Read EnemyStats.cs
     // Reference to the EnemyStats
     private EnemyStats enemyStats;
 
-    private const string ATTACK_TRIGGER = "Attack";
+    
 
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
         LinkMover = GetComponent<AgentLinkMover>();
 
-        //LinkMover.OnLinkStart += HandleLinkStart;
-        //LinkMover.OnLinkEnd += HandleLinkEnd;
-        Health = enemyStats.currentHP;
+        LinkMover.OnLinkStart += HandleLinkStart;
+        LinkMover.OnLinkEnd += HandleLinkEnd;
+        //Health = enemyStats.currentHP;
+
+        SetupTargetUsingTag();
+        //SetupTargetUsingTag("Player");
     }
 
     private void Start()
     {
+        SetupTargetUsingTag();
         StartCoroutine(FollowTarget());
     }
 
@@ -47,60 +55,81 @@ public class CabbageController : MonoBehaviour, IDamageable
         //ReturnToPool();
     }
 
+    private void SetupTargetUsingTag()
+    {
+        // Find the target object using tag
+        GameObject[] foundObjects = GameObject.FindGameObjectsWithTag("Player");
+
+        targets = new Transform[foundObjects.Length];
+
+        for (int i = 0; i < foundObjects.Length; i++)
+        {
+            targets[i] = foundObjects[i].transform;
+        }
+    }
+
+    private void SetupTargetUsingTag(string tagName)
+    {
+        // Find the target object using tag
+        GameObject[] foundObjects = GameObject.FindGameObjectsWithTag(tagName);
+
+        targets = new Transform[foundObjects.Length];
+
+        for (int i = 0; i < foundObjects.Length; i++)
+        {
+            targets[i] = foundObjects[i].transform;
+        }
+    }
+
+    private Transform SelectTargetFromTargets()
+    {
+        // Pick the last target if targets is not null and contains elements
+        if (targets != null && targets.Length > 0)
+        {
+            Transform lastTarget = targets[targets.Length - 1];
+            // Use lastTarget as needed
+            Debug.Log("Last target: " + lastTarget.name);
+            return lastTarget;
+        }
+        else
+        {
+        Debug.LogWarning("No targets found or targets array is empty.");
+        return null; // Return null if no valid target is found
+    }
+    }
+
+
+
     private IEnumerator FollowTarget()
     {
         WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
         
-        while(enabled)
+        while (gameObject.activeSelf)
         {
-            // Check all target in targets, then check
-            // if (targets[i]!=null)
-            //     Agent.SetDestination(targets[i].transform.position);
+            if (selectedTarget == null) 
+            {
+                Debug.Log("selectedTarget == null, do SelectTargetFromTargets()");
+                SelectTargetFromTargets();
+            }
+            
+            Agent.SetDestination(selectedTarget.transform.position);
             yield return Wait;
         }
     }
 
-    private void OnAttack(IDamageable Target)
+    private void HandleLinkStart()
     {
-        Animator.SetTrigger(ATTACK_TRIGGER);
-
-        if (LookCoroutine != null)
-        {
-            StopCoroutine(LookCoroutine);
-        }
-
-        LookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
+        Animator.SetTrigger(Jump);
     }
 
-    private IEnumerator LookAt(Transform Target)
+    private void HandleLinkEnd()
     {
-        Quaternion lookRotation = Quaternion.LookRotation(Target.position - transform.position);
-        float time = 0;
-
-        while (time < 1)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, time);
-
-            time += Time.deltaTime * 2;
-            yield return null;
-        }
-
-        transform.rotation = lookRotation;
+        Animator.SetTrigger(Landed);
     }
 
-    public void TakeDamage(int Damage)
+    private void PlayWalkingAnim()
     {
-        Health -= Damage;
-
-        if (Health <= 0)
-        {
-            gameObject.SetActive(false);
-        }
-    }
-
-    public Transform GetTransform()
-    {
-        return transform;
+        Animator.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);
     }
 
     // Initialize the cabbage's movement and lifetime
