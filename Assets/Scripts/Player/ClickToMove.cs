@@ -151,7 +151,8 @@ public class ClickToMove : MonoBehaviour
         myNavMeshAgent.SetDestination(target);
 
         clickMarkerPrefab.SetActive(true);
-        clickMarkerPrefab.transform.position = new Vector3(target.x, target.y + 0.01f, target.z);
+        //clickMarkerPrefab.transform.position = new Vector3(target.x, target.y + 0.01f, target.z);
+        clickMarkerPrefab.transform.position = myNavMeshAgent.destination; // instead to use raycast.hit, use agent destination
         clickMarkerPrefab.transform.SetParent(visualClickMarker.transform);
 
         if (rb != null)
