@@ -20,6 +20,9 @@ public class ClickToMove : MonoBehaviour
     [SerializeField] [Tooltip("Layers to perform raycast against")]
     private LayerMask raycastLayerMask = ~0; // Default to all layers
 
+    [SerializeField] [Tooltip("Set Object Rotation Speed Here. Angular Speed set to 0 in NavMeshAgent")]
+    private float lookRotationSpeed = 8f;
+
     private Vector3 destination;
 
     private void Awake()
@@ -60,6 +63,13 @@ public class ClickToMove : MonoBehaviour
 
     void Update()
     {
+        HandleClickMovement();
+        FaceTarget();
+        
+    }
+
+    private void HandleClickMovement()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -74,9 +84,10 @@ public class ClickToMove : MonoBehaviour
                 myNavMeshAgent.isStopped = false; // Agent start moving
             }
         }
+
         // If Object keep moving, transform.position may not be reach
         // Set Stopping Distance to Pos.Y 
-        float distanceTolerance = 0.81f; // Adjust as needed
+
         if (Vector3.Distance(destination, transform.position) <= myNavMeshAgent.stoppingDistance)
         {
             StopMovement();
@@ -89,10 +100,54 @@ public class ClickToMove : MonoBehaviour
         }
     }
 
+    private void HandleClickMovementTry()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, raycastLayerMask))
+            {
+                int walkableAreaMask = NavMesh.GetAreaFromName("Walkable");
+                int obstacleAreaMask = NavMesh.GetAreaFromName("Obstacle");
+                int combinedAreaMask = walkableAreaMask | obstacleAreaMask;
+                // Define area masks for specific NavMesh areas
+                // int darknessAreaMask = NavMesh.GetAreaFromName("DarknessAreaName"); // Replace with actual name or ID
+                // Assuming you have obtained the area ID for Darkness (replace with your actual ID)
+                // Open NavMeshSurface, double click on the NavMesh Created to get Agent Type ID
+                int darknessAreaID = NavMesh.GetAreaFromName("287145453"); 
+                // Check if the hit point is on the NavMesh
+                NavMeshHit navHit;
+                if (NavMesh.SamplePosition(hit.point, out navHit, 1.0f, darknessAreaID))
+                {
+                    destination = navHit.position;
+                    SetDestination(destination);
+                    myLineRenderer.enabled = true; // Enable the LineRenderer
+                    myNavMeshAgent.isStopped = false; // Agent start moving
+                }
+            }
+        }
+
+        // If Object keep moving, transform.position may not be reach
+        // Set Stopping Distance to Pos.Y 
+
+        if (Vector3.Distance(destination, transform.position) <= myNavMeshAgent.stoppingDistance)
+        {
+            StopMovement();
+        }
+        else if (myNavMeshAgent.hasPath)
+        {
+            DrawPath();
+        }
+    }
+
+
     private void SetDestination(Vector3 target)
     {
         myAnim.SetBool("isStandingIdle", false);
         myAnim.SetBool("isRunning", true);
+        //myAnim.Play("PlayerRunning");
         myNavMeshAgent.SetDestination(target);
 
         clickMarkerPrefab.SetActive(true);
@@ -111,7 +166,7 @@ public class ClickToMove : MonoBehaviour
         Debug.Log("Agent isStopped");
         myAnim.SetBool("isRunning", false);
         myAnim.SetBool("isStandingIdle", true);
-        //myAnim.Play("idle");
+        //myAnim.Play("PlayerStandingIdle");
         
         myNavMeshAgent.isStopped = true; // Agent stop moving
 
@@ -145,4 +200,11 @@ public class ClickToMove : MonoBehaviour
             myLineRenderer.SetPosition(i, pointPosition);
         }
     }
+
+    void FaceTarget()
+	{
+        Vector3 direction = (myNavMeshAgent.destination - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * lookRotationSpeed);
+	}
 }
