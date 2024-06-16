@@ -25,6 +25,7 @@ public class ClickToMove : MonoBehaviour
     private void Awake()
     {
         CreateVisualObject();
+        
     }
 
     private void CreateVisualObject()
@@ -44,6 +45,11 @@ public class ClickToMove : MonoBehaviour
         myLineRenderer.startWidth = 0.15f;
         myLineRenderer.endWidth = 0.15f;
         myLineRenderer.positionCount = 0;
+        // Example adjustment to render queue
+      /*   if (myLineRenderer.material != null)
+        {
+            myLineRenderer.material.renderQueue = 200; // Adjust as needed
+        } */
 
         // Set stopping distance to 1.5 units
         //myNavMeshAgent.stoppingDistance = 1.5f;
@@ -64,7 +70,7 @@ public class ClickToMove : MonoBehaviour
             {
                 destination = hit.point;
                 SetDestination(destination);
-                
+                myLineRenderer.enabled = true; // Enable the LineRenderer
                 myNavMeshAgent.isStopped = false; // Agent start moving
             }
         }
@@ -78,8 +84,8 @@ public class ClickToMove : MonoBehaviour
         else if (myNavMeshAgent.hasPath)
         {
             DrawPath();
-            Debug.Log("Vector3.Distance(destination, transform.position) is "+ Vector3.Distance(destination, transform.position));
-            Debug.Log("Vector3.Distance(myNavMeshAgent.stoppingDistance) is " + myNavMeshAgent.stoppingDistance);
+            //Debug.Log("Vector3.Distance(destination, transform.position) is "+ Vector3.Distance(destination, transform.position));
+            //Debug.Log("Vector3.Distance(myNavMeshAgent.stoppingDistance) is " + myNavMeshAgent.stoppingDistance);
         }
     }
 
@@ -90,7 +96,7 @@ public class ClickToMove : MonoBehaviour
         myNavMeshAgent.SetDestination(target);
 
         clickMarkerPrefab.SetActive(true);
-        clickMarkerPrefab.transform.position = target;
+        clickMarkerPrefab.transform.position = new Vector3(target.x, target.y + 0.01f, target.z);
         clickMarkerPrefab.transform.SetParent(visualClickMarker.transform);
 
         if (rb != null)
@@ -135,7 +141,7 @@ public class ClickToMove : MonoBehaviour
 
         for (int i = 1; i < myNavMeshAgent.path.corners.Length; i++)
         {
-            Vector3 pointPosition = new Vector3(myNavMeshAgent.path.corners[i].x, myNavMeshAgent.path.corners[i].y, myNavMeshAgent.path.corners[i].z);
+            Vector3 pointPosition = new Vector3(myNavMeshAgent.path.corners[i].x, myNavMeshAgent.path.corners[i].y-.01f, myNavMeshAgent.path.corners[i].z);
             myLineRenderer.SetPosition(i, pointPosition);
         }
     }
