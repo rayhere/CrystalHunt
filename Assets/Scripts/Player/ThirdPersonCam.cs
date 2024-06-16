@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.AI;
+using System.Runtime.InteropServices;
 
 public class ThirdPersonCam : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class ThirdPersonCam : MonoBehaviour
     public Transform orientation;
     public Transform player;
     public Transform playerObj;
+    public NavMeshAgent agent;
+    public LineRenderer lineRenderer;
     public Rigidbody rb;
 
     [Header("Cinemachine Cameras")]
@@ -19,6 +23,10 @@ public class ThirdPersonCam : MonoBehaviour
     private CinemachineFreeLook combatFreeLook;
     private CinemachineFreeLook topDownFreeLook;
     private Dictionary<CinemachineFreeLook, CinemachineFreeLook.Orbit[]> originalOrbitSettings = new Dictionary<CinemachineFreeLook, CinemachineFreeLook.Orbit[]>();
+
+    [Header("Camera Movement")]
+    public float edgeScrollSpeed = 10f;
+    public float edgeScrollBoundary = 25f;
 
     public float rotationSpeed;
 
@@ -44,7 +52,7 @@ public class ThirdPersonCam : MonoBehaviour
     private Dictionary<CameraStyle, CinemachineFreeLook> styleToCameraMap = new Dictionary<CameraStyle, CinemachineFreeLook>();
 
     [Header("Cursor")]
-    public bool cursorLock = true;
+    public bool cursorLock = false;
 
     // Cinemachine FreeLook settings
     public CinemachineFreeLook freeLookCam;
@@ -154,6 +162,16 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Update()
     {
+        
+
+        
+
+        
+
+        //HandleEdgeScrolling();
+    }
+    private void HandleSwitchCameraStyles()
+    {
         // Switch camera styles based on input
         if (Input.GetKeyDown(KeyCode.Alpha1)) 
         {
@@ -170,24 +188,84 @@ public class ThirdPersonCam : MonoBehaviour
             SwitchCameraStyle(CameraStyle.Topdown);
             ApplyOriginalOrbitSettings(freeLookCam);
         }
-
+    }
+    private void HandleOrbitScaling()
+    {   
         // Handle orbit scaling based on input scroll
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
             // Calculate new scale factor
             float scaleFactor = Mathf.Clamp(freeLookCam.m_Orbits[0].m_Height / baseTopRigHeight, minScaleFactor, maxScaleFactor);
+            //float scaleFactor = Mathf.Clamp(6 / 6, 1, 5);
             Debug.Log("freeLookCam.m_Orbits[0].m_Height is " + freeLookCam.m_Orbits[0].m_Height + " baseTopRigHeight is " + baseTopRigHeight);
             Debug.Log("scaleFactor is " + scaleFactor);
 
             // Update scale factor based on scroll input
             scaleFactor += scroll * scaleSpeed;
+            Debug.Log("scroll is " + scroll + " scaleSpeed is " + scaleSpeed);
+            Debug.Log("scaleFactor now is " + scaleFactor);
+            Debug.Log("minScaleFactor is " + minScaleFactor + " maxScaleFactor is " + maxScaleFactor);
+
             scaleFactor = Mathf.Clamp(scaleFactor, minScaleFactor, maxScaleFactor);
-            
+            Debug.Log("Clamped scaleFactor is " + scaleFactor);
             // Update the heights of TopRig and MiddleRig orbits
             UpdateOrbitScale(scaleFactor);
         }
+    }
 
+    private void FixedUpdate()
+    {   
+        HandleSwitchCameraStyles();
+        HandleOrbitScaling();
+        RotateOrientation();
+    }
+
+    private void RotateOrientation()
+    {
+        if (agent!=null) 
+        {
+            if (agent.enabled)
+            {
+                // Rotate orientation
+                Vector3 viewDire = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
+                orientation.forward = viewDire.normalized;
+
+                if (lineRenderer != null && lineRenderer.positionCount > 0)
+                {
+                    // Get the position of the last point in the line renderer (assumes straight line)
+                    //Vector3 lineEndpoint = lineRenderer.GetPosition(lineRenderer.positionCount - 1);
+                    Vector3 lineEndpoint = lineRenderer.GetPosition(1);
+                    Debug.Log("lineEndpoint is " +lineEndpoint);
+
+                    // Calculate direction vector from player to line endpoint
+                    Vector3 dirToLineEndpoint = lineEndpoint - player.position;
+
+                    Debug.Log("dirToLineEndpoint is " +dirToLineEndpoint);
+
+                    // Project dirToLineEndpoint onto the XZ plane (ignore Y axis)
+                    Vector3 forwardDirection = new Vector3(dirToLineEndpoint.x, 0f, dirToLineEndpoint.z).normalized;
+                    //Vector3 rightDirection = new Vector3(dirToLineEndpoint.z, 0f, -dirToLineEndpoint.x).normalized;
+
+                    // Create a rotation towards the line endpoint using forward and right directions
+                    Quaternion targetRotation = Quaternion.LookRotation(forwardDirection, Vector3.up);
+                    Debug.Log("targetRotation is " +targetRotation);
+
+                    // Smoothly rotate playerObj towards the target rotation
+                    playerObj.rotation = Quaternion.Slerp(playerObj.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+                    /* // Adjust playerObj forward direction to point towards the line endpoint
+                    if (dirToLineEndpoint != Vector3.zero)
+                        playerObj.forward = Vector3.Slerp(playerObj.forward, dirToLineEndpoint.normalized, Time.deltaTime * rotation Speed);*/
+                }
+
+                return;
+            }
+            else
+            {
+                // agent is disable
+            }
+        }
         // Rotate orientation
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         orientation.forward = viewDir.normalized;
@@ -208,6 +286,50 @@ public class ThirdPersonCam : MonoBehaviour
             orientation.forward = dirToCombatLookAt.normalized;
 
             playerObj.forward = dirToCombatLookAt.normalized;
+        }
+    }
+
+    private void HandleEdgeScrolling()
+    {
+        // Get mouse position in screen coordinates
+        Vector3 mousePosition = Input.mousePosition;
+
+        // Convert mouse position to world coordinates
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Mathf.Abs(Camera.main.transform.position.z)));
+
+        // Calculate edge scroll based on screen edges
+        float edgeScrollSpeedThisFrame = edgeScrollSpeed * Time.deltaTime;
+        Vector3 moveDirection = Vector3.zero;
+
+        if (mousePosition.x < edgeScrollBoundary)
+        {
+            moveDirection += Vector3.left;
+        }
+        else if (mousePosition.x > Screen.width - edgeScrollBoundary)
+        {
+            moveDirection += Vector3.right;
+        }
+
+        if (mousePosition.y < edgeScrollBoundary)
+        {
+            moveDirection += Vector3.back;
+        }
+        else if (mousePosition.y > Screen.height - edgeScrollBoundary)
+        {
+            moveDirection += Vector3.forward;
+        }
+
+        // Normalize move direction to prevent faster diagonal movement
+        if (moveDirection != Vector3.zero)
+        {
+            moveDirection.Normalize();
+            moveDirection *= edgeScrollSpeedThisFrame;
+
+            // Apply movement relative to camera orientation
+            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+
+            // Adjust camera position
+            transform.position += moveDirection;
         }
     }
 
