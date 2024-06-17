@@ -57,9 +57,10 @@ public class CrystalController : MonoBehaviour
         
     }
 
-    private void ReturnToPool()
+    public void ReturnToPool()
     {
         // Return this crystal to the object pool
+        ObjectPooler.EnqueueObject(this, "Crystal");
     }
 
     private void ConfirmationReturnToPool()
@@ -78,7 +79,7 @@ public class CrystalController : MonoBehaviour
 
         //Check for a match with the specific tag on any GameObject that collides with your GameObject
         // if (collision.gameObject.tag == "Player")
-        if (collision.gameObject.CompareTag("Player")) // Check if collided with the player
+        /* if (collision.gameObject.CompareTag("Player")) // Check if collided with the player
         {
             PlayerCollisionDetected();
         }
@@ -86,7 +87,42 @@ public class CrystalController : MonoBehaviour
         {
             //collision from other GameObject
             Debug.Log("Crystal collision detected");
-        }
+        } */
+    }
+
+    // Method to run when the player triggers the collision
+    public void PlayerCollisionDetected(Collision collision)
+    {
+        // Run your desired method here
+        Debug.Log("Player collision detected!");
+
+        //If the GameObject has the same tag as specified, output this message in the console
+        if (canDestory) return;
+
+        // Set the isShrinkToOriginal parameter to true
+        animator.SetBool("isShrinkToOriginal", true);
+
+        //animator.SetInteger("popped", POPPED);
+        //Debug.Log("Popped: " + POPPED);
+
+        Debug.Log("timer: " + timer);
+        Debug.Log("deltaTime: " + Time.deltaTime);
+        Debug.Log("Time.time: " + Time.time);
+    
+        timer += Time.time;
+
+        Debug.Log("new timer: " + timer);
+
+        //2. play sound effect
+        //AudioSource.PlayClipAtPoint(_audio.clip, transform.position);
+
+        //audio.Play() -- this will work but won't work if coin gets destroyed before audio is played.
+
+        canDestory = true;
+
+        // 3. Increase the number of crystals collected for player in PlayerPrefs
+        int amount = GetCrystalCount();
+        IncreaseCrystalCount(amount);
     }
 
     // Method to run when the player triggers the collision
@@ -113,7 +149,7 @@ public class CrystalController : MonoBehaviour
         Debug.Log("new timer: " + timer);
 
         //2. play sound effect
-        AudioSource.PlayClipAtPoint(_audio.clip, transform.position);
+        //AudioSource.PlayClipAtPoint(_audio.clip, transform.position);
 
         //audio.Play() -- this will work but won't work if coin gets destroyed before audio is played.
 

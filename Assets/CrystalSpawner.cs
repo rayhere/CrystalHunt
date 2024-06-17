@@ -20,7 +20,7 @@ public class CrystalSpawner : MonoBehaviour
  
     private void Start()
     {
-        //SpawnResources();
+        SpawnResources(numberOfSpawns);
     }
  
     private void Update()
@@ -62,37 +62,41 @@ public class CrystalSpawner : MonoBehaviour
     void SpawnResources(int numberOfSpawns)
     {
         int i = 0;
-        for(float x = negativePosition.x; x < positivePosition.x; x += distanceBetweenCheck)
+        while (i < numberOfSpawns)
         {
-            for(float z = negativePosition.y; z < positivePosition.y; z += distanceBetweenCheck)
+            for(float x = negativePosition.x; x < positivePosition.x; x += distanceBetweenCheck)
             {
-                if (i >= numberOfSpawns) 
+                for(float z = negativePosition.y; z < positivePosition.y; z += distanceBetweenCheck)
                 {
-                    Debug.Log("SpawnResources Loop Stopped");
-                    return; // Exit the Loop gracefully
-                }
-                RaycastHit hit;
-                if(Physics.Raycast(new Vector3(x, heightOfCheck, z), Vector3.down, out hit, rangeOfCheck, layerMask))
-                {
-                    if(spawnChance > Random.Range(0f, 101f))
+                    if (i >= numberOfSpawns) 
                     {
-                        Debug.Log("Crystal allow to spawn in x " + x + " z " + z);
-                        //Instantiate(resourcePrefab, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
-                        CrystalController crystalInstance = ObjectPooler.DequeueObject<CrystalController>("Crystal");
-                        //Instantiate(crystalInstance, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform); // Spawn Crystal in position hit.point, rotation Random 0-360, transform parent to this object
-                        //Instantiate(crystalInstance, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
-                        i++;
-                        if(crystalInstance != null)
+                        Debug.Log("SpawnResources Loop Stopped");
+                        return; // Exit the Loop gracefully
+                    }
+                    RaycastHit hit;
+                    if(Physics.Raycast(new Vector3(x, heightOfCheck, z), Vector3.down, out hit, rangeOfCheck, layerMask))
+                    {
+                        if(spawnChance > Random.Range(0f, 101f))
                         {
-                            //cabbageInstance.transform.SetParent(transform, false); // will set the parent of the pooled instance
-                            //crystalInstance.Initialise(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                            crystalInstance.Initialise(hit.point);
-                            crystalInstance.gameObject.SetActive(true); // Accessing the GameObject directly to set active
+                            Debug.Log("Crystal allow to spawn in x " + x + " z " + z);
+                            //Instantiate(resourcePrefab, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
+                            CrystalController crystalInstance = ObjectPooler.DequeueObject<CrystalController>("Crystal");
+                            //Instantiate(crystalInstance, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform); // Spawn Crystal in position hit.point, rotation Random 0-360, transform parent to this object
+                            //Instantiate(crystalInstance, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
+                            i++;
+                            if(crystalInstance != null)
+                            {
+                                //cabbageInstance.transform.SetParent(transform, false); // will set the parent of the pooled instance
+                                //crystalInstance.Initialise(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                                crystalInstance.Initialise(hit.point);
+                                crystalInstance.gameObject.SetActive(true); // Accessing the GameObject directly to set active
+                            }
                         }
                     }
                 }
             }
         }
+        Debug.Log("CrystalSpawner SpawnResources i is " + i + " out of numberofSpawns is " + numberOfSpawns + " but Spawn ended");
     }
  
     void DeleteResources()
