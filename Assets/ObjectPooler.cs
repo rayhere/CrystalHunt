@@ -42,29 +42,62 @@ public static class ObjectPooler
     // Method to retrieve an object from the pool
     public static T DequeueObject<T>(string key) where T : Component
     {
-        if (poolDictionary.ContainsKey(key) && poolDictionary[key].Count > 0)
+        if (poolDictionary.ContainsKey(key))
         {
-            var item = poolDictionary[key].Dequeue();
-            item.gameObject.SetActive(true);
-
-            // Set parent of the object if parent GameObject exists
-            if (parentDictionary.ContainsKey(key) && parentDictionary[key] != null)
+            if (poolDictionary[key].Count > 0)
             {
-                item.transform.SetParent(parentDictionary[key].transform);
+                var item = poolDictionary[key].Dequeue();
+                item.gameObject.SetActive(true);
+
+                // Set parent of the object if parent GameObject exists
+                if (parentDictionary[key] != null)
+                {
+                    item.transform.SetParent(parentDictionary[key].transform);
+                }
+                else
+                {
+                    Debug.LogWarning($"Parent GameObject for key '{key}' is null or destroyed.");
+                    item.transform.SetParent(null); // Set parent to null if the parent GameObject is null or destroyed
+                }
+
+                return (T)item;
+            }
+            else if (poolDictionary[key].Count == 0)
+            {
+                // If the pool is empty, instantiate a new object and add it to the pool
+                T newInstance = Object.Instantiate(poolLookup[key]) as T;
+                // newInstance.gameObject.SetActive(true);
+                poolDictionary[key].Enqueue(newInstance);
+
+                var item = poolDictionary[key].Dequeue();
+                item.gameObject.SetActive(true);
+
+                // Set parent of the object if parent GameObject exists
+                if (parentDictionary[key] != null)
+                {
+                    item.transform.SetParent(parentDictionary[key].transform);
+                }
+                else
+                {
+                    Debug.LogWarning($"Parent GameObject for key '{key}' is null or destroyed.");
+                    item.transform.SetParent(null); // Set parent to null if the parent GameObject is null or destroyed
+                }
+                return (T)item;
             }
             else
             {
-                Debug.LogWarning($"Parent GameObject for key '{key}' is null or destroyed.");
-                item.transform.SetParent(null); // Set parent to null if the parent GameObject is null or destroyed
+                Debug.LogWarning($"Pool for key '{key}' is empty or does not exist.");
+                return null;
             }
-
-            return (T)item;
         }
         else
         {
+            // Pool doesn't not exist
+            // Need to Create a pool and instantiate a new object and add it to the pool
             Debug.LogWarning($"Pool for key '{key}' is empty or does not exist.");
             return null;
         }
+        
     }
 
     // Method to instantiate a new object and add it to the pool
