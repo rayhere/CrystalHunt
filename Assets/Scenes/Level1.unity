@@ -4910,7 +4910,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4731647953039349946}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09252102, y: -0.000000017659856, z: 0.0000000016409463, w: 0.99571073}
+  m_LocalRotation: {x: 0.09252102, y: 0.000000017659858, z: -0.0000000016409465, w: 0.99571073}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6159,7 +6159,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485446345697900203}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.04763198, y: 0.0000000021483566, z: -1.02446746e-10, w: 0.99886495}
+  m_LocalRotation: {x: 0.04763198, y: -0.0000000021483566, z: 1.02446746e-10, w: 0.99886495}
   m_LocalPosition: {x: -47, y: 14, z: -57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7318,13 +7318,25 @@ MonoBehaviour:
   orientation: {fileID: 1048110988}
   player: {fileID: 1986005904}
   playerObj: {fileID: 543450652696044393}
+  agent: {fileID: 0}
+  lineRenderer: {fileID: 0}
   rb: {fileID: 1986005903}
-  rotationSpeed: 7
-  combatLookAt: {fileID: 1187431176}
   thirdPersonCam: {fileID: 6359421589581310480}
   combatCam: {fileID: 1297364671991998347}
   topDownCam: {fileID: 3817785071481934874}
+  edgeScrollSpeed: 10
+  edgeScrollBoundary: 25
+  rotationSpeed: 7
+  combatLookAt: {fileID: 1187431176}
+  baseTopRigHeight: 0
+  baseMiddleRigHeight: 0
+  baseBottomRigHeight: 0
+  maxScaleFactor: 5
+  minScaleFactor: 1
+  scaleSpeed: 0.5
   currentStyle: 0
+  cursorLock: 0
+  freeLookCam: {fileID: 0}
 --- !u!1 &4224283835553345224
 GameObject:
   m_ObjectHideFlags: 0
@@ -7859,7 +7871,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5021452275146828287}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.047631975, y: 0.0000000021483564, z: -1.02446746e-10, w: 0.99886495}
+  m_LocalRotation: {x: 0.047631975, y: -0.0000000021483564, z: 1.02446746e-10, w: 0.99886495}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9377,18 +9389,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5009931702285740392, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2413368294748668595, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7449253440093963706}
   m_SourcePrefab: {fileID: 100100000, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
 --- !u!1 &7449253440093963700 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2413368294748668595, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
   m_PrefabInstance: {fileID: 7449253440093963699}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &7449253440093963706
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7449253440093963700}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!4 &7462968029225595425
 Transform:
   m_ObjectHideFlags: 0
