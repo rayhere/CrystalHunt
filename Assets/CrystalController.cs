@@ -47,6 +47,16 @@ public class CrystalController : MonoBehaviour
 
     }
 
+    // Initialize the Crystal's Spawn Position
+    public void Initialise(Vector3 targetPosition)
+    {
+        transform.position = targetPosition;
+    }
+    public void Initialise()
+    {
+        
+    }
+
     private void ReturnToPool()
     {
         // Return this crystal to the object pool
