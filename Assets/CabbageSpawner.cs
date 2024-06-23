@@ -32,6 +32,8 @@ public class CabbageSpawner : MonoBehaviour
     public LayerMask navMeshLayerMask;
 
     private NavMeshTriangulation Triangulation;
+
+    public NavMeshAgent Agent { get; private set; }
     
     private void Awake()
     {
@@ -215,7 +217,8 @@ public class CabbageSpawner : MonoBehaviour
 
                 if (cabbageInstance != null)
                 {
-                    cabbageInstance.Initialise(Hit.position);
+                    //cabbageInstance.Initialise(Hit.position);
+                    cabbageInstance.Agent.Warp(Hit.position);
                     cabbageInstance.gameObject.SetActive(true);
                     
                 }

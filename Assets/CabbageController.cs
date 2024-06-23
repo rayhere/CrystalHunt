@@ -10,7 +10,7 @@ public class CabbageController : MonoBehaviour
     public Transform[] targets;
     public Transform selectedTarget;
     public float UpdateRate = 0.1f;
-    private NavMeshAgent Agent;
+    public NavMeshAgent Agent;
     private AgentLinkMover LinkMover;
     float speed = 5f;
     float lifetime = 3f;
