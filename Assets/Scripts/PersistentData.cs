@@ -112,4 +112,9 @@ public class PersistentData : MonoBehaviour
     {
         crystalCount = i; // crystalCollected
     }
+
+    public void IncreaseCrystalCount(int i)
+    {
+        SetCrystalCount(GetCrystalCount()+i);
+    }
 }

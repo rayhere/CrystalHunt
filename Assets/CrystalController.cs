@@ -50,7 +50,8 @@ public class CrystalController : MonoBehaviour
     // Initialize the Crystal's Spawn Position
     public void Initialise(Vector3 targetPosition)
     {
-        transform.position = targetPosition;
+        // transform.position = targetPosition;
+        transform.position = new Vector3 (targetPosition.x, targetPosition.y + 0.5f, targetPosition.z);
     }
     public void Initialise()
     {
@@ -59,18 +60,32 @@ public class CrystalController : MonoBehaviour
 
     public void ReturnToPool()
     {
-        // Return this crystal to the object pool
-        ObjectPooler.EnqueueObject(this, "Crystal");
+        /* // Return this crystal to the object pool
+        ObjectPooler.EnqueueObject(this, "Crystal"); */
+
+        StartCoroutine(ConfirmationReturnToPool());
     }
 
-    private void ConfirmationReturnToPool()
+    private IEnumerator ConfirmationReturnToPool()
     {
-        ttime = Time.time;
+        Debug.Log("Crystal ConfirmationReturnToPool");
+        /* ttime = Time.time;
         if (canDestory && timer < Time.time)
         {
             // Back to Object Pool
             ReturnToPool();   
+        } */
+
+        float startTime = Time.time;
+        while (Time.time <= startTime + 0.5f)
+        {
+            //yield return null; // Wait until 1 second has passed
+            yield return new WaitForSeconds(0.5f);
         }
+
+        // Return this crystal to the object pool
+        ObjectPooler.EnqueueObject(this, "Crystal");
+        Debug.Log("Crystal return to pool");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -91,14 +106,21 @@ public class CrystalController : MonoBehaviour
     }
 
     // Method to run when the player triggers the collision
+    // Handle collision with player or Darkness
     public void PlayerCollisionDetected(Collision collision)
     {
+        // Ensure collision with player or Darkness
+        if (!(collision.gameObject.CompareTag("Player")||collision.gameObject.CompareTag("Darkness")))
+            return;
+        
         // Run your desired method here
         Debug.Log("Player collision detected!");
 
         //If the GameObject has the same tag as specified, output this message in the console
+        // If crystal can be destroyed, skip further actions
         if (canDestory) return;
 
+        // Trigger shrinking animation
         // Set the isShrinkToOriginal parameter to true
         animator.SetBool("isShrinkToOriginal", true);
 
@@ -118,11 +140,28 @@ public class CrystalController : MonoBehaviour
 
         //audio.Play() -- this will work but won't work if coin gets destroyed before audio is played.
 
-        canDestory = true;
+        
 
         // 3. Increase the number of crystals collected for player in PlayerPrefs
         int amount = GetCrystalCount();
         IncreaseCrystalCount(amount);
+
+        // 4. Increase crystal count in PersistentData if available
+        if (PersistentData.Instance != null)
+        {
+            PersistentData.Instance.IncreaseCrystalCount(1);
+            Debug.Log("Crystal collected! Total: " + PersistentData.Instance.GetCrystalCount());
+        }
+        else
+        {
+            Debug.LogWarning("PersistentData instance not found. Crystal count not updated.");
+        }
+
+        // Optional: Destroy the crystal object after some delay
+        // Destroy(gameObject, 1f); // not going to destory, return to pool
+        canDestory = true;
+
+        ReturnToPool();
     }
 
     // Method to run when the player triggers the collision
@@ -158,6 +197,18 @@ public class CrystalController : MonoBehaviour
         // 3. Increase the number of crystals collected for player in PlayerPrefs
         int amount = GetCrystalCount();
         IncreaseCrystalCount(amount);
+
+
+        // 4. Increase crystal count in PersistentData if available
+        if (PersistentData.Instance != null)
+        {
+            PersistentData.Instance.IncreaseCrystalCount(1);
+            Debug.Log("Crystal collected! Total: " + PersistentData.Instance.GetCrystalCount());
+        }
+        else
+        {
+            Debug.LogWarning("PersistentData instance not found. Crystal count not updated.");
+        }
     }
 
     // Method to increase the number of crystals collected
@@ -167,6 +218,9 @@ public class CrystalController : MonoBehaviour
         int newCount = currentCount + amount;
         PlayerPrefs.SetInt(CrystalCountKey, newCount);
         PlayerPrefs.Save(); // Save changes
+
+
+        
     }
 
     // Method to get the current number of crystals collected
