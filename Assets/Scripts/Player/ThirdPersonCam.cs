@@ -163,7 +163,7 @@ public class ThirdPersonCam : MonoBehaviour
     private void Update()
     {
         
-
+        HandleSwitchCameraStyles();
         
 
         
@@ -216,7 +216,7 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void FixedUpdate()
     {   
-        HandleSwitchCameraStyles();
+        //HandleSwitchCameraStyles();
         HandleOrbitScaling();
         RotateOrientation();
     }

@@ -206,6 +206,10 @@ public class ClickToMove : MonoBehaviour
 	{
         Vector3 direction = (myNavMeshAgent.destination - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * lookRotationSpeed);
+        // Check if the difference in rotation exceeds a threshold
+        if (Quaternion.Angle(transform.rotation, lookRotation) > 1f)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * lookRotationSpeed);
+        }
 	}
 }

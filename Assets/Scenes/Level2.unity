@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c0b6472670d4417ab8173561183817f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myAnim: {fileID: 0}
   clickMarkerPrefab: {fileID: 1794962039}
   visualObjectsParent: {fileID: 0}
 --- !u!195 &10773481
@@ -1449,6 +1450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c0b6472670d4417ab8173561183817f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myAnim: {fileID: 0}
   clickMarkerPrefab: {fileID: 0}
   visualObjectsParent: {fileID: 0}
 --- !u!65 &387095542
@@ -3211,7 +3213,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426941528}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.04763198, y: 0.0000000021483566, z: -1.02446746e-10, w: 0.99886495}
+  m_LocalRotation: {x: 0.04763198, y: -0.0000000021483566, z: 1.02446746e-10, w: 0.99886495}
   m_LocalPosition: {x: -34, y: 4, z: -41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3298,13 +3300,25 @@ MonoBehaviour:
   orientation: {fileID: 1048110988}
   player: {fileID: 1986005904}
   playerObj: {fileID: 543450652696044393}
+  agent: {fileID: 0}
+  lineRenderer: {fileID: 0}
   rb: {fileID: 1986005903}
-  rotationSpeed: 7
-  combatLookAt: {fileID: 1187431176}
   thirdPersonCam: {fileID: 6507268355185815663}
   combatCam: {fileID: 3782168958474558532}
   topDownCam: {fileID: 6319714846025293468}
+  edgeScrollSpeed: 10
+  edgeScrollBoundary: 25
+  rotationSpeed: 7
+  combatLookAt: {fileID: 1187431176}
+  baseTopRigHeight: 0
+  baseMiddleRigHeight: 0
+  baseBottomRigHeight: 0
+  maxScaleFactor: 5
+  minScaleFactor: 1
+  scaleSpeed: 0.5
   currentStyle: 0
+  cursorLock: 0
+  freeLookCam: {fileID: 0}
 --- !u!1 &1499321159
 GameObject:
   m_ObjectHideFlags: 0
@@ -4107,7 +4121,7 @@ MonoBehaviour:
   rotationSpeed: 0.4
   animationBlendDamp: 0.3
   inputSmoothDamp: 0.3
-  walkSpeed: 7
+  walkSpeed: 3
   sprintSpeed: 10
   wallrunSpeed: 8.5
   climbSpeed: 3
@@ -4141,6 +4155,7 @@ MonoBehaviour:
   climbingScript: {fileID: 1986005906}
   orientation: {fileID: 1048110988}
   myAnim: {fileID: 5866666021034342675}
+  playerStats: {fileID: 0}
   state: 0
   freeze: 0
   unlimited: 0
@@ -6126,7 +6141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &2101602236751303387
 GameObject:
   m_ObjectHideFlags: 0
@@ -9532,6 +9547,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: StoneCube
       objectReference: {fileID: 0}
+    - target: {fileID: 2413368294748668595, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5009931702285740392, guid: b4aed8a8f52414f4fa8d25a2c35f1cb3, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -9571,7 +9590,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5009002210567566676}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.047631975, y: 0.0000000021483564, z: -1.02446746e-10, w: 0.99886495}
+  m_LocalRotation: {x: 0.047631975, y: -0.0000000021483564, z: 1.02446746e-10, w: 0.99886495}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

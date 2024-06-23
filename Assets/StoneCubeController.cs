@@ -26,7 +26,7 @@ public class StoneCubeController : MonoBehaviour
     public int step = 9;
     public float speed = 0.01f;
 
-    private bool input = false;
+    public bool input = false;
 
     public CoordinatePlane coordinatePlane;
     public string objName; // Name of the object
@@ -72,19 +72,29 @@ public class StoneCubeController : MonoBehaviour
         Vector3Int lastDirection = Vector3Int.zero;
 
         for (int moveAttempt = 0; moveAttempt < maxConsecutiveMoves; moveAttempt++)
-        {
-            Vector3 targetPosition = targets != null && targets.Length > 0 && !moveRandomWithoutTarget
-                ? targets[UnityEngine.Random.Range(0, targets.Length)].position
+        {// if have target, and list of Target > than 0
+        // our target will be target[random] position
+        // our target will be random 4 directions
+            Vector3 targetPosition = targets != null && targets.Length > 0 
+                ? targets[UnityEngine.Random.Range(0, targets.Length - 1)].position
                 : transform.position + new Vector3(UnityEngine.Random.Range(-1, 1), 0, UnityEngine.Random.Range(-1, 1)) * desiredRangeDistance;
 
-            Vector3 direction = (targetPosition - cube.transform.position).normalized;
+            Debug.Log("targets[0].position " + targets[0].position + " New targetPosition " + targetPosition + " targets.Length " + targets.Length);
 
+            Vector3 direction = (targetPosition - cube.transform.position).normalized;
+            Debug.Log(" direction is " + direction + " targetPosition is " + targetPosition + " cube.transform.position is " + cube.transform.position);
+
+            // if target within Range Distance
             if (Vector3.Distance(cube.transform.position, targetPosition) < desiredRangeDistance)
             {
+                Debug.Log("MoveToRandomNearbyGrid method because targetPosition - cube.transform.position is "+ (targetPosition - cube.transform.position) );
                 yield return StartCoroutine(MoveToRandomNearbyGrid());
-                yield break;
+                yield break; // Stops the coroutine entirely
             }
+            
+            // Following will be do if target out of Range Distance
 
+            // choose move direction
             Vector3Int moveDirection = DetermineMoveDirection(direction);
 
             if (lastDirection == moveDirection)
@@ -100,20 +110,36 @@ public class StoneCubeController : MonoBehaviour
             {
                 consecutiveMoves = 0;
             }
-
+            Debug.Log("Let move moveDirection "+ moveDirection);
+            // try to move to the chosen direction
+            // return true if it moved object to the direction
             if (AttemptMove(moveDirection))
             {
                 lastDirection = moveDirection;
-                break;
+                //break; // Exits the loop, but the coroutine continues
+                yield return new WaitForSeconds(0.5f);
+            }
+            else
+            {
+                // if taret out of range distance, and didn't move object to the direction in some reasons
+                // consecutiveMoves should end
+                yield return new WaitForSeconds(0.5f);
+                input = true;
+                Debug.Log("input true, target out of range distance, and didn't move object to the direction in some reasons, moveDirection is " + moveDirection);
+                yield break; // Stops the coroutine entirely
             }
         }
+        // Code here will still run after the loop
 
         yield return new WaitForSeconds(0.5f);
         input = true;
+        Debug.Log("input true, MoveCloseToTarget end");
     }
 
     private Vector3Int DetermineMoveDirection(Vector3 direction)
-    {
+    {// direction basiclly is horizontal, return Vector3 in int (pos or neg)
+    Debug.Log("Mathf.Abs(direction.x) is " + Mathf.Abs(direction.x) + " Mathf.Abs(direction.z) is " + Mathf.Abs(direction.z));
+    Debug.Log("direction.x is " + direction.x + " direction.z is " + direction.z);
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
         {
             return new Vector3Int(Mathf.RoundToInt(Mathf.Sign(direction.x)), 0, 0);
@@ -123,7 +149,14 @@ public class StoneCubeController : MonoBehaviour
 
     private Vector3Int AlternateDirection(Vector3Int direction)
     {
-        return (direction == new Vector3Int(1, 0, 0) || direction == new Vector3Int(-1, 0, 0)) ? new Vector3Int(0, 0, 1) : new Vector3Int(1, 0, 0);
+        //return (direction == new Vector3Int(1, 0, 0) || direction == new Vector3Int(-1, 0, 0)) ? new Vector3Int(0, 0, 1) : new Vector3Int(1, 0, 0);
+
+        // return opposit result of DetermineMoveDirection(), instead of simple swap
+        if (Mathf.Abs(direction.x) < Mathf.Abs(direction.z))
+        {
+            return new Vector3Int(Mathf.RoundToInt(Mathf.Sign(direction.x)), 0, 0);
+        }
+        return new Vector3Int(0, 0, Mathf.RoundToInt(Mathf.Sign(direction.z)));
     }
 
     private bool AttemptMove(Vector3Int moveDirection)
@@ -161,6 +194,7 @@ public class StoneCubeController : MonoBehaviour
     private IEnumerator MoveToRandomNearbyGrid()
     {
         input = false;
+        bool moved = false;
 
         int currentX = gridStat.x;
         int currentZ = gridStat.z;
@@ -175,11 +209,13 @@ public class StoneCubeController : MonoBehaviour
 
         Shuffle(directions);
 
+        // check 4 directions, see if they is allow to move
         foreach (Vector3Int direction in directions)
         {
             int newX = currentX + direction.x;
             int newZ = currentZ + direction.z;
 
+            // if new position is allow to move
             if (coordinatePlane.IsWithinBounds(newX, newZ) && coordinatePlane.IsEmpty(newX, newZ) && (coordinatePlane.GetCheckoutTime(newX, newZ) + 1f > Time.deltaTime))
             {
                 UpdateCoordinates(newX, newZ);
@@ -187,25 +223,40 @@ public class StoneCubeController : MonoBehaviour
                 if (direction == new Vector3Int(0, 0, 1))
                 {
                     yield return StartCoroutine(MoveForward());
+                    moved = true;
+                    break; // Exits the loop, but the coroutine continues
                 }
                 else if (direction == new Vector3Int(0, 0, -1))
                 {
                     yield return StartCoroutine(MoveBack());
+                    moved = true;
+                    break; // Exits the loop, but the coroutine continues
                 }
                 else if (direction == new Vector3Int(-1, 0, 0))
                 {
                     yield return StartCoroutine(MoveLeft());
+                    moved = true;
+                    break; // Exits the loop, but the coroutine continues
                 }
                 else if (direction == new Vector3Int(1, 0, 0))
                 {
                     yield return StartCoroutine(MoveRight());
+                    moved = true;
+                    break; // Exits the loop, but the coroutine continues
                 }
-                break;
+                else
+                {
+                    // when the direction in list cannot move
+
+
+                }
+                // break;
             }
         }
-
+        // when cannot move in all 4 directions, or already moved
         yield return new WaitForSeconds(3f);
         input = true;
+        Debug.Log("input true, when cannot move in all 4 directions, or already moved. moved is " + moved);
     }
 
     private void Shuffle(List<Vector3Int> list)
@@ -274,6 +325,7 @@ public class StoneCubeController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         input = true;
+        Debug.Log("input true, StartMovementTimer");
     }
 
     public void ActivateEmptyObject()
