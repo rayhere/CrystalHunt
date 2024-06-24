@@ -45,13 +45,13 @@ public class CrystalSpawner : MonoBehaviour
                     if(spawnChance > Random.Range(0f, 101f))
                     {
                         //Instantiate(resourcePrefab, hit.point, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)), transform);
-                        CabbageController cabbageInstance = ObjectPooler.DequeueObject<CabbageController>("Cabbage");
+                        CrystalController crystalInstance = ObjectPooler.DequeueObject<CrystalController>("Cabbage");
 
-                        if(cabbageInstance != null)
+                        if(crystalInstance != null)
                         {
                             //cabbageInstance.transform.SetParent(transform, false); // will set the parent of the pooled instance
-                            cabbageInstance.Initialise(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                            cabbageInstance.gameObject.SetActive(true); // Accessing the GameObject directly to set active
+                            crystalInstance.Initialise(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                            crystalInstance.gameObject.SetActive(true); // Accessing the GameObject directly to set active
                         }
                     }
                 }

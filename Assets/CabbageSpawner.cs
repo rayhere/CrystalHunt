@@ -150,10 +150,13 @@ public class CabbageSpawner : MonoBehaviour
         Vector3 spawnPosition = GetRandomNavMeshPosition();
 
         CabbageController cabbageInstance = ObjectPooler.DequeueObject<CabbageController>("Cabbage");
-
+        Debug.Log("Cabbage is spawning here spawnPosition " + spawnPosition);
         if (cabbageInstance != null)
-        {
-            cabbageInstance.Agent.Warp(spawnPosition);
+        {   
+            cabbageInstance.gameObject.SetActive(false);
+            cabbageInstance.mySpawnedPosition = spawnPosition;
+            //cabbageInstance.Agent.Warp(spawnPosition);
+            cabbageInstance.transform.position = spawnPosition; // Optionally, move the object to spawnPosition
             cabbageInstance.gameObject.SetActive(true);
         }
     }

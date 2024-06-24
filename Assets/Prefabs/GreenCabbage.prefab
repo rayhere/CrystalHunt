@@ -259,9 +259,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb06ddb41bc26c47a8a233e27c2c214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  patrolWaypoints: []
+  patrolSpeed: 2
+  chaseSpeed: 5
+  chaseDistance: 10
+  chaseAngle: 30
+  minWaypointDistance: 10
+  maxWaypointDistance: 20
+  mySpawnedPosition: {x: 0, y: 0, z: 0}
   targets: []
   selectedTarget: {fileID: 0}
   UpdateRate: 0.1
+  Agent: {fileID: 0}
   Animator: {fileID: 0}
   Health: 0
 --- !u!114 &2613572804396692327
