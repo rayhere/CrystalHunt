@@ -25,6 +25,16 @@ public class CabbageController : MonoBehaviour
     public Vector3 mySpawnedPosition; // Used for setup Nearby PatrolWaypoints
 
 
+    // Coroutine for Chasing Target
+    private Coroutine chasingCoroutine;
+    
+    // Inspector Variable for Chasing Distance
+    [Header("Chasing Distance Settings")]
+    [Tooltip("Distance at which the cabbage will start chasing the target.")]
+    public float chasingTargetDistance = 15f; // Distance at which the cabbage will start chasing the target
+
+
+
 
     public Transform[] targets;
     public Transform selectedTarget;
@@ -49,6 +59,9 @@ public class CabbageController : MonoBehaviour
     private EnemyStats enemyStats;
 
     private LineRenderer myLineRenderer;
+
+
+    
 
     private void Awake()
     {
@@ -184,7 +197,8 @@ public class CabbageController : MonoBehaviour
                     float distance = toTarget.magnitude;
                     if (distance <= chaseDistance)
                     {
-                        StartChasing(target);
+                        //StartChasing(target);
+                        StartCoroutine(ChasingTarget(target));
                         break;
                     }
                 }
@@ -192,6 +206,49 @@ public class CabbageController : MonoBehaviour
         }
     }
 
+    // Coroutine to continuously check distance to target and start/stop chasing
+    private IEnumerator ChasingTarget(Transform selectedTarget)
+    {
+        while (gameObject.activeSelf)
+        {
+            if (!isChasing && selectedTarget != null)
+            {
+                float distanceToTarget = Vector3.Distance(transform.position, selectedTarget.position);
+
+                if (distanceToTarget <= chasingTargetDistance)
+                {
+                    StartChasing(selectedTarget);
+                }
+            }
+            else if (isChasing && selectedTarget != null)
+            {
+                float distanceToTarget = Vector3.Distance(transform.position, selectedTarget.position);
+
+                if (distanceToTarget > chasingTargetDistance)
+                {
+                    StopChasing();
+                    yield break;
+                }
+                else
+                {
+                    StartChasing(selectedTarget);
+                }
+            }
+            else if (isChasing && selectedTarget == null)
+            {
+                StopChasing();
+                yield break;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+            // Code here will execute after 0.5 seconds of delay
+            yield return null;
+            // Code here will execute in the next frame
+            
+        }
+    }
+
+    // Method to start chasing the specified target
     private void StartChasing(Transform target)
     {
         isChasing = true;
@@ -199,6 +256,7 @@ public class CabbageController : MonoBehaviour
         Agent.SetDestination(target.position);
     }
 
+    // Method to stop chasing and resume patrol
     private void StopChasing()
     {
         isChasing = false;
