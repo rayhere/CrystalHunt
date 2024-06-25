@@ -46,8 +46,9 @@ public class WASDController : MonoBehaviour
     public float jumpCooldown = 0.25f;
     public float airMultiplier = 0.4f;
     bool readyToJump;
-    public float jumpUpwardThreshold = 0.1f; // Adjust as needed
-    public float raycastLandingDistance = 1.0f; // Adjust as needed
+    // public float jumpUpwardThreshold = 0.1f; // Adjust as needed
+    [SerializeField, Tooltip("raycastLandingDistance for play landing animation")]
+    public float raycastLandingDistance = 2.0f; // Adjust as needed
 
     [Header("Crouching")]
     public float crouchSpeed = 3.5f;
@@ -60,29 +61,19 @@ public class WASDController : MonoBehaviour
     public KeyCode crouchKey = KeyCode.LeftControl;
 
     [Header("Ground Check")]
-    public float playerHeight = 2f;
+    [SerializeField, Tooltip("SphereCast Ground Check")]
     public LayerMask whatIsGround;
     public bool grounded;
-
-    [Header("Slope Handling")]
-    public float maxSlopeAngle = 40f;
-    private RaycastHit slopeHit;
-    private bool exitingSlope;
-
-    [Header("Ground Check2")]
-    // Parameters for ground check
-    public float groundCheckDistance = 0.5f; // The distance to check for ground
-    public int numRaycasts = 5; // Number of raycasts to cast
-    public float slopeThreshold = 30f; // The maximum slope angle that is considered as walkable
-    // Ground check variables
-    //bool grounded;
-    bool onSteepGround;
-
-    [Header("Ground Check3")]
     [SerializeField] private float _groundCheckOffset = 0.35f;
     [SerializeField] private float _groundCheckDistance = 0.35f;
     [SerializeField] private float _groundCheckRadius = 0.3f;
     private Vector3 _groundNormal;
+
+    [Header("Slope Handling")]
+    public float playerHeight = 2f; // For Slope Handling
+    public float maxSlopeAngle = 40f;
+    private RaycastHit slopeHit;
+    private bool exitingSlope;
     
     [Header("References")]
     public Climbing climbingScript;
@@ -103,6 +94,7 @@ public class WASDController : MonoBehaviour
         unlimited,
         jumping,
         falling,
+        aboutlanding,
         walking,
         standingidle,
         sprinting,
@@ -120,6 +112,7 @@ public class WASDController : MonoBehaviour
     public bool restricted;
     public bool jumping;
     public bool falling;
+    public bool aboutlanding;
     public bool walking;
     public bool sprinting;
     public bool wallrunning;
@@ -132,29 +125,6 @@ public class WASDController : MonoBehaviour
 
     public TextMeshProUGUI text_speed;
     public TextMeshProUGUI text_mode;
-
-
-    // Define a delegate type
-    public delegate void UpdateMethod();
-    [Header("Movement Method")]
-    // Serialize the delegate field to choose the update method
-    [SerializeField]
-    private UpdateMethod selectedUpdateMethod;
-
-    // Enum to define different update methods
-    public enum SelectedMethod
-    {
-        Force,
-        ForceMovement,
-        VelocityMovement,
-        Impulse,
-        TorqueRotation,
-        CharacterControllerMovement,
-        TranslateMovement
-    }
-
-    public SelectedMethod selectedMethod;
-    public CharacterController controller;
 
     /*     [Header("Animation")]
     public Animator animator;
@@ -253,17 +223,6 @@ public class WASDController : MonoBehaviour
     }    
     
     private void FixedUpdate() {
-        if (inputMovement && selectedUpdateMethod != null)
-        {
-            Debug.Log("selectedUpdateMethod! ");
-            // Call the selected update method
-            selectedUpdateMethod();
-        }else if (inputMovement){
-            Debug.Log("selectedUpdateMethod! and selectedUpdateMethod is " + selectedUpdateMethod);
-            // Call the selected update method
-            selectedUpdateMethod();
-        }
-
         MovePlayer();
     }
 
@@ -322,17 +281,24 @@ public class WASDController : MonoBehaviour
         // when to jump
         if(Input.GetKeyUp(jumpKey) && !grounded){
             Debug.Log("Jumped, but not ground");
-            Debug.Log("Jumped, onSteepGround is " + onSteepGround);
         }
         else if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
             Debug.Log("Jumped, on ground");
+
+            // Introduce a delay before initiating jump
+            float jumpDelay = 0.8f;
             jumping = true;
-            Jump();
+            restricted = true;
+            StartCoroutine(DelayedJump(jumpDelay));
+            // jumping = true;
+            // Jump();
             
-            Invoke(nameof(ResetJump), jumpCooldown);
+            // Invoke(nameof(ResetJump), jumpCooldown);
         }
+        // Don't do following codes until jumping is done
+        if (jumping) return;
 
         // start crouch
         if (Input.GetKeyDown(crouchKey) && horizontalInput == 0 && verticalInput == 0)
@@ -349,6 +315,18 @@ public class WASDController : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
         }
     }
+
+    private IEnumerator DelayedJump(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        jumping = true;
+        restricted = false;
+        Jump();
+        
+        Invoke(nameof(ResetJump), jumpCooldown);
+    }
+
 
     private void StateHandler()
     {
@@ -378,7 +356,7 @@ public class WASDController : MonoBehaviour
             {
                 desiredMoveSpeed = airMinSpeed;
             }
-            Debug.Log("rb.velocity.y is " + rb.velocity.y + " and jumpUpwardThreshold is "+ jumpUpwardThreshold);
+            // Debug.Log("rb.velocity.y is " + rb.velocity.y + " and jumpUpwardThreshold is "+ jumpUpwardThreshold);
             // Check if the player is jumping up
             //if (rb.velocity.y > jumpUpwardThreshold)
             // Check if player is still ascending
@@ -400,6 +378,7 @@ public class WASDController : MonoBehaviour
                 // jumpingdown
                 jumping = false;
                 falling = true;
+                state = MovementState.falling;
 
                 myAnim.SetBool("isStandingIdle", false);
                 myAnim.SetBool("isWalking", false);
@@ -411,7 +390,7 @@ public class WASDController : MonoBehaviour
                 myAnim.SetBool("isGrounded", false);
                 // Perform raycast downward to detect ground
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround) && !CheckIsGrounded())
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Abs(rb.velocity.y) + raycastLandingDistance, whatIsGround) && !grounded)
                 {
                     falling = false;
                     // Ground is detected, change to landing animation
@@ -424,7 +403,7 @@ public class WASDController : MonoBehaviour
                     myAnim.SetBool("isAboutLanding", true);
                     myAnim.SetBool("isGrounded", false);
                 }
-                else if (CheckIsGrounded())
+                else if (grounded)
                 {
                     falling = false;
                     myAnim.SetBool("isStandingIdle", false);
@@ -437,7 +416,7 @@ public class WASDController : MonoBehaviour
                     myAnim.SetBool("isGrounded", true);
 
                     // Delay setting falling = false after the landing animation is played
-                    Invoke("SetFallingFalse", 1.0f); // Adjust delay time as needed
+                    Invoke("SetFallingFalse", 0.2f); // Adjust delay time as needed
                 }
             }
         }
@@ -447,7 +426,7 @@ public class WASDController : MonoBehaviour
         {
             // Perform raycast downward to detect ground
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround) && !CheckIsGrounded())
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround) && !grounded)
                 {
                     // Ground is detected, change to landing animation
                     myAnim.SetBool("isStandingIdle", false);
@@ -459,7 +438,7 @@ public class WASDController : MonoBehaviour
                     myAnim.SetBool("isAboutLanding", true);
                     myAnim.SetBool("isGrounded", false);
                 }
-                else if (CheckIsGrounded())
+                else if (grounded)
                 {
                     myAnim.SetBool("isStandingIdle", false);
                     myAnim.SetBool("isWalking", false);
@@ -471,9 +450,22 @@ public class WASDController : MonoBehaviour
                     myAnim.SetBool("isGrounded", true);
 
                     // Delay setting falling = false after the landing animation is played
-                    Invoke("SetFallingFalse", 1.0f); // Adjust delay time as needed
+                    Invoke("SetFallingFalse", 0.2f); // Adjust delay time as needed
                 }
         }
+
+        // Mode - AboutLanding
+        else if (aboutlanding)
+        {
+            state = MovementState.aboutlanding;
+            //rb.velocity = Vector3.zero;
+            desiredMoveSpeed = 0f;
+
+            // Delay setting falling = false after the landing animation is played
+            if (grounded)
+                Invoke("SetAboutLandingFalse", 0.2f); // Adjust delay time as needed
+        }
+        
 
         // Mode - Vaulting // Full Climbing System
         else if (vaulting)
@@ -578,6 +570,13 @@ public class WASDController : MonoBehaviour
 
             if (moveSpeed < airMinSpeed)
                 desiredMoveSpeed = airMinSpeed;
+
+            if (rb.velocity.y < 0 && !grounded)
+            {
+                falling = true;
+                state = MovementState.falling;
+            }
+            
         }
 
         // check if desiredMoveSpeed has changed drastically
@@ -605,6 +604,12 @@ public class WASDController : MonoBehaviour
     private void SetFallingFalse()
     {
         falling = false;
+        aboutlanding = true;
+    }
+
+    private void SetAboutLandingFalse()
+    {
+        aboutlanding = false;
     }
 
     private IEnumerator SmoothlyLerpMoveSpeed()
