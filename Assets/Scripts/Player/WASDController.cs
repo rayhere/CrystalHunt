@@ -101,7 +101,8 @@ public class WASDController : MonoBehaviour
     {
         freeze,
         unlimited,
-        jumpingup,
+        jumping,
+        falling,
         walking,
         standingidle,
         sprinting,
@@ -117,7 +118,8 @@ public class WASDController : MonoBehaviour
     public bool freeze;
     public bool unlimited;
     public bool restricted;
-    public bool jumpingup;
+    public bool jumping;
+    public bool falling;
     public bool walking;
     public bool sprinting;
     public bool wallrunning;
@@ -130,13 +132,6 @@ public class WASDController : MonoBehaviour
 
     public TextMeshProUGUI text_speed;
     public TextMeshProUGUI text_mode;
-
-
-
-
-
-
-
 
 
     // Define a delegate type
@@ -212,34 +207,6 @@ public class WASDController : MonoBehaviour
 
         //myAnim = GetComponent<Animator>(); // allow to control animations of the GameObject
 
-        // Assign the selected update method based on the selectedMethod enum value
-        switch (selectedMethod)
-        {
-            case SelectedMethod.Force:
-                selectedUpdateMethod = Force;
-                break;
-            case SelectedMethod.ForceMovement:
-                selectedUpdateMethod = ForceMovement;
-                break;
-            case SelectedMethod.VelocityMovement:
-                selectedUpdateMethod = VelocityMovement;
-                break;
-            case SelectedMethod.Impulse:
-                selectedUpdateMethod = Impulse;
-                break;
-            case SelectedMethod.TorqueRotation:
-                selectedUpdateMethod = TorqueRotation;
-                break;
-            case SelectedMethod.CharacterControllerMovement:
-                selectedUpdateMethod = CharacterControllerMovement;
-                break;
-            case SelectedMethod.TranslateMovement:
-                selectedUpdateMethod = TranslateMovement;
-                break;
-            default:
-                // Handle default case or throw an error
-                break;
-        }
 
         // Assigning stats to the player
         //playerStats = GameManager.Instance.playerStats; // Access through a GameManager or directly
@@ -268,14 +235,9 @@ public class WASDController : MonoBehaviour
             Debug.Log("Switch to Player ActionMap!");
             playerInput.SwitchCurrentActionMap("Player");
         }
-        /* if (Gamepad.current.aButton.wasPressedThisFrame){
-            playerInput.SwitchCurrentActionMap("UI");
-        } */
 
         // Perform ground check
         GroundCheck();
-        // ground check
-        //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
         MyInput();
         SpeedControl();
@@ -304,25 +266,13 @@ public class WASDController : MonoBehaviour
 
         MovePlayer();
     }
+
     // Input Action method to handle movement
     public void OnMove(InputAction.CallbackContext context)
     {
         Vector2 movementInput = context.ReadValue<Vector2>();
         Vector3 movement = new Vector3(movementInput.x, 0f, movementInput.y);
         rb.velocity = movement * moveSpeed;
-
-        // Trigger movement animation or sound
-/*         if (movementInput.magnitude > 0)
-        {
-            animator.Play(walkAnimation);
-            if (!walkSound.isPlaying)
-                walkSound.Play();
-        }
-        else
-        {
-            animator.Play(idleAnimation);
-            walkSound.Stop();
-        } */
 
         if (context.performed){
             Debug.Log("Movement! " + context.phase);
@@ -364,143 +314,6 @@ public class WASDController : MonoBehaviour
         }
     }
 
-    // Method for each update technique
-    public void Force (){
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        Debug.Log(inputVector); // Show input value
-        float speed = 5f;
-        Debug.Log("I am Moving!");
-
-        //This movement will 
-        rb.AddForce(new Vector3(inputVector.x, 0, inputVector.y) * speed, ForceMode.Force);
-    }
-    public void ForceMovement (){
-        // This will keep checking if the button is triggered every frame
-        //Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        Vector2 inputVector = playerInput.actions.FindAction("Player/Move").ReadValue<Vector2>();
-        Debug.Log(inputVector); // Show input value
-        float speed = 5f;
-        Debug.Log("I am Moving!");
-
-        // Calculate movement direction based on input
-        //Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
-        Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y);
-        // Apply movement to the Rigidbody
-        rb.AddForce(movement * speed);
-        //playerRigidbody.AddForce(movement * speed, ForceMode.Force);
-    }
-
-    public void VelocityMovement (){
-        // This will keep checking if the button is triggered every frame
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        Debug.Log(inputVector); // Show input value
-        float speed = 5f;
-        Debug.Log("I am Moving!");
-
-        // Calculate movement direction based on input
-        //Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
-        Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y);
-        //Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y).normalized * speed * Time.deltaTime;
-        //playerRigidbody.AddForce(new Vector3(inputVector.x, 0, inputVector.y) * speed, ForceMode.Force);
-        // Apply movement to the Rigidbody
-        rb.velocity = movement * speed;
-        //playerRigidbody.velocity = movement.normalized * speed * Time.deltaTime;
-    }
-
-    public void Impulse (){
-        // This will keep checking if the button is triggered every frame
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        Debug.Log(inputVector); // Show input value
-        float speed = 5f;
-        Debug.Log("I am Moving!");
-
-        // Calculate movement direction based on input
-        //Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
-        Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y);
-        //Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y).normalized * speed * Time.deltaTime;
-        // Apply movement to the Rigidbody
-        rb.AddForce(movement * speed, ForceMode.Impulse);
-        //playerRigidbody.AddForce(movement.normalized * speed, ForceMode.Impulse * Time.deltaTime);
-    }
-
-    public void TorqueRotation (){
-        // This will keep checking if the button is triggered every frame
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        Debug.Log(inputVector); // Show input value
-        float torque = 10f;
-        Debug.Log("I am Moving!");
-
-        // Calculate movement direction based on input
-        //float rotate = Input.GetAxis("Horizontal");
-        Vector2 movementInput = playerInputActions.Player.Move.ReadValue<Vector2>();
-        float moveHorizontal = movementInput.x;
-        float moveVertical = movementInput.y;
-        
-        // Horizontal
-        float rotate = moveHorizontal;
-        rb.AddTorque(Vector3.up * rotate * torque);
-
-        // Vertical
-    }
-
-    public void CharacterControllerMovement (){
-        // This will keep checking if the button is triggered every frame
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        Debug.Log(inputVector); // Show input value
-        float speed = 5f;
-        Debug.Log("I am Moving!");
-
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
-
-        //Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
-        //controller.Move(movement * speed * Time.deltaTime);
-
-        // Calculate movement direction based on input
-        Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y);
-        controller.Move(movement * speed * Time.deltaTime);
-    }
-
-    public void TranslateMovement (){
-        // This will keep checking if the button is triggered every frame
-        //Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        Vector2 inputVector = playerInput.actions.FindAction("Player/Move").ReadValue<Vector2>();
-        Debug.Log(inputVector); // Show input value
-        float speed = 5f;
-        Debug.Log("I am Moving!");
-
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
-
-        //Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
-        //transform.Translate(movement * speed * Time.deltaTime);
-
-        // Calculate movement direction based on input
-        Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y);
-        transform.Translate(movement * speed * Time.deltaTime);
-    }
-
-    // Display DropDown menu For Different Player Movement Method
-    [CustomEditor(typeof(WASDController))]
-    public class WASDControllerEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-
-            //WASDController myWASDController = (WASDController)target;
-
-            // Display dropdown to select update method
-            //myWASDController.selectedMethod = (SelectedMethod)EditorGUILayout.EnumPopup("Selected Update Method", myWASDController.selectedMethod);
-
-            //WASDController myWASDController = (WASDController)target;
-
-            // Display dropdown to select update method
-            //myWASDController.selectedMethod = (WASDController.SelectedMethod)EditorGUILayout.EnumPopup("Selected Update Method", myWASDController.selectedMethod);
-        }
-    }
-
-
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -515,7 +328,7 @@ public class WASDController : MonoBehaviour
         {
             readyToJump = false;
             Debug.Log("Jumped, on ground");
-            jumpingup = true;
+            jumping = true;
             Jump();
             
             Invoke(nameof(ResetJump), jumpCooldown);
@@ -539,8 +352,6 @@ public class WASDController : MonoBehaviour
 
     private void StateHandler()
     {
-        
-
         // Mode - Freeze
         if (freeze)
         {
@@ -557,22 +368,24 @@ public class WASDController : MonoBehaviour
             return;
         }
 
-        // Mode - JumpingUp
-        else if (jumpingup)
+        // Mode - Jumping
+        else if (jumping)
         {
-            state = MovementState.jumpingup;
+            state = MovementState.jumping;
 
             // Use Air Speed
             if (moveSpeed < airMinSpeed)
             {
                 desiredMoveSpeed = airMinSpeed;
             }
-
+            Debug.Log("rb.velocity.y is " + rb.velocity.y + " and jumpUpwardThreshold is "+ jumpUpwardThreshold);
             // Check if the player is jumping up
-            if (rb.velocity.y > jumpUpwardThreshold)
+            //if (rb.velocity.y > jumpUpwardThreshold)
+            // Check if player is still ascending
+            if (rb.velocity.y >= 0)
             {
                 Debug.Log("Player is jumping up!");
-                // animation when the player is jumping up
+                // Set isJumping to true for the animator
                 myAnim.SetBool("isStandingIdle", false);
                 myAnim.SetBool("isWalking", false);
                 myAnim.SetBool("isRunning", false);
@@ -582,13 +395,59 @@ public class WASDController : MonoBehaviour
                 myAnim.SetBool("isAboutLanding", false);
                 myAnim.SetBool("isGrounded", false);
             }
-            else
+            else if (rb.velocity.y <= 0)
             {
                 // jumpingdown
-                jumpingup = false;
+                jumping = false;
+                falling = true;
+
+                myAnim.SetBool("isStandingIdle", false);
+                myAnim.SetBool("isWalking", false);
+                myAnim.SetBool("isRunning", false);
+                myAnim.SetBool("isCrouching", false);
+                myAnim.SetBool("isJumping", false);
+                myAnim.SetBool("isFalling", true);
+                myAnim.SetBool("isAboutLanding", false);
+                myAnim.SetBool("isGrounded", false);
                 // Perform raycast downward to detect ground
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround))
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround) && !CheckIsGrounded())
+                {
+                    falling = false;
+                    // Ground is detected, change to landing animation
+                    myAnim.SetBool("isStandingIdle", false);
+                    myAnim.SetBool("isWalking", false);
+                    myAnim.SetBool("isRunning", false);
+                    myAnim.SetBool("isCrouching", false);
+                    myAnim.SetBool("isJumping", false);
+                    myAnim.SetBool("isFalling", false);
+                    myAnim.SetBool("isAboutLanding", true);
+                    myAnim.SetBool("isGrounded", false);
+                }
+                else if (CheckIsGrounded())
+                {
+                    falling = false;
+                    myAnim.SetBool("isStandingIdle", false);
+                    myAnim.SetBool("isWalking", false);
+                    myAnim.SetBool("isRunning", false);
+                    myAnim.SetBool("isCrouching", false);
+                    myAnim.SetBool("isJumping", false);
+                    myAnim.SetBool("isFalling", false);
+                    myAnim.SetBool("isAboutLanding", false);
+                    myAnim.SetBool("isGrounded", true);
+
+                    // Delay setting falling = false after the landing animation is played
+                    Invoke("SetFallingFalse", 1.0f); // Adjust delay time as needed
+                }
+            }
+        }
+
+        // Mode - Falling
+        else if (falling)
+        {
+            // Perform raycast downward to detect ground
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround) && !CheckIsGrounded())
                 {
                     // Ground is detected, change to landing animation
                     myAnim.SetBool("isStandingIdle", false);
@@ -602,17 +461,18 @@ public class WASDController : MonoBehaviour
                 }
                 else if (CheckIsGrounded())
                 {
-                    // No ground detected, continue jumping animation or other logic
-                    // myAnim.SetBool("isStandingIdle", false);
-                    // myAnim.SetBool("isWalking", false);
-                    // myAnim.SetBool("isRunning", false);
-                    // myAnim.SetBool("isCrouching", false);
-                    // myAnim.SetBool("isJumping", false);
-                    // myAnim.SetBool("isFalling", false);
-                    // myAnim.SetBool("isAboutLanding", false);
-                    // myAnim.SetBool("isGrounded", false);
+                    myAnim.SetBool("isStandingIdle", false);
+                    myAnim.SetBool("isWalking", false);
+                    myAnim.SetBool("isRunning", false);
+                    myAnim.SetBool("isCrouching", false);
+                    myAnim.SetBool("isJumping", false);
+                    myAnim.SetBool("isFalling", false);
+                    myAnim.SetBool("isAboutLanding", false);
+                    myAnim.SetBool("isGrounded", true);
+
+                    // Delay setting falling = false after the landing animation is played
+                    Invoke("SetFallingFalse", 1.0f); // Adjust delay time as needed
                 }
-            }
         }
 
         // Mode - Vaulting // Full Climbing System
@@ -682,10 +542,11 @@ public class WASDController : MonoBehaviour
             Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
             // Check if either magnitude is greater than 0.1f to detect movement
-            if (rb.velocity.magnitude > 0.1f || flatVel.magnitude > 0.1f)
+            //if (rb.velocity.magnitude > 0.1f || flatVel.magnitude > 0.1f)
+
+            // Check if either magnitude is greater than 0.1f to detect movement
+            if (flatVel.magnitude > 0.1f)
             {
-                //Debug.Log("moveSpeed is " + moveSpeed);
-                //Debug.Log(" isRunning anim true");
                 // Character is moving
                 myAnim.SetBool("isStandingIdle", false);
                 myAnim.SetBool("isWalking", true);
@@ -708,66 +569,7 @@ public class WASDController : MonoBehaviour
                 myAnim.SetBool("isAboutLanding", false);
                 myAnim.SetBool("isGrounded", false);
             }
-            
-        // Trigger movement animation or sound
-/*             if (movementInput.magnitude > 0)
-            {
-                animator.Play(walkAnimation);
-                if (!walkSound.isPlaying)
-                    walkSound.Play();
-            }
-            else
-            {
-                animator.Play(idleAnimation);
-                walkSound.Stop();
-            } */
         }
-
-        // Mode - JumpingUp
-        else if (jumpingup)
-        {
-            state = MovementState.jumpingup;
-
-            // Use Air Speed
-            if (moveSpeed < airMinSpeed)
-            {
-                desiredMoveSpeed = airMinSpeed;
-            }
-
-            // Check if the player is jumping up
-            if (rb.velocity.y > jumpUpwardThreshold)
-            {
-                Debug.Log("Player is jumping up!");
-                // animation when the player is jumping up
-                myAnim.SetBool("isStandingIdle", false);
-                myAnim.SetBool("isWalking", false);
-                myAnim.SetBool("isRunning", false);
-                myAnim.SetBool("isCrouching", false);
-                myAnim.SetBool("isJumping", true);
-                myAnim.SetBool("isFalling", false);
-                myAnim.SetBool("isAboutLanding", false);
-                myAnim.SetBool("isGrounded", false);
-            }
-            else
-            {
-                // jumpingdown
-                // Perform raycast downward to detect ground
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround))
-                {
-                    // Ground is detected, change to landing animation
-                    myAnim.SetBool("isStandingIdle", false);
-                    myAnim.SetBool("isWalking", false);
-                    myAnim.SetBool("isRunning", false);
-                    myAnim.SetBool("isCrouching", false);
-                    myAnim.SetBool("isJumping", false);
-                    myAnim.SetBool("isFalling", false);
-                    myAnim.SetBool("isAboutLanding", true);
-                    myAnim.SetBool("isGrounded", false);
-                }
-            }
-        }
-
 
         // Mode - Air
         else
@@ -777,8 +579,6 @@ public class WASDController : MonoBehaviour
             if (moveSpeed < airMinSpeed)
                 desiredMoveSpeed = airMinSpeed;
         }
-
-
 
         // check if desiredMoveSpeed has changed drastically
         //if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
@@ -800,6 +600,11 @@ public class WASDController : MonoBehaviour
 
         // deactivate keepMomentum
         if (Mathf.Abs(desiredMoveSpeed - moveSpeed) < 0.1f) keepMomentum = false;
+    }
+
+    private void SetFallingFalse()
+    {
+        falling = false;
     }
 
     private IEnumerator SmoothlyLerpMoveSpeed()
@@ -966,70 +771,9 @@ public class WASDController : MonoBehaviour
     private void GroundCheck() 
     {
         grounded = CheckIsGrounded();
-        //GroundCheck0();
+
     }
     
-    private void GroundCheck0()
-    {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.4f, whatIsGround);
-    }
-    private void GroundCheck1() // work
-    {
-        // Cast a single raycast straight down from the player's position
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight * 0.5f + 0.2f, whatIsGround))
-        {
-            grounded = true;
-
-            // Check if the slope angle exceeds the threshold
-            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-            if (slopeAngle > maxSlopeAngle)
-            {
-                onSteepGround = true;
-            }
-            else
-            {
-                onSteepGround = false;
-            }
-        }
-        else
-        {
-            grounded = false;
-            onSteepGround = false;
-        }
-    }
-
-    private void GroundCheck2()
-    {
-        grounded = false;
-        onSteepGround = false;
-
-        // Cast multiple rays downward from the player's position
-        for (int i = 0; i < numRaycasts; i++)
-        {
-            float angle = i * (360f / numRaycasts); // Calculate angle for raycast direction
-            Vector3 direction = Quaternion.AngleAxis(angle, transform.up) * -transform.forward; // Calculate raycast direction
-
-            //groundCheckDistance = playerHeight * 0.5f + 0.2f;
-
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight * 0.5f + 0.2f, whatIsGround))
-            //if (Physics.Raycast(transform.position, direction, out hit, groundCheckDistance, whatIsGround))
-            {
-                grounded = true;
-
-                // Check if the slope angle exceeds the threshold
-                float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-                if (slopeAngle > slopeThreshold)
-                {
-                    onSteepGround = true;
-                    break; // Exit loop if a steep slope is detected
-                }
-            }
-        }
-    }
-
-
     // Check if the player is grounded using a sphere cast.
     private bool CheckIsGrounded()
     {
