@@ -46,6 +46,8 @@ public class WASDController : MonoBehaviour
     public float jumpCooldown = 0.25f;
     public float airMultiplier = 0.4f;
     bool readyToJump;
+    public float jumpUpwardThreshold = 0.1f; // Adjust as needed
+    public float raycastLandingDistance = 1.0f; // Adjust as needed
 
     [Header("Crouching")]
     public float crouchSpeed = 3.5f;
@@ -99,7 +101,9 @@ public class WASDController : MonoBehaviour
     {
         freeze,
         unlimited,
+        jumpingup,
         walking,
+        standingidle,
         sprinting,
         wallrunning,
         climbing,
@@ -109,10 +113,11 @@ public class WASDController : MonoBehaviour
         air
     }
 
+    // For StateHandler
     public bool freeze;
     public bool unlimited;
     public bool restricted;
-
+    public bool jumpingup;
     public bool walking;
     public bool sprinting;
     public bool wallrunning;
@@ -120,6 +125,7 @@ public class WASDController : MonoBehaviour
     public bool vaulting;
     public bool crouching;
     public bool sliding;
+    public bool standingidle;
     bool keepMomentum;
 
     public TextMeshProUGUI text_speed;
@@ -508,9 +514,10 @@ public class WASDController : MonoBehaviour
         else if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
-            //Debug.Log("Jumped, on ground");
+            Debug.Log("Jumped, on ground");
+            jumpingup = true;
             Jump();
-
+            
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
@@ -532,6 +539,8 @@ public class WASDController : MonoBehaviour
 
     private void StateHandler()
     {
+        
+
         // Mode - Freeze
         if (freeze)
         {
@@ -548,7 +557,65 @@ public class WASDController : MonoBehaviour
             return;
         }
 
-        // Mode - Vaulting
+        // Mode - JumpingUp
+        else if (jumpingup)
+        {
+            state = MovementState.jumpingup;
+
+            // Use Air Speed
+            if (moveSpeed < airMinSpeed)
+            {
+                desiredMoveSpeed = airMinSpeed;
+            }
+
+            // Check if the player is jumping up
+            if (rb.velocity.y > jumpUpwardThreshold)
+            {
+                Debug.Log("Player is jumping up!");
+                // animation when the player is jumping up
+                myAnim.SetBool("isStandingIdle", false);
+                myAnim.SetBool("isWalking", false);
+                myAnim.SetBool("isRunning", false);
+                myAnim.SetBool("isCrouching", false);
+                myAnim.SetBool("isJumping", true);
+                myAnim.SetBool("isFalling", false);
+                myAnim.SetBool("isAboutLanding", false);
+                myAnim.SetBool("isGrounded", false);
+            }
+            else
+            {
+                // jumpingdown
+                jumpingup = false;
+                // Perform raycast downward to detect ground
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround))
+                {
+                    // Ground is detected, change to landing animation
+                    myAnim.SetBool("isStandingIdle", false);
+                    myAnim.SetBool("isWalking", false);
+                    myAnim.SetBool("isRunning", false);
+                    myAnim.SetBool("isCrouching", false);
+                    myAnim.SetBool("isJumping", false);
+                    myAnim.SetBool("isFalling", false);
+                    myAnim.SetBool("isAboutLanding", true);
+                    myAnim.SetBool("isGrounded", false);
+                }
+                else if (CheckIsGrounded())
+                {
+                    // No ground detected, continue jumping animation or other logic
+                    // myAnim.SetBool("isStandingIdle", false);
+                    // myAnim.SetBool("isWalking", false);
+                    // myAnim.SetBool("isRunning", false);
+                    // myAnim.SetBool("isCrouching", false);
+                    // myAnim.SetBool("isJumping", false);
+                    // myAnim.SetBool("isFalling", false);
+                    // myAnim.SetBool("isAboutLanding", false);
+                    // myAnim.SetBool("isGrounded", false);
+                }
+            }
+        }
+
+        // Mode - Vaulting // Full Climbing System
         else if (vaulting)
         {
             state = MovementState.vaulting;
@@ -595,9 +662,14 @@ public class WASDController : MonoBehaviour
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed; 
-            myAnim.SetBool("isRunning", true);
-            myAnim.SetBool("isWalking", false);
             myAnim.SetBool("isStandingIdle", false);
+            myAnim.SetBool("isWalking", false);
+            myAnim.SetBool("isRunning", true);
+            myAnim.SetBool("isCrouching", false);
+            myAnim.SetBool("isJumping", false);
+            myAnim.SetBool("isFalling", false);
+            myAnim.SetBool("isAboutLanding", false);
+            myAnim.SetBool("isGrounded", false);
         }
 
         // Mode - Walking
@@ -605,21 +677,36 @@ public class WASDController : MonoBehaviour
         {
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
-
+            
+            // Get the velocity components ignoring the y-axis
             Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
+            // Check if either magnitude is greater than 0.1f to detect movement
             if (rb.velocity.magnitude > 0.1f || flatVel.magnitude > 0.1f)
             {
                 //Debug.Log("moveSpeed is " + moveSpeed);
                 //Debug.Log(" isRunning anim true");
-                myAnim.SetBool("isWalking", true); //change condition for Animator
-                myAnim.SetBool("isRunning", false);
+                // Character is moving
                 myAnim.SetBool("isStandingIdle", false);
+                myAnim.SetBool("isWalking", true);
+                myAnim.SetBool("isRunning", false);
+                myAnim.SetBool("isCrouching", false);
+                myAnim.SetBool("isJumping", false);
+                myAnim.SetBool("isFalling", false);
+                myAnim.SetBool("isAboutLanding", false);
+                myAnim.SetBool("isGrounded", false);
             } else {
-                
+                // Character is not moving
+                state = MovementState.standingidle;
+               
                 myAnim.SetBool("isStandingIdle", true);
                 myAnim.SetBool("isWalking", false);
-                myAnim.SetBool("isRunning", false); //change condition for Animator
+                myAnim.SetBool("isRunning", false);
+                myAnim.SetBool("isCrouching", false);
+                myAnim.SetBool("isJumping", false);
+                myAnim.SetBool("isFalling", false);
+                myAnim.SetBool("isAboutLanding", false);
+                myAnim.SetBool("isGrounded", false);
             }
             
         // Trigger movement animation or sound
@@ -635,6 +722,52 @@ public class WASDController : MonoBehaviour
                 walkSound.Stop();
             } */
         }
+
+        // Mode - JumpingUp
+        else if (jumpingup)
+        {
+            state = MovementState.jumpingup;
+
+            // Use Air Speed
+            if (moveSpeed < airMinSpeed)
+            {
+                desiredMoveSpeed = airMinSpeed;
+            }
+
+            // Check if the player is jumping up
+            if (rb.velocity.y > jumpUpwardThreshold)
+            {
+                Debug.Log("Player is jumping up!");
+                // animation when the player is jumping up
+                myAnim.SetBool("isStandingIdle", false);
+                myAnim.SetBool("isWalking", false);
+                myAnim.SetBool("isRunning", false);
+                myAnim.SetBool("isCrouching", false);
+                myAnim.SetBool("isJumping", true);
+                myAnim.SetBool("isFalling", false);
+                myAnim.SetBool("isAboutLanding", false);
+                myAnim.SetBool("isGrounded", false);
+            }
+            else
+            {
+                // jumpingdown
+                // Perform raycast downward to detect ground
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround))
+                {
+                    // Ground is detected, change to landing animation
+                    myAnim.SetBool("isStandingIdle", false);
+                    myAnim.SetBool("isWalking", false);
+                    myAnim.SetBool("isRunning", false);
+                    myAnim.SetBool("isCrouching", false);
+                    myAnim.SetBool("isJumping", false);
+                    myAnim.SetBool("isFalling", false);
+                    myAnim.SetBool("isAboutLanding", true);
+                    myAnim.SetBool("isGrounded", false);
+                }
+            }
+        }
+
 
         // Mode - Air
         else
@@ -832,7 +965,7 @@ public class WASDController : MonoBehaviour
 
     private void GroundCheck() 
     {
-        grounded = CheckGround();
+        grounded = CheckIsGrounded();
         //GroundCheck0();
     }
     
@@ -898,7 +1031,7 @@ public class WASDController : MonoBehaviour
 
 
     // Check if the player is grounded using a sphere cast.
-    private bool CheckGround()
+    private bool CheckIsGrounded()
     {
         // Start position for the sphere cast.
         Vector3 start = transform.position + Vector3.up * _groundCheckOffset;
