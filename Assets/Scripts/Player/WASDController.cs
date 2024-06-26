@@ -50,6 +50,7 @@ public class WASDController : MonoBehaviour
     // public float jumpUpwardThreshold = 0.1f; // Adjust as needed
     [SerializeField, Tooltip("raycastLandingDistance for play landing animation")]
     public float raycastLandingDistance = 2.0f; // Adjust as needed
+    private bool landedOnGroundInvokeScheduled = false;
 
     [Header("Crouching")]
     public float crouchSpeed = 3.5f;
@@ -212,6 +213,7 @@ public class WASDController : MonoBehaviour
         // Perform ground check
         GroundCheck();
 
+        //StartCoroutine(MyInput());
         MyInput();
         SpeedControl();
         StateHandler();
@@ -282,16 +284,19 @@ public class WASDController : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         bool preformJump = false;
-        float jumpDelay = 0.8f;
+        float jumpDelay = 0.9f;
         // when to jump
         if(Input.GetKeyUp(jumpKey) && !grounded){
             Debug.Log("Jumped, but not ground");
         }
         else if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
+            Debug.Log("Input.GetKey(jumpKey) && readyToJump && grounded is " + Input.GetKey(jumpKey) + readyToJump + grounded);
+            Debug.Log("readyToJump is " + readyToJump);
             readyToJump = false;
             jumpStarted = false;
-            Debug.Log("JumpUp, on ground");
+            Debug.Log("JumpUp, on ground" + " readyToJump is " + readyToJump);
+            
 
             // Set isJumping to true for the animator
             jumping = true; // state changed
@@ -308,12 +313,18 @@ public class WASDController : MonoBehaviour
             // Jump();
             
             // Invoke(nameof(ResetJump), jumpCooldown);
+            //yield return new WaitForSeconds(0.1f);
+            //yield return null;
         }
         if (preformJump)
         {
             readyToJump = false;
             Debug.Log("preformJump");
-            StartCoroutine(DelayedJump(jumpDelay));
+            //StartCoroutine(DelayedJump(jumpDelay));
+            //yield return new WaitForSeconds(0.1f);
+            
+            //yield return null;
+            DelayedJump(jumpDelay);
         }
 
 
@@ -336,16 +347,17 @@ public class WASDController : MonoBehaviour
         }
     }
 
-    private IEnumerator DelayedJump(float delay)
+    private void DelayedJump(float delay)
     {
         //readyToJump = false;
-        yield return new WaitForSeconds(delay);
+        //yield return new WaitForSeconds(delay);
         Debug.Log("DelayedJump start");
         jumping = true;
         restricted = false;
-        Jump();
+        //Jump();
+        Invoke(nameof(Jump), delay);
         
-        Invoke(nameof(ResetJump), jumpCooldown);
+        Invoke(nameof(ResetJump), delay + jumpCooldown);
     }
 
     private void SetAllAnimFalse()
@@ -436,20 +448,24 @@ public class WASDController : MonoBehaviour
             // Check if the player is jumping up
             //if (rb.velocity.y > jumpUpwardThreshold)
             // Check if player is still ascending
-            if (rb.velocity.y == 0 && !jumpStarted)
+            //if (rb.velocity.y == 0 && !jumpStarted)
+            if (grounded && !jumpStarted)
             {
                 // Set isJumping to true for the animator
                 SetAllAnimFalse();
                 myAnim.SetBool("isJumping", true);
             }
-            else if (rb.velocity.y > 0)
+            //else if (rb.velocity.y > 0)
+            else if (!grounded && !jumpStarted)
             {
                 jumpStarted = true;
             }
-            else if (rb.velocity.y <= 0)
+            //else if (rb.velocity.y < 0)
+            else if (!grounded && jumpStarted && rb.velocity.y < 0)
             {
                 // jumpingdown
                 jumping = false;
+                jumpStarted = true;
                 
                 // Perform raycast downward to detect ground
                 RaycastHit hit;
@@ -552,7 +568,13 @@ public class WASDController : MonoBehaviour
             //rb.velocity = Vector3.zero;
             desiredMoveSpeed = 0f;
 
-            Invoke("SetLandedOnGroundFalse", 0.8f); // Adjust delay time as needed
+            //Invoke("SetLandedOnGroundFalse", 0.8f); // Adjust delay time as needed
+
+            if (!landedOnGroundInvokeScheduled)
+            {
+                landedOnGroundInvokeScheduled = true;
+                StartCoroutine(DelayedLandedOnGroundAction(1.0f));
+            }
         }
 
         // Mode - Sprinting
@@ -664,6 +686,7 @@ public class WASDController : MonoBehaviour
         aboutlanding = false;
         landedonground = false;
         readyToJump = true;
+        Debug.Log("SetLandedOnGroundFalse");
         myAnim.SetBool("isLandedOnGround", false);
     }
 
@@ -673,6 +696,17 @@ public class WASDController : MonoBehaviour
         aboutlanding = false;
         landedonground = false;
         myAnim.SetBool("isLandedOnGround", false);
+    }
+
+    private IEnumerator DelayedLandedOnGroundAction(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Perform action after delay
+        SetLandedOnGroundFalse();
+
+        // Reset flag so that this coroutine can be started again if needed
+        landedOnGroundInvokeScheduled = false;
     }
 
     private IEnumerator SmoothlyLerpMoveSpeed()
