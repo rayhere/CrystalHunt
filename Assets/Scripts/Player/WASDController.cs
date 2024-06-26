@@ -289,7 +289,7 @@ public class WASDController : MonoBehaviour
         if(Input.GetKeyUp(jumpKey) && !grounded){
             Debug.Log("Jumped, but not ground");
         }
-        else if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        else if(Input.GetKey(jumpKey) && readyToJump && grounded && !aboutlanding && !landedonground)
         {
             Debug.Log("Input.GetKey(jumpKey) && readyToJump && grounded is " + Input.GetKey(jumpKey) + readyToJump + grounded);
             Debug.Log("readyToJump is " + readyToJump);
@@ -297,6 +297,7 @@ public class WASDController : MonoBehaviour
             jumpStarted = false;
             Debug.Log("JumpUp, on ground" + " readyToJump is " + readyToJump);
             
+            desiredMoveSpeed = 0f;
 
             // Set isJumping to true for the animator
             jumping = true; // state changed
@@ -439,11 +440,7 @@ public class WASDController : MonoBehaviour
         {
             state = MovementState.jumping;
 
-            // Use Air Speed
-            if (moveSpeed < airMinSpeed)
-            {
-                desiredMoveSpeed = airMinSpeed;
-            }
+            
             // Debug.Log("rb.velocity.y is " + rb.velocity.y + " and jumpUpwardThreshold is "+ jumpUpwardThreshold);
             // Check if the player is jumping up
             //if (rb.velocity.y > jumpUpwardThreshold)
@@ -459,6 +456,11 @@ public class WASDController : MonoBehaviour
             else if (!grounded && !jumpStarted)
             {
                 jumpStarted = true;
+                // Use Air Speed
+                if (moveSpeed < airMinSpeed)
+                {
+                    desiredMoveSpeed = airMinSpeed;
+                }
             }
             //else if (rb.velocity.y < 0)
             else if (!grounded && jumpStarted && rb.velocity.y < 0)
@@ -582,8 +584,11 @@ public class WASDController : MonoBehaviour
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed; 
-            SetAllAnimFalse();
-            myAnim.SetBool("isRunning", true);
+            if (!myAnim.GetBool("isRunning"))
+            {
+                SetAllAnimFalse();
+                myAnim.SetBool("isRunning", true);
+            }
         }
 
         // Mode - Walking
@@ -602,13 +607,20 @@ public class WASDController : MonoBehaviour
             if (flatVel.magnitude > 0.1f)
             {
                 // Character is moving
-                SetAllAnimFalse();
-                myAnim.SetBool("isWalking", true);
+                if (!myAnim.GetBool("isWalking"))
+                {
+                    SetAllAnimFalse();
+                    myAnim.SetBool("isWalking", true);
+                }
+                
             } else {
                 // Character is not moving
                 state = MovementState.standingidle;
-                SetAllAnimFalse();
-                myAnim.SetBool("isStandingIdle", true);
+                if (!myAnim.GetBool("isStandingIdle"))
+                {
+                    SetAllAnimFalse();
+                    myAnim.SetBool("isStandingIdle", true);
+                }
             }
         }
 
@@ -625,7 +637,6 @@ public class WASDController : MonoBehaviour
                 falling = true;
                 state = MovementState.falling;
             }
-            
         }
 
         // check if desiredMoveSpeed has changed drastically
