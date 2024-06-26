@@ -61,6 +61,7 @@ public class WASDController : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.LeftControl;
+    //public KeyCode crouchKey = KeyCode.Z;
 
     [Header("Ground Check")]
     [SerializeField, Tooltip("SphereCast Ground Check")]
@@ -82,10 +83,16 @@ public class WASDController : MonoBehaviour
     public Transform orientation;
     public Animator myAnim;
     public PlayerStatsSO playerStats; // Reference to the ScriptableObject
+    // Declare a variable to hold the CapsuleCollider component
+    private CapsuleCollider capsuleCollider;
+    private Vector3 originalCenter;
+    private float originalHeight;
+
+    
 
 
-    float horizontalInput;
-    float verticalInput;
+    public float horizontalInput;
+    public float verticalInput;
 
     Vector3 moveDirection;
 
@@ -195,6 +202,17 @@ public class WASDController : MonoBehaviour
         readyToJump = true;
 
         startYScale = transform.localScale.y;
+
+        // Get the CapsuleCollider component from the current GameObject
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
+        // Check if capsuleCollider is not null before accessing its properties
+        if (capsuleCollider != null)
+        {
+            // Store the original center and height
+            originalCenter = capsuleCollider.center;
+            originalHeight = capsuleCollider.height;
+        }
     }
 
     private void Update() {
@@ -332,19 +350,118 @@ public class WASDController : MonoBehaviour
         // Don't do following codes until jumping is done
         if (jumping) return;
 
-        // start crouch
-        if (Input.GetKeyDown(crouchKey) && horizontalInput == 0 && verticalInput == 0)
+        
+        if (Input.GetKey(crouchKey))
         {
-            crouching = true;
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            // start crouch
+            if (!crouching)
+            {
+                if (horizontalInput == 0 && verticalInput == 0)
+                {
+                    crouching = true;
+                    //transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+                    //rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+
+                    SetAllAnimFalse();
+                    myAnim.SetBool("isCrouching", true);
+                    Debug.Log("StartCrouch");
+
+                    // Check if capsuleCollider is not null before accessing its properties
+                    if (capsuleCollider != null)
+                    {
+                        // Now can manipulate capsuleCollider.center and capsuleCollider.height
+
+                        // Change the center of the capsule collider
+                        capsuleCollider.center = new Vector3(originalCenter.x, originalCenter.y * 0.7f , originalCenter.z);
+
+                        // Change the height of the capsule collider
+                        capsuleCollider.height = originalHeight * 0.7f;
+                    }
+                }
+                // start crouch walking
+                else //if (horizontalInput != 0 || verticalInput != 0)
+                {
+                    crouching = true;
+
+                    SetAllAnimFalse();
+                    myAnim.SetBool("isCrouchedWalking", true);
+                    Debug.Log("StartCrouchWalking");
+
+                    // Check if capsuleCollider is not null before accessing its properties
+                    if (capsuleCollider != null)
+                    {
+                        // Now can manipulate capsuleCollider.center and capsuleCollider.height
+
+                        // Change the center of the capsule collider
+                        capsuleCollider.center = new Vector3(originalCenter.x, originalCenter.y * 0.7f , originalCenter.z);
+
+                        // Change the height of the capsule collider
+                        capsuleCollider.height = originalHeight * 0.7f;
+                    }
+                }
+            }
+            else //if (crouching)
+            {
+                Debug.Log("crouching");
+                // crouch walking to crouch idle
+                if (horizontalInput == 0 && verticalInput == 0)
+                {
+                    crouching = true;
+
+                    SetAllAnimFalse();
+                    myAnim.SetBool("isCrouchingIdle", true);
+                    Debug.Log("crouch walking to crouch idle");
+
+                    // Check if capsuleCollider is not null before accessing its properties
+                    if (capsuleCollider != null)
+                    {
+                        // Now can manipulate capsuleCollider.center and capsuleCollider.height
+
+                        // Change the center of the capsule collider
+                        capsuleCollider.center = new Vector3(originalCenter.x, originalCenter.y * 0.7f , originalCenter.z);
+
+                        // Change the height of the capsule collider
+                        capsuleCollider.height = originalHeight * 0.7f;
+                    }
+                }
+                // crouch idle to crouch walking
+                else //if ((horizontalInput != 0 || verticalInput != 0) && crouching)
+                {
+                    crouching = true;
+
+                    SetAllAnimFalse();
+                    myAnim.SetBool("isCrouchedWalking", true);
+                    Debug.Log("crouch idle to crouch walking");
+
+                    // Check if capsuleCollider is not null before accessing its properties
+                    if (capsuleCollider != null)
+                    {
+                        // Now can manipulate capsuleCollider.center and capsuleCollider.height
+
+                        // Change the center of the capsule collider
+                        capsuleCollider.center = new Vector3(originalCenter.x, originalCenter.y * 0.7f , originalCenter.z);
+
+                        // Change the height of the capsule collider
+                        capsuleCollider.height = originalHeight * 0.7f;
+                    }
+                }
+            }
+            
         }
+
 
         // stop crouch
         if (Input.GetKeyUp(crouchKey))
         {
             crouching = false;
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            //transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            Debug.Log("stop crouch");
+
+            if (capsuleCollider != null)
+            {
+                capsuleCollider.center = originalCenter;
+                capsuleCollider.height = originalHeight;
+            }
         }
     }
 
@@ -367,6 +484,8 @@ public class WASDController : MonoBehaviour
         myAnim.SetBool("isWalking", false);
         myAnim.SetBool("isRunning", false);
         myAnim.SetBool("isCrouching", false);
+        myAnim.SetBool("isCrouchedWalking", false);
+        myAnim.SetBool("isCrouchingIdle", false);
         myAnim.SetBool("isJumping", false);
         myAnim.SetBool("isFalling", false);
         myAnim.SetBool("isAboutLanding", false);
@@ -433,6 +552,9 @@ public class WASDController : MonoBehaviour
         {
             state = MovementState.crouching;
             desiredMoveSpeed = crouchSpeed; 
+
+            //SetAllAnimFalse();
+            //myAnim.SetBool("isCrouching", true);
         }
 
         // Mode - Jumping
