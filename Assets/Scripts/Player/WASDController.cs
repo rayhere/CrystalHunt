@@ -636,6 +636,8 @@ public class WASDController : MonoBehaviour
             {
                 falling = true;
                 state = MovementState.falling;
+                SetAllAnimFalse();
+                myAnim.SetBool("isFalling", true);
             }
         }
 
