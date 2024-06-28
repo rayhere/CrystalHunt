@@ -9,6 +9,7 @@ public class PersistentData : MonoBehaviour
     [SerializeField] int playerScore;
     [SerializeField] float elapsedTime;
     [SerializeField] int crystalCount;
+    [SerializeField] int playerHP;
 
     public static PersistentData Instance;
 
@@ -47,6 +48,7 @@ public class PersistentData : MonoBehaviour
 
         elapsedTime = 0;
         crystalCount = 0;
+        playerHP = 0;
 
     }
 
@@ -62,6 +64,7 @@ public class PersistentData : MonoBehaviour
         playerLevel = 1;
         playerScore = 0;
         elapsedTime = 0;
+        playerHP = 100;
     }
     public void SetName(string n)
     {
@@ -101,6 +104,16 @@ public class PersistentData : MonoBehaviour
     public float GetElapsedTime()
     {
         return elapsedTime;
+    }
+
+    public int GetPlayerHP()
+    {
+        return playerHP;
+    }
+
+    public void SetPlayerHP(int i)
+    {
+        playerHP = i;
     }
 
     public int GetCrystalCount()

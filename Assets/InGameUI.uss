@@ -91,7 +91,7 @@
 
 .GroupContainer {
     flex-grow: 1;
-    margin-top: 30%;
+    margin-top: 0;
 }
 
 .PauseMenuButtons {
@@ -117,4 +117,25 @@
     flex-wrap: wrap-reverse;
     flex-grow: 0;
     overflow: visible;
+}
+
+.GameOverMenu {
+    flex-grow: 1;
+    flex-basis: auto;
+    flex-wrap: nowrap;
+    overflow: visible;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.56);
+    position: absolute;
+}
+
+.BodyMidLabel {
+    flex-basis: 50%;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    font-size: 100%;
+    -unity-text-align: lower-center;
 }

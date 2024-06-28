@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("References")]
+    public DarknessStatsSO playerStats; // Reference to PlayerStatsSO asset
     public CabbageController cabbagePrefab;
     public CrystalController crystalPrefab;
     public StoneCubeController stoneCubePrefab;
     public GameObject targetObject;
+    public InGameUI inGameUI;
 
     private void Awake()
     {
-        
+        InitializePlayerStats();
     }
 
     private void Start()
@@ -28,6 +31,29 @@ public class GameManager : MonoBehaviour
         SetupStoneCubePool(stoneCubePrefab, 10, "StoneCube", targetObject.transform);
 
         SetupCrystalPool(crystalPrefab, 5, "Crystal");
+    }
+
+    private void Update()
+    {
+        // Check if player is dead
+        if (playerStats != null && playerStats.IsDead())
+        {
+            Debug.Log("Player is dead!");
+            // Handle player death logic (e.g., respawn, game over, etc.)
+            inGameUI.playerAlive = false;
+        }
+    }
+
+    private void InitializePlayerStats()
+    {
+        if (playerStats != null)
+        {
+            playerStats.Initialize(); // This initializes currentHP to maxHP
+        }
+        else
+        {
+            Debug.LogError("PlayerStatsSO is not assigned in GameManager!");
+        }
     }
 
     private void SetupGreenCabbagePool<T>(T pooledItemPrefab, int poolSize, string poolDictionary) where T : Component
@@ -120,7 +146,8 @@ public class GameManager : MonoBehaviour
                     
                     if (target == null)
                     {
-                        target = GameObject.FindGameObjectWithTag("StoneCube").transform;
+                        //target = GameObject.FindGameObjectWithTag("StoneCube").transform;
+                        target = GameObject.FindGameObjectWithTag("Player").transform;
                     }
                     // Setting parent to StoneCube Pool
                     cubeInstance.transform.SetParent(ObjectPooler.parentDictionary[poolDictionary].transform);

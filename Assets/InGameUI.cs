@@ -13,6 +13,8 @@ public class InGameUI : MonoBehaviour
     public WASDController pm; // Reference to the WASDController component on the Player GameObject
     public ClickToMove ctm;
     public ThirdPersonCam tpc;
+    //public DarknessStatsSO playerStats; // Reference to the ScriptableObject
+    public bool playerAlive = true;
 
     //public VisualTreeAsset uiTree;
 
@@ -24,16 +26,21 @@ public class InGameUI : MonoBehaviour
     private Label text_crystalcollectStatus;
 
     private Button _pauseButton;
-    private Button _resumeButton;
-    private Button _quitButton;
-    private Button _yesButton;
-    private Button _noButton;
+    private Button _pmResumeButton;
+    private Button _pmQuitButton;
+    private Button _pmYesButton;
+    private Button _pmNoButton;
+    private Button _goTryAgainButton;
+    private Button _goQuitButton;
+    private Button _goYesButton;
+    private Button _goNoButton;
 
     //private TextField text_mode;
 
     private bool cursorLocked = true;
     private bool pauseMenuVisible = false; // Track visibility of PauseMenu
-    private int pauseStage = 0;
+    public int pauseStage = 0;
+    public int gameOverStage = -1;
 
     private const string CrystalCountKey = "CrystalCount";
 
@@ -73,21 +80,37 @@ public class InGameUI : MonoBehaviour
             _pauseButton = _document.rootVisualElement.Q("PauseButton") as Button;
             _pauseButton.RegisterCallback<ClickEvent>(OnPauseClick);
 
-            // "ResumeButton" is the Button name you created in UI Builder
-            _resumeButton = _document.rootVisualElement.Q("ResumeButton") as Button;
-            _resumeButton.RegisterCallback<ClickEvent>(OnResumeClick);
+            // "pmResumeButton" is the Button name you created in UI Builder
+            _pmResumeButton = _document.rootVisualElement.Q("pmResumeButton") as Button;
+            _pmResumeButton.RegisterCallback<ClickEvent>(OnPMResumeClick);
 
-            // "QuitButton" is the Button name you created in UI Builder
-            _quitButton = _document.rootVisualElement.Q("QuitButton") as Button;
-            _quitButton.RegisterCallback<ClickEvent>(OnQuitClick);
+            // "pmQuitButton" is the Button name you created in UI Builder
+            _pmQuitButton = _document.rootVisualElement.Q("pmQuitButton") as Button;
+            _pmQuitButton.RegisterCallback<ClickEvent>(OnPMQuitClick);
 
-            // "YesButton" is the Button name you created in UI Builder
-            _yesButton = _document.rootVisualElement.Q("YesButton") as Button;
-            _yesButton.RegisterCallback<ClickEvent>(OnYesClick);
+            // "pmYesButton" is the Button name you created in UI Builder
+            _pmYesButton = _document.rootVisualElement.Q("pmYesButton") as Button;
+            _pmYesButton.RegisterCallback<ClickEvent>(OnPMYesClick);
 
-            // "NoButton" is the Button name you created in UI Builder
-            _noButton = _document.rootVisualElement.Q("NoButton") as Button;
-            _noButton.RegisterCallback<ClickEvent>(OnNoClick);
+            // "pmNoButton" is the Button name you created in UI Builder
+            _pmNoButton = _document.rootVisualElement.Q("pmNoButton") as Button;
+            _pmNoButton.RegisterCallback<ClickEvent>(OnPMNoClick);
+
+            // "TryAgainButton" is the Button name you created in UI Builder
+            _goTryAgainButton = _document.rootVisualElement.Q("goTryAgainButton") as Button;
+            _goTryAgainButton.RegisterCallback<ClickEvent>(OnGOTryAgainClick);
+
+            // "goQuitButton" is the Button name you created in UI Builder
+            _goQuitButton = _document.rootVisualElement.Q("goQuitButton") as Button;
+            _goQuitButton.RegisterCallback<ClickEvent>(OnGOQuitClick);
+
+            // "goYesButton" is the Button name you created in UI Builder
+            _goYesButton = _document.rootVisualElement.Q("goYesButton") as Button;
+            _goYesButton.RegisterCallback<ClickEvent>(OnGOYesClick);
+
+            // "goNoButton" is the Button name you created in UI Builder
+            _goNoButton = _document.rootVisualElement.Q("goNoButton") as Button;
+            _goNoButton.RegisterCallback<ClickEvent>(OnGONoClick);
         }
 
         if (_pauseButton == null)
@@ -99,46 +122,85 @@ public class InGameUI : MonoBehaviour
             Debug.Log("PauseButton found!");
         }
 
-        if (_resumeButton == null)
+        if (_pmResumeButton == null)
         {
-            Debug.LogError("ResumeButton not found!");
+            Debug.LogError("pmResumeButton not found!");
         }
         else
         {
-            Debug.Log("ResumeButton found!");
+            Debug.Log("pmResumeButton found!");
         }
 
-        if (_quitButton == null)
+        if (_pmQuitButton == null)
         {
-            Debug.LogError("QuitButton not found!");
+            Debug.LogError("pmQuitButton not found!");
         }
         else
         {
-            Debug.Log("QuitButton found!");
+            Debug.Log("pmQuitButton found!");
         }
 
-        if (_yesButton == null)
+        if (_pmYesButton == null)
         {
-            Debug.LogError("YesButton not found!");
+            Debug.LogError("pmYesButton not found!");
         }
         else
         {
-            Debug.Log("YesButton found!");
+            Debug.Log("pmYesButton found!");
         }
 
-        if (_noButton == null)
+        if (_pmNoButton == null)
         {
-            Debug.LogError("NoButton not found!");
+            Debug.LogError("pmNoButton not found!");
         }
         else
         {
-            Debug.Log("NoButton found!");
+            Debug.Log("pmNoButton found!");
+        }
+
+        if (_goTryAgainButton == null)
+        {
+            Debug.LogError("goTryAgainButton not found!");
+        }
+        else
+        {
+            Debug.Log("goTryAgainButton found!");
+        }
+
+        if (_goQuitButton == null)
+        {
+            Debug.LogError("goQuitButton not found!");
+        }
+        else
+        {
+            Debug.Log("goQuitButton found!");
+        }
+
+        if (_goYesButton == null)
+        {
+            Debug.LogError("goYesButton not found!");
+        }
+        else
+        {
+            Debug.Log("goYesButton found!");
+        }
+
+        if (_goNoButton == null)
+        {
+            Debug.LogError("goNoButton not found!");
+        }
+        else
+        {
+            Debug.Log("goNoButton found!");
         }
 
         // Initially hide the PauseMenu
         HideUIElement("PauseMenu");
         //HideUIElement("MidContainer");
-        HideUIElement("MidContainer2");
+        HideUIElement("pmMidContainer1");
+        // Initially hide the GameOverMenu
+        HideUIElement("GameOverMenu");
+        HideUIElement("goMidContainer1");
     }
 
     void Start()
@@ -200,12 +262,28 @@ public class InGameUI : MonoBehaviour
         // Start the coroutine to log messages every 5 seconds
         // StartCoroutine(LogMessageRoutine(5f));
 
-        CheckInput();
+        //CheckInput();
+        //if (playerStats.currentHP > 0)
+        //if (gameOverStage == -1) CheckInput();
+        if (playerAlive) CheckInput();
     }
 
     void FixedUpdate ()
     {
         UpdateUI();
+        /* if (playerStats.currentHP <= 0 && gameOverStage == -1)
+        {
+            gameOverStage = 0;
+            ShowUIElement("GameOverMenu");
+        } */
+        if (!playerAlive && gameOverStage == -1)
+        {
+            gameOverStage = 0;
+            ShowUIElement("GameOverMenu");
+            ShowUIElement("goMidContainer");
+            UnlockCursor();
+        }
+        
         
     }
 
@@ -262,7 +340,7 @@ public class InGameUI : MonoBehaviour
         else
         {
             ShowUIElement("PauseMenu");
-            ShowUIElement("MidContainer1");
+            ShowUIElement("pmMidContainer");
             UnlockCursor();
             if (pm != null) pm.pauseMenu = true;
             if (tpc != null) tpc.pauseMenu = true;
@@ -293,45 +371,88 @@ public class InGameUI : MonoBehaviour
         Debug.Log("You press the Pause Button");
         ShowUIElement("PauseMenu");
         //HideUIElement("MidContainerEmpty");
-        ShowUIElement("MidContainer1");
+        ShowUIElement("pmMidContainer");
         Debug.Log(" cursorLocked : " + cursorLocked);
         pauseMenuVisible = true;
     }
 
-    private void OnResumeClick(ClickEvent evt)
+    private void OnPMResumeClick(ClickEvent evt)
     {
-        Debug.Log("You press the Resume Button");
+        Debug.Log("You press the pmResume Button");
         HideUIElement("PauseMenu");
         //HideUIElement("MidContainer1");
         //ShowUIElement("MidContainerEmpty");
         pauseMenuVisible = false;
     }
 
-    private void OnQuitClick(ClickEvent evt)
+    private void OnPMQuitClick(ClickEvent evt)
     {
-        Debug.Log("You press the Quit Button");
-        HideUIElement("MidContainer1");
-        ShowUIElement("MidContainer2");
+        Debug.Log("You press the pmQuit Button");
+        HideUIElement("pmMidContainer");
+        ShowUIElement("pmMidContainer1");
         //ActivateSelector("MidContainer", "hide");
         pauseStage = 1;
     }
 
-    private void OnYesClick(ClickEvent evt)
+    private void OnPMYesClick(ClickEvent evt)
     {
-        Debug.Log("You press the Yes Button");
+        Debug.Log("You press the pmYes Button");
         SceneManager.LoadScene("MainMenu");
         // HideUIElement("MidContainer");
         // ShowUIElement("MidContainer2");
         //ActivateSelector("MidContainer", "hide");
     }
 
-    private void OnNoClick(ClickEvent evt)
+    private void OnPMNoClick(ClickEvent evt)
     {
-        Debug.Log("You press the No Button");
-        HideUIElement("MidContainer2");
-        ShowUIElement("MidContainer1");
+        Debug.Log("You press the pmNo Button");
+        HideUIElement("pmMidContainer1");
+        ShowUIElement("pmMidContainer");
         //ActivateSelector("MidContainer", "hide");
         pauseStage = 0;
+    }
+
+    private void OnGOTryAgainClick(ClickEvent evt)
+    {
+        Debug.Log("You press the goTryAgain Button");
+        //HideUIElement("goMidContainer");
+        //ShowUIElement("goMidContainer1");
+        //ActivateSelector("MidContainer", "hide");
+        gameOverStage = 0;
+
+        // Reload Scene
+        // Get the current active scene's name
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        // Reload the current scene
+        SceneManager.LoadScene(currentSceneName);
+    }
+
+    private void OnGOQuitClick(ClickEvent evt)
+    {
+        Debug.Log("You press the goQuit Button");
+        HideUIElement("goMidContainer");
+        ShowUIElement("goMidContainer1");
+        //ActivateSelector("MidContainer", "hide");
+        gameOverStage = 1;
+    }
+
+    private void OnGOYesClick(ClickEvent evt)
+    {
+        Debug.Log("You press the goYes Button");
+        SceneManager.LoadScene("MainMenu");
+        // HideUIElement("MidContainer");
+        // ShowUIElement("MidContainer2");
+        //ActivateSelector("MidContainer", "hide");
+    }
+
+    private void OnGONoClick(ClickEvent evt)
+    {
+        Debug.Log("You press the goNo Button");
+        HideUIElement("goMidContainer1");
+        ShowUIElement("goMidContainer");
+        //ActivateSelector("MidContainer", "hide");
+        gameOverStage = 0;
     }
 
 

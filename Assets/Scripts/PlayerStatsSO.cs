@@ -39,6 +39,14 @@ public class PlayerStatsSO : ScriptableObject
     public float Speed = 3f;
     public float StoppingDistance = 0.5f;
 
+    // Constructor or Initialization method
+    public void Initialize()
+    {
+        maxHP = 100;
+        Debug.Log("PlayerStatsSO: maxHP is " + maxHP + " currentHP is " + currentHP);
+        currentHP = maxHP;
+        Debug.Log("PlayerStatsSO: maxHP is " + maxHP + " currentHP is " + currentHP);
+    }
 
     // Methods for custom behavior (optional)
     public void TakeDamage(int damageAmount)

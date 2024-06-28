@@ -10,6 +10,10 @@ public class DarknessStatsSO : PlayerStatsSO
     public int criticalChance;
     // Other specific stats or methods
 
+    public bool IsDead()
+    {
+        return currentHP <= 0;
+    }
     
 }
 

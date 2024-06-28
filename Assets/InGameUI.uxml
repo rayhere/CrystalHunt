@@ -41,18 +41,53 @@
             </ui:VisualElement>
             <ui:VisualElement name="BodyPanel" class="BodyPanel">
                 <ui:VisualElement name="LeftContainer" class="LeftContainer" />
-                <ui:VisualElement name="MidContainer1" class="MidContainer hide">
+                <ui:VisualElement name="pmMidContainer" class="MidContainer">
                     <ui:VisualElement name="GroupContainer" class="GroupContainer">
-                        <ui:Button text="Resume" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ResumeButton" class="PauseMenuButtons" />
-                        <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="PauseMenuButtons" />
+                        <ui:Label tabindex="-1" text="Paused" parse-escape-sequences="true" display-tooltip-when-elided="true" class="BodyMidLabel" style="font-size: 100%; flex-wrap: wrap; flex-direction: column-reverse; justify-content: flex-end; align-self: center; align-items: center; -unity-text-align: lower-center; color: rgb(255, 255, 255);" />
+                        <ui:Button text="Resume" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pmResumeButton" class="PauseMenuButtons" />
+                        <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pmQuitButton" class="PauseMenuButtons" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="MidContainer2" class="MidContainer hide">
+                <ui:VisualElement name="pmMidContainer1" class="MidContainer hide">
                     <ui:VisualElement name="GroupContainer" class="GroupContainer">
-                        <ui:Label tabindex="-1" text="Are you sure you want to quit the game?" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitConfirmation" style="align-items: center; justify-content: center; align-self: center; height: 20%; width: 100%; font-size: 48%; color: rgb(255, 255, 255); -unity-text-align: upper-center; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
+                        <ui:Label tabindex="-1" text="Are you sure you want to quit the game?" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitConfirmation" class="BodyMidLabel" style="align-items: center; justify-content: center; align-self: center; height: 20%; width: 100%; font-size: 48%; color: rgb(255, 255, 255); -unity-text-align: lower-center; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
                         <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; align-items: flex-start; align-self: flex-start; width: 100%; height: 20%; flex-basis: 50%; padding-bottom: 0; margin-bottom: 0;">
-                            <ui:Button text="Yes" parse-escape-sequences="true" display-tooltip-when-elided="true" name="YesButton" class="PauseMenuButtons" />
-                            <ui:Button text="No" parse-escape-sequences="true" display-tooltip-when-elided="true" name="NoButton" class="PauseMenuButtons" />
+                            <ui:Button text="Yes" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pmYesButton" class="PauseMenuButtons" />
+                            <ui:Button text="No" parse-escape-sequences="true" display-tooltip-when-elided="true" name="pmNoButton" class="PauseMenuButtons" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="RighContainer" class="RighContainer" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BottomPanel" class="BottomPanel">
+                <ui:VisualElement name="BottomLeftContainer" class="BottomLeftContainer" />
+                <ui:VisualElement name="BottomMidContainer" class="BottomMidContainer" />
+                <ui:VisualElement name="BottomRightContainer" class="BottomRightContainer" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="GameOverMenu" class="GameOverMenu hide">
+        <ui:VisualElement style="flex-grow: 1; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%;">
+            <ui:VisualElement name="TopPanel" class="TopPanel" style="width: 100%; height: 100%; align-self: stretch; align-items: flex-start; justify-content: center;">
+                <ui:VisualElement name="TopLeftContainer" class="TopLeftContainer" />
+                <ui:VisualElement name="TopMidContainer" class="TopMidContainer" />
+                <ui:VisualElement name="TopRightContainer" class="TopRightContainer" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BodyPanel" class="BodyPanel">
+                <ui:VisualElement name="LeftContainer" class="LeftContainer" />
+                <ui:VisualElement name="goMidContainer" class="MidContainer">
+                    <ui:VisualElement name="GroupContainer" class="GroupContainer" style="height: 963%;">
+                        <ui:Label tabindex="-1" text="You Are Dead" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GameOverLabel" class="BodyMidLabel" style="font-size: 100%; color: rgb(255, 0, 0);" />
+                        <ui:Button text="Try Again" parse-escape-sequences="true" display-tooltip-when-elided="true" name="goTryAgainButton" class="PauseMenuButtons" />
+                        <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="goQuitButton" class="PauseMenuButtons" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="goMidContainer1" class="MidContainer hide">
+                    <ui:VisualElement name="GroupContainer" class="GroupContainer">
+                        <ui:Label tabindex="-1" text="Are you sure you want to quit the game?" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitConfirmation" class="BodyMidLabel" style="align-items: center; justify-content: center; align-self: center; height: 20%; width: 100%; font-size: 48%; color: rgb(255, 255, 255); -unity-text-align: lower-center; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
+                        <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; align-items: flex-start; align-self: flex-start; width: 100%; height: 20%; flex-basis: 50%; padding-bottom: 0; margin-bottom: 0;">
+                            <ui:Button text="Yes" parse-escape-sequences="true" display-tooltip-when-elided="true" name="goYesButton" class="PauseMenuButtons" />
+                            <ui:Button text="No" parse-escape-sequences="true" display-tooltip-when-elided="true" name="goNoButton" class="PauseMenuButtons" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
