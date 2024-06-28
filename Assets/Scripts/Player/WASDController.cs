@@ -171,6 +171,11 @@ public class WASDController : MonoBehaviour
     // DefaultInputActions
     private DefaultInputActions playerInputActions;
 
+
+    // InGameUI Manager Controll
+    //public bool lockPlayerInput = false;
+    public bool pauseMenu = false;
+
     void Awake()
     {
         //controller = GetComponent<CharacterController>();
@@ -232,7 +237,10 @@ public class WASDController : MonoBehaviour
         GroundCheck();
 
         //StartCoroutine(MyInput());
-        MyInput();
+        if (!pauseMenu)
+        {
+            MyInput();
+        }
         SpeedControl();
         StateHandler();
         TextStuff();

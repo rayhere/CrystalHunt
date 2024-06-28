@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/InGameUI.uss?fileID=7433441132597879392&amp;guid=f0e09f4a39a82754c8c74f49755107f0&amp;type=3#InGameUI" />
+    <ui:VisualElement name="VisualElement" class="Canvas">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.55);" />
+    </ui:VisualElement>
+</ui:UXML>

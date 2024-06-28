@@ -9,8 +9,13 @@ public class ThirdPersonCam : MonoBehaviour
 {
     [Header("References")]
     public Transform orientation;
+    //[SerializeField, Tooltip("PlayerObj, GameObject")]
+    //public GameObject playerObj;
+    [SerializeField, Tooltip("Player, GameObject hold movement script")]
     public Transform player;
-    public Transform playerObj;
+    [SerializeField, Tooltip("PlayerModel, hold Model")]
+    public Transform playerModel;
+    [SerializeField, Tooltip("Agent, GameObject hold Agent Component")]
     public NavMeshAgent agent;
     public LineRenderer lineRenderer;
     public Rigidbody rb;
@@ -53,6 +58,9 @@ public class ThirdPersonCam : MonoBehaviour
 
     [Header("Cursor")]
     public bool cursorLock = false;
+
+    [Header("PauseMenuEvent")]
+    public bool pauseMenu = false;
 
     // Cinemachine FreeLook settings
     public CinemachineFreeLook freeLookCam;
@@ -162,14 +170,49 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Update()
     {
-        
+        // Check if pauseMenu is active
+        if (pauseMenu)
+        {
+            // Disable Cinemachine FreeLook input
+            DisableCinemachineInput(freeLookCam);
+            return;
+        }
+        else
+        {
+            // Re-enable Cinemachine FreeLook input
+            EnableCinemachineInput(freeLookCam);
+        }
+
         HandleSwitchCameraStyles();
-        
 
-        
+        // Handle orbit scaling based on input scroll
+        //HandleOrbitScaling();
 
+        // Rotate camera orientation based on player movement or target
+        //RotateOrientation();
+
+        // Handle edge scrolling for camera movement
         //HandleEdgeScrolling();
     }
+
+    private void DisableCinemachineInput(CinemachineFreeLook freeLook)
+    {
+        if (freeLook != null)
+        {
+            freeLook.m_XAxis.m_InputAxisName = ""; // Clear input axis name to disable horizontal movement
+            freeLook.m_YAxis.m_InputAxisName = ""; // Clear input axis name to disable vertical movement
+        }
+    }
+
+    private void EnableCinemachineInput(CinemachineFreeLook freeLook)
+    {
+        if (freeLook != null)
+        {
+            freeLook.m_XAxis.m_InputAxisName = "Mouse X"; // Reset input axis name to enable horizontal movement
+            freeLook.m_YAxis.m_InputAxisName = "Mouse Y"; // Reset input axis name to enable vertical movement
+        }
+    }
+
     private void HandleSwitchCameraStyles()
     {
         // Switch camera styles based on input
@@ -216,9 +259,12 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void FixedUpdate()
     {   
+        if (pauseMenu) return;
         //HandleSwitchCameraStyles();
         HandleOrbitScaling();
+        
         RotateOrientation();
+
     }
 
     private void RotateOrientation()
@@ -251,12 +297,12 @@ public class ThirdPersonCam : MonoBehaviour
                     Quaternion targetRotation = Quaternion.LookRotation(forwardDirection, Vector3.up);
                     Debug.Log("targetRotation is " +targetRotation);
 
-                    // Smoothly rotate playerObj towards the target rotation
-                    playerObj.rotation = Quaternion.Slerp(playerObj.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                    // Smoothly rotate playerModel towards the target rotation
+                    playerModel.rotation = Quaternion.Slerp(playerModel.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
-                    /* // Adjust playerObj forward direction to point towards the line endpoint
+                    /* // Adjust playerModel forward direction to point towards the line endpoint
                     if (dirToLineEndpoint != Vector3.zero)
-                        playerObj.forward = Vector3.Slerp(playerObj.forward, dirToLineEndpoint.normalized, Time.deltaTime * rotation Speed);*/
+                        playerModel.forward = Vector3.Slerp(playerModel.forward, dirToLineEndpoint.normalized, Time.deltaTime * rotation Speed);*/
                 }
 
                 return;
@@ -278,14 +324,14 @@ public class ThirdPersonCam : MonoBehaviour
             Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
             if (inputDir != Vector3.zero)
-                playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+                playerModel.forward = Vector3.Slerp(playerModel.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
         }
         else if (currentStyle == CameraStyle.Combat)
         {
             Vector3 dirToCombatLookAt = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);
             orientation.forward = dirToCombatLookAt.normalized;
 
-            playerObj.forward = dirToCombatLookAt.normalized;
+            playerModel.forward = dirToCombatLookAt.normalized;
         }
     }
 

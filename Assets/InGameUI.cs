@@ -11,10 +11,12 @@ public class InGameUI : MonoBehaviour
     [Header("References")]
     public GameObject playerGameObject; // Reference to the Player GameObject
     public WASDController pm; // Reference to the WASDController component on the Player GameObject
+    public ClickToMove ctm;
+    public ThirdPersonCam tpc;
 
     //public VisualTreeAsset uiTree;
 
-    private UIDocument _document;
+    public UIDocument _document;
 
     private Label text_speed;
     private Label text_mode;
@@ -30,6 +32,8 @@ public class InGameUI : MonoBehaviour
     //private TextField text_mode;
 
     private bool cursorLocked = true;
+    private bool pauseMenuVisible = false; // Track visibility of PauseMenu
+    private int pauseStage = 0;
 
     private const string CrystalCountKey = "CrystalCount";
 
@@ -58,25 +62,33 @@ public class InGameUI : MonoBehaviour
             Debug.Log("WASDController component found!");
         }
 
-        // "PauseButton" is the Button name you created in UI Builder
-        _pauseButton = _document.rootVisualElement.Q("PauseButton") as Button;
-        _pauseButton.RegisterCallback<ClickEvent>(OnPauseClick);
+        InitializeUIElements();
+    }
 
-        // "ResumeButton" is the Button name you created in UI Builder
-        _resumeButton = _document.rootVisualElement.Q("ResumeButton") as Button;
-        _resumeButton.RegisterCallback<ClickEvent>(OnResumeClick);
+    private void InitializeUIElements()
+    {
+        if (_document != null) 
+        {
+            // "PauseButton" is the Button name you created in UI Builder
+            _pauseButton = _document.rootVisualElement.Q("PauseButton") as Button;
+            _pauseButton.RegisterCallback<ClickEvent>(OnPauseClick);
 
-        // "QuitButton" is the Button name you created in UI Builder
-        _quitButton = _document.rootVisualElement.Q("QuitButton") as Button;
-        _quitButton.RegisterCallback<ClickEvent>(OnQuitClick);
+            // "ResumeButton" is the Button name you created in UI Builder
+            _resumeButton = _document.rootVisualElement.Q("ResumeButton") as Button;
+            _resumeButton.RegisterCallback<ClickEvent>(OnResumeClick);
 
-        // "YesButton" is the Button name you created in UI Builder
-        _yesButton = _document.rootVisualElement.Q("YesButton") as Button;
-        _yesButton.RegisterCallback<ClickEvent>(OnYesClick);
+            // "QuitButton" is the Button name you created in UI Builder
+            _quitButton = _document.rootVisualElement.Q("QuitButton") as Button;
+            _quitButton.RegisterCallback<ClickEvent>(OnQuitClick);
 
-        // "NoButton" is the Button name you created in UI Builder
-        _noButton = _document.rootVisualElement.Q("NoButton") as Button;
-        _noButton.RegisterCallback<ClickEvent>(OnNoClick);
+            // "YesButton" is the Button name you created in UI Builder
+            _yesButton = _document.rootVisualElement.Q("YesButton") as Button;
+            _yesButton.RegisterCallback<ClickEvent>(OnYesClick);
+
+            // "NoButton" is the Button name you created in UI Builder
+            _noButton = _document.rootVisualElement.Q("NoButton") as Button;
+            _noButton.RegisterCallback<ClickEvent>(OnNoClick);
+        }
 
         if (_pauseButton == null)
         {
@@ -123,7 +135,9 @@ public class InGameUI : MonoBehaviour
             Debug.Log("NoButton found!");
         }
 
-        HideUIElement("MidContainer");
+        // Initially hide the PauseMenu
+        HideUIElement("PauseMenu");
+        //HideUIElement("MidContainer");
         HideUIElement("MidContainer2");
     }
 
@@ -228,17 +242,35 @@ public class InGameUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Escape key pressed");
-            // Toggle cursor lock state
-            if (cursorLocked)
-            {
-                UnlockCursor();
-            }
-            else
-            {
-                LockCursor();
-            }
+            // Toggle PauseMenu visibility
+            TogglePauseMenu();
         }
     }
+
+    private void TogglePauseMenu()
+    {
+        if (pauseMenuVisible)
+        {
+            if (pauseStage !=0) return;
+            HideUIElement("PauseMenu");
+            // Lock only for WASDMovement active
+            LockCursor();
+            if (pm != null) pm.pauseMenu = false;
+            if (tpc != null) tpc.pauseMenu = false;
+            if (ctm != null) ctm.pauseMenu = false;
+        }
+        else
+        {
+            ShowUIElement("PauseMenu");
+            ShowUIElement("MidContainer1");
+            UnlockCursor();
+            if (pm != null) pm.pauseMenu = true;
+            if (tpc != null) tpc.pauseMenu = true;
+            if (ctm != null) ctm.pauseMenu = true;
+        }
+        pauseMenuVisible = !pauseMenuVisible;
+    }
+    
     private void LockCursor()
     {
         Debug.Log("LockCursor method");
@@ -259,16 +291,20 @@ public class InGameUI : MonoBehaviour
     private void OnPauseClick(ClickEvent evt)
     {
         Debug.Log("You press the Pause Button");
-        HideUIElement("MidContainerEmpty");
+        ShowUIElement("PauseMenu");
+        //HideUIElement("MidContainerEmpty");
         ShowUIElement("MidContainer1");
         Debug.Log(" cursorLocked : " + cursorLocked);
+        pauseMenuVisible = true;
     }
 
     private void OnResumeClick(ClickEvent evt)
     {
         Debug.Log("You press the Resume Button");
-        HideUIElement("MidContainer1");
-        ShowUIElement("MidContainerEmpty");
+        HideUIElement("PauseMenu");
+        //HideUIElement("MidContainer1");
+        //ShowUIElement("MidContainerEmpty");
+        pauseMenuVisible = false;
     }
 
     private void OnQuitClick(ClickEvent evt)
@@ -277,6 +313,7 @@ public class InGameUI : MonoBehaviour
         HideUIElement("MidContainer1");
         ShowUIElement("MidContainer2");
         //ActivateSelector("MidContainer", "hide");
+        pauseStage = 1;
     }
 
     private void OnYesClick(ClickEvent evt)
@@ -292,8 +329,9 @@ public class InGameUI : MonoBehaviour
     {
         Debug.Log("You press the No Button");
         HideUIElement("MidContainer2");
-        ShowUIElement("MidContainer");
+        ShowUIElement("MidContainer1");
         //ActivateSelector("MidContainer", "hide");
+        pauseStage = 0;
     }
 
 

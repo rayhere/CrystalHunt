@@ -25,6 +25,8 @@ public class ClickToMove : MonoBehaviour
 
     private Vector3 destination;
 
+    public bool pauseMenu = false;
+
     private void Awake()
     {
         CreateVisualObject();
@@ -63,9 +65,11 @@ public class ClickToMove : MonoBehaviour
 
     void Update()
     {
-        HandleClickMovement();
+        if (!pauseMenu)
+        {
+            HandleClickMovement();
+        }
         FaceTarget();
-        
     }
 
     private void HandleClickMovement()

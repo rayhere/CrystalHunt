@@ -106,3 +106,15 @@
 .hide {
     display: none;
 }
+
+.PauseButton {
+    z-index: 10;
+}
+
+.PauseMenu {
+    z-index: 5;
+    flex-shrink: 1;
+    flex-wrap: wrap-reverse;
+    flex-grow: 0;
+    overflow: visible;
+}
