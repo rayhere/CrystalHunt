@@ -40,6 +40,8 @@ public class LedgeGrabbing : MonoBehaviour
     public float exitLedgeTime;
     private float exitLedgeTimer;
 
+    public bool isActive = true; // Flag to control whether script is active
+
     private void Update()
     {
         LedgeDetection();

@@ -25,7 +25,7 @@ public class WASDController : MonoBehaviour
     private float inputSmoothDamp = .3f;
 
     
-    public float walkSpeed = 7f;
+    public float walkSpeed = 3f;
     public float sprintSpeed = 10f;
     public float wallrunSpeed = 8.5f; 
     public float climbSpeed = 3f;
@@ -42,7 +42,7 @@ public class WASDController : MonoBehaviour
     [Header("Jumping")]
     [SerializeField, Tooltip("How the player should jump.")]
     private float jumpHeight = 1.0f;
-    public float jumpForce = 12f;
+    public float jumpForce = 6f;
     public float jumpCooldown = 0.55f;
     public float airMultiplier = 0.4f;
     bool readyToJump;
@@ -88,8 +88,11 @@ public class WASDController : MonoBehaviour
     private Vector3 originalCenter;
     private float originalHeight;
 
-    
 
+    
+    public bool isActive = true; // Flag to control whether script is active
+
+    private bool cursorLocked = true; // cursor locked only for wasd mode while controlling character
 
     public float horizontalInput;
     public float verticalInput;
@@ -221,40 +224,56 @@ public class WASDController : MonoBehaviour
     }
 
     private void Update() {
-        if (Mouse.current.leftButton.wasPressedThisFrame){
-            // Mouse clicked!
-        }
-        if (Keyboard.current.tKey.wasPressedThisFrame){
-            Debug.Log("Switch to UI ActionMap!");
-            playerInput.SwitchCurrentActionMap("UI");
-        }
-        if (Keyboard.current.yKey.wasPressedThisFrame){
-            Debug.Log("Switch to Player ActionMap!");
-            playerInput.SwitchCurrentActionMap("Player");
-        }
-
-        // Perform ground check
-        GroundCheck();
-
-        //StartCoroutine(MyInput());
-        if (!pauseMenu)
+        if (isActive)
         {
-            MyInput();
-        }
-        SpeedControl();
-        StateHandler();
-        TextStuff();
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                // Mouse clicked!
+            }
+            if (Keyboard.current.tKey.wasPressedThisFrame){
+                Debug.Log("Switch to UI ActionMap!");
+                playerInput.SwitchCurrentActionMap("UI");
+            }
+            if (Keyboard.current.yKey.wasPressedThisFrame){
+                Debug.Log("Switch to Player ActionMap!");
+                playerInput.SwitchCurrentActionMap("Player");
+            }
 
-        // handle drag
-        if (grounded)
-            rb.drag = groundDrag;
-        else
-            rb.drag = 0;
+            // Perform ground check
+            GroundCheck();
+
+            //StartCoroutine(MyInput());
+
+            
+            if (!pauseMenu)
+            {
+                MyInput();
+            }
+            SpeedControl();
+            StateHandler();
+            //TextStuff();
+
+            // handle drag
+            if (grounded)
+                rb.drag = groundDrag;
+            else
+                rb.drag = 0;
+        }
+        
         
     }    
     
     private void FixedUpdate() {
-        MovePlayer();
+        
+        if (isActive)
+        {   
+            MovePlayer();
+            if (!cursorLocked) LockCursor();
+        }
+        else
+        {
+            if (cursorLocked) UnlockCursor();
+        }
     }
 
     // Input Action method to handle movement
@@ -1123,6 +1142,23 @@ public class WASDController : MonoBehaviour
             print("StoneCube Stay");
             playerStats.currentHP -= 10; // Example: Taking damage
         }
+    }
+
+    private void LockCursor()
+    {
+        Debug.Log("LockCursor method");
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.visible = false;
+        cursorLocked = true;
+    }
+
+    private void UnlockCursor()
+    {
+        Debug.Log("UnlockCursor method");
+        cursorLocked = false;
+        UnityEngine.Cursor.visible = true;
+        
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
 
 }

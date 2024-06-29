@@ -26,6 +26,7 @@ public class ClickToMove : MonoBehaviour
     private Vector3 destination;
 
     public bool pauseMenu = false;
+    public bool isActive = true; // Flag to control whether script is active
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class ClickToMove : MonoBehaviour
     void Start()
     {
         myNavMeshAgent = GetComponent<NavMeshAgent>();
+        myNavMeshAgent.enabled = isActive;
         // Don't assign Animator in this object
         // myAnim = GetComponent<Animator>(); 
         myLineRenderer = GetComponent<LineRenderer>();
@@ -65,11 +67,29 @@ public class ClickToMove : MonoBehaviour
 
     void Update()
     {
-        if (!pauseMenu)
+        if (!pauseMenu && isActive)
         {
             HandleClickMovement();
+            FaceTarget();
         }
-        FaceTarget();
+        else if (!isActive)
+        {
+            
+            //clickToMove.GetComponent<NavMeshAgent>().ResetPath(); // Stop NavMeshAgent from moving
+            // Enable or disable NavMeshAgent based on isActive in ClickToMove
+            //clickToMove.GetComponent<NavMeshAgent>().enabled = clickToMove.isActive;
+        }
+        
+    }
+
+    public void ToggleFunction()
+    {
+        if (myNavMeshAgent.enabled) myNavMeshAgent.ResetPath(); // Stop NavMeshAgent from moving
+        myNavMeshAgent.enabled = isActive;
+        if (rb != null)
+        {
+            rb.isKinematic = isActive;
+        }
     }
 
     private void HandleClickMovement()
@@ -149,8 +169,8 @@ public class ClickToMove : MonoBehaviour
 
     private void SetDestination(Vector3 target)
     {
-        myAnim.SetBool("isStandingIdle", false);
-        myAnim.SetBool("isRunning", true);
+        //myAnim.SetBool("isStandingIdle", false);
+        //myAnim.SetBool("isRunning", true);
         //myAnim.Play("PlayerRunning");
         myNavMeshAgent.SetDestination(target);
 
@@ -169,8 +189,8 @@ public class ClickToMove : MonoBehaviour
     {
         if (!myNavMeshAgent.isStopped)
         Debug.Log("Agent isStopped");
-        myAnim.SetBool("isRunning", false);
-        myAnim.SetBool("isStandingIdle", true);
+        //myAnim.SetBool("isRunning", false);
+        //myAnim.SetBool("isStandingIdle", true);
         //myAnim.Play("PlayerStandingIdle");
         
         myNavMeshAgent.isStopped = true; // Agent stop moving

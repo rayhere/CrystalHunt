@@ -44,6 +44,8 @@ public class Climbing : MonoBehaviour
     public float exitWallTime = .2f;
     private float exitWallTimer;
 
+    public bool isActive = true; // Flag to control whether script is active
+
     private void Start()
     {
         lg = GetComponent<LedgeGrabbing>();

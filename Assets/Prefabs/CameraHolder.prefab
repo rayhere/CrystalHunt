@@ -122,8 +122,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1206583095931495951}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.047631975, y: 0.0000000021483562, z: -1.0244672e-10, w: 0.99886495}
-  m_LocalPosition: {x: -47, y: 14, z: -57}
+  m_LocalRotation: {x: 0.04763198, y: 0.0000000021483566, z: -1.02446746e-10, w: 0.99886495}
+  m_LocalPosition: {x: 0, y: 2, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -203,14 +203,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 0}
   player: {fileID: 0}
-  playerObj: {fileID: 0}
+  playerModel: {fileID: 0}
+  agent: {fileID: 0}
+  lineRenderer: {fileID: 0}
   rb: {fileID: 0}
-  rotationSpeed: 7
-  combatLookAt: {fileID: 0}
   thirdPersonCam: {fileID: 0}
   combatCam: {fileID: 0}
   topDownCam: {fileID: 0}
+  edgeScrollSpeed: 10
+  edgeScrollBoundary: 25
+  rotationSpeed: 7
+  combatLookAt: {fileID: 0}
+  baseTopRigHeight: 0
+  baseMiddleRigHeight: 0
+  baseBottomRigHeight: 0
+  maxScaleFactor: 5
+  minScaleFactor: 1
+  scaleSpeed: 0.5
   currentStyle: 0
+  cursorLock: 0
+  pauseMenu: 0
+  freeLookCam: {fileID: 0}
 --- !u!114 &9165349779999461838
 MonoBehaviour:
   m_ObjectHideFlags: 0

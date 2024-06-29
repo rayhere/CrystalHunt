@@ -37,7 +37,7 @@ public class InGameUI : MonoBehaviour
 
     //private TextField text_mode;
 
-    private bool cursorLocked = true;
+    private bool cursorLocked = false;
     private bool pauseMenuVisible = false; // Track visibility of PauseMenu
     public int pauseStage = 0;
     public int gameOverStage = -1;
@@ -252,7 +252,7 @@ public class InGameUI : MonoBehaviour
         }
 
         // Lock the cursor initially
-        LockCursor();
+        //LockCursor();
 
     }
 

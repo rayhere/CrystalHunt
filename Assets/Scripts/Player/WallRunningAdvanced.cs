@@ -48,6 +48,8 @@ public class WallRunningAdvanced : MonoBehaviour
     private LedgeGrabbing lg;
     private Rigidbody rb;
 
+    public bool isActive = true; // Flag to control whether script is active
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();

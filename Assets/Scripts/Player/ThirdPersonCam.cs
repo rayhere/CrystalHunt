@@ -67,7 +67,7 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Awake()
     {
-        InitializeCursorSettings();
+        //InitializeCursorSettings();
         InitializeCinemachineFreeLook();
         InitializeOrbitSettings();
     }

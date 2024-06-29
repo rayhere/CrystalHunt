@@ -12,11 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8890512c5864d04dbae8ddae69263c0, type: 3}
   m_Name: DarknessStats
   m_EditorClassIdentifier: 
-  maxHP: 0
-  currentHP: 0
+  maxHP: 100
+  currentHP: 100
+  Health: 100
+  AttackDelay: 1
+  Damage: 5
+  AttackRadius: 1.5
   moveSpeed: 0
   damage: 0
   hasSpecialAbility: 0
   characterName: 
+  AIUpdateInterval: 0.1
+  Acceleration: 8
+  AngularSpeed: 120
+  AreaMask: -1
+  AvoidancePriority: 50
+  BaseOffset: 0
+  Height: 2
+  ObstacleAvoidanceType: 1
+  Radius: 0.5
+  Speed: 3
+  StoppingDistance: 0.5
   armor: 0
   criticalChance: 0

@@ -24,6 +24,8 @@ public class Sliding : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
+    public bool isActive = true; // Flag to control whether script is active
+
 
     private void Start()
     {
