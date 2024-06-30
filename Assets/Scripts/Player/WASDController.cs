@@ -734,46 +734,6 @@ public class WASDController : MonoBehaviour
         if (Mathf.Abs(desiredMoveSpeed - moveSpeed) < 0.1f) keepMomentum = false;
     }
 
-   /*  private void SetFallingFalse()
-    {
-        falling = false;
-        aboutlanding = true;
-    }
-
-    private void SetFallingTrue()
-    {
-        falling = false;
-        aboutlanding = true;
-    }
-
-    private void SetAboutLandingFalse()
-    {
-        falling = false;
-        aboutlanding = false;
-        landedonground = true; // movementState changed
-        //SetAllAnimFalse();
-        //myAnim.SetBool("isLandedOnGround", true);
-    }
-
-    private void SetAboutLandingTrue()
-    {
-        falling = false;
-        aboutlanding = false;
-        landedonground = true; // movementState changed
-        //SetAllAnimFalse();
-        //myAnim.SetBool("isLandedOnGround", true);
-    }
-
-    
-
-    private void SetLandedOnGroundTrue()
-    {
-        falling = false;
-        aboutlanding = false;
-        landedonground = false;
-        myAnim.SetBool("isLandedOnGround", false);
-    } */
-
     private void SetLandedOnGroundFalse()
     {
         falling = false;

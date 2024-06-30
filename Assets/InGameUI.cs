@@ -279,6 +279,8 @@ public class InGameUI : MonoBehaviour
         if (!playerAlive && gameOverStage == -1)
         {
             gameOverStage = 0;
+            HideUIElement("PauseMenu");
+            HideUIElement("pmMidContainer1");
             ShowUIElement("GameOverMenu");
             ShowUIElement("goMidContainer");
             UnlockCursor();
