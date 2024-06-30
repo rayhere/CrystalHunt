@@ -21,12 +21,16 @@ public class ThirdPersonCam : MonoBehaviour
     public Rigidbody rb;
 
     [Header("Cinemachine Cameras")]
+    public GameObject firstPersonCam;
     public GameObject thirdPersonCam;
     public GameObject combatCam;
     public GameObject topDownCam;
+    public GameObject thirdPersonOmniscientCam;
+    private CinemachineVirtualCamera firstPersonVirtualCamera;
     private CinemachineFreeLook thirdPersonFreeLook;
     private CinemachineFreeLook combatFreeLook;
     private CinemachineFreeLook topDownFreeLook;
+    private CinemachineFreeLook thirdPersonOmniscientFreeLook;
     private Dictionary<CinemachineFreeLook, CinemachineFreeLook.Orbit[]> originalOrbitSettings = new Dictionary<CinemachineFreeLook, CinemachineFreeLook.Orbit[]>();
 
     [Header("Camera Movement")]
@@ -34,7 +38,6 @@ public class ThirdPersonCam : MonoBehaviour
     public float edgeScrollBoundary = 25f;
 
     public float rotationSpeed;
-
     public Transform combatLookAt;
 
     [Header("Orbit Settings")]
@@ -50,11 +53,13 @@ public class ThirdPersonCam : MonoBehaviour
     public CameraStyle currentStyle;
     public enum CameraStyle
     {
-        Basic,
+        FirstPerson,
+        ThirdPerson,
         Combat,
-        Topdown
+        Topdown,
+        ThirdPersonOmniscient
     }
-    private Dictionary<CameraStyle, CinemachineFreeLook> styleToCameraMap = new Dictionary<CameraStyle, CinemachineFreeLook>();
+    private Dictionary<CameraStyle, object> styleToCameraMap = new Dictionary<CameraStyle, object>();
 
     [Header("Cursor")]
     public bool cursorLock = false;
@@ -68,7 +73,7 @@ public class ThirdPersonCam : MonoBehaviour
     private void Awake()
     {
         //InitializeCursorSettings();
-        InitializeCinemachineFreeLook();
+        InitializeCinemachineComponents();
         InitializeOrbitSettings();
     }
 
@@ -76,12 +81,13 @@ public class ThirdPersonCam : MonoBehaviour
     {
         InitializeFreeLookCam();
         //if (freeLookCam == null) freeLookCam
+        Debug.Log("CameraStyle currentStyle is " + currentStyle);
     }
 
     private void InitializeFreeLookCam()
     {
         // Initialize Cinemachine FreeLook component
-        if (freeLookCam == null)
+        /* if (freeLookCam == null)
         {
             freeLookCam = styleToCameraMap[currentStyle];
             if (freeLookCam == null)
@@ -90,7 +96,50 @@ public class ThirdPersonCam : MonoBehaviour
                 return;
             }
             ApplyOriginalOrbitSettings(freeLookCam);
+        } */
+
+        /* if (!styleToCameraMap.ContainsKey(currentStyle))
+        {
+            Debug.LogError($"Camera style {currentStyle} not found in styleToCameraMap.");
+            return;
         }
+
+        object camObject = styleToCameraMap[currentStyle];
+        if (camObject is CinemachineFreeLook freeLook)
+        {
+            freeLookCam = freeLook;
+            ApplyOriginalOrbitSettings(freeLookCam);
+        }
+        else
+        {
+            Debug.LogError($"Expected CinemachineFreeLook but found {camObject.GetType()} for camera style {currentStyle}.");
+            // Handle the case where the camera object retrieved is not CinemachineFreeLook
+        } */
+
+        if (!styleToCameraMap.ContainsKey(currentStyle))
+        {
+            Debug.LogError($"Camera style {currentStyle} not found in styleToCameraMap.");
+            return;
+        }
+
+        object camObject = styleToCameraMap[currentStyle];
+        if (camObject is CinemachineFreeLook freeLook)
+        {
+            freeLookCam = freeLook;
+            ApplyOriginalOrbitSettings(freeLookCam);
+        }
+        else if (camObject is CinemachineVirtualCamera virtualCamera)
+        {
+            // Handle initialization specific to CinemachineVirtualCamera if needed
+            Debug.Log($"Handling {currentStyle} as a CinemachineVirtualCamera.");
+        }
+        else
+        {
+            Debug.LogError($"Unexpected camera type found for style {currentStyle}: {camObject.GetType()}.");
+        }
+        
+        SwitchCameraStyle(CameraStyle.ThirdPerson);
+        ApplyOriginalOrbitSettings(freeLookCam);
     }
 
     private void InitializeOrbitSettings()
@@ -99,6 +148,7 @@ public class ThirdPersonCam : MonoBehaviour
         StoreOriginalOrbitSettings(thirdPersonFreeLook);
         StoreOriginalOrbitSettings(combatFreeLook);
         StoreOriginalOrbitSettings(topDownFreeLook);
+        StoreOriginalOrbitSettings(thirdPersonOmniscientFreeLook);
     }
 
     private void InitializeOrbitSettings(CinemachineFreeLook freeLook)
@@ -123,28 +173,60 @@ public class ThirdPersonCam : MonoBehaviour
                     freeLook.m_Orbits[i].m_Radius = 0f; // Adjust radius if needed
                     break;
                 case 2: // BottomRig
-                    // Adjust as needed
+                    freeLook.m_Orbits[i].m_Height = baseBottomRigHeight;
+                    freeLook.m_Orbits[i].m_Radius = 0f; // Adjust radius if needed
                     break;
             }
         }
     }
 
-    private void InitializeCinemachineFreeLook()
+    private void InitializeCinemachineComponents()
     {
-        // Cache CinemachineFreeLook components
+        // Initialize CinemachineVirtualCamera component
+        firstPersonVirtualCamera = InitializeCinemachineVirtualCamera(firstPersonCam);
+
+        // Initialize  CinemachineFreeLook components
         thirdPersonFreeLook = InitializeCinemachineFreeLook(thirdPersonCam);
         combatFreeLook = InitializeCinemachineFreeLook(combatCam);
         topDownFreeLook = InitializeCinemachineFreeLook(topDownCam);
+        thirdPersonOmniscientFreeLook = InitializeCinemachineFreeLook(thirdPersonOmniscientCam);
 
         // Populate the style to camera mapping (ensure each style is added only once)
-        if (!styleToCameraMap.ContainsKey(CameraStyle.Basic) && thirdPersonFreeLook != null)
-            styleToCameraMap.Add(CameraStyle.Basic, thirdPersonFreeLook);
+        if (firstPersonVirtualCamera != null)
+        styleToCameraMap.Add(CameraStyle.FirstPerson, firstPersonVirtualCamera);
+
+        if (!styleToCameraMap.ContainsKey(CameraStyle.ThirdPerson) && thirdPersonFreeLook != null)
+            styleToCameraMap.Add(CameraStyle.ThirdPerson, thirdPersonFreeLook);
 
         if (!styleToCameraMap.ContainsKey(CameraStyle.Combat) && combatFreeLook != null)
             styleToCameraMap.Add(CameraStyle.Combat, combatFreeLook);
 
         if (!styleToCameraMap.ContainsKey(CameraStyle.Topdown) && topDownFreeLook != null)
             styleToCameraMap.Add(CameraStyle.Topdown, topDownFreeLook);
+
+        if (!styleToCameraMap.ContainsKey(CameraStyle.ThirdPersonOmniscient) && thirdPersonOmniscientFreeLook != null)
+            styleToCameraMap.Add(CameraStyle.ThirdPersonOmniscient, thirdPersonOmniscientFreeLook);
+    }
+
+    private CinemachineVirtualCamera InitializeCinemachineVirtualCamera(GameObject camObject)
+    {
+        if (camObject != null)
+        {
+            CinemachineVirtualCamera virtualCamera = camObject.GetComponent<CinemachineVirtualCamera>();
+            if (virtualCamera != null)
+            {
+                return virtualCamera;
+            }
+            else
+            {
+                Debug.LogError($"CinemachineVirtualCamera component not found on {camObject.name} GameObject.");
+            }
+        }
+        else
+        {
+            Debug.LogError($"GameObject {camObject.name} not found.");
+        }
+        return null;
     }
 
     private CinemachineFreeLook InitializeCinemachineFreeLook(GameObject camObject)
@@ -193,6 +275,15 @@ public class ThirdPersonCam : MonoBehaviour
 
         // Handle edge scrolling for camera movement
         //HandleEdgeScrolling();
+
+        // Handle omniscient camera specific behavior
+        //HandleOmniscientCamera();
+
+        // Handle edge scrolling for camera movement based on current camera style
+        if (currentStyle == CameraStyle.ThirdPersonOmniscient)
+        {
+            HandleOmniscientEdgeScrolling();
+        }
     }
 
     private void DisableCinemachineInput(CinemachineFreeLook freeLook)
@@ -218,20 +309,163 @@ public class ThirdPersonCam : MonoBehaviour
         // Switch camera styles based on input
         if (Input.GetKeyDown(KeyCode.Alpha1)) 
         {
-            SwitchCameraStyle(CameraStyle.Basic);
-            ApplyOriginalOrbitSettings(freeLookCam);
+            SwitchCameraStyle(CameraStyle.FirstPerson);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2)) 
         {
-            SwitchCameraStyle(CameraStyle.Combat);
+            SwitchCameraStyle(CameraStyle.ThirdPerson);
             ApplyOriginalOrbitSettings(freeLookCam);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3)) 
         {
+            SwitchCameraStyle(CameraStyle.Combat);
+            ApplyOriginalOrbitSettings(freeLookCam);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4)) 
+        {
             SwitchCameraStyle(CameraStyle.Topdown);
             ApplyOriginalOrbitSettings(freeLookCam);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha5)) // Handle switch to omniscient camera
+        {
+            SwitchCameraStyle(CameraStyle.ThirdPersonOmniscient);
+            ApplyOriginalOrbitSettings(freeLookCam);
+            StartCoroutine(HandleOmniscientCamera());
+        }
     }
+
+    private IEnumerator HandleOmniscientCamera()
+    {
+        // Check if omniscient camera style is active
+        if (currentStyle == CameraStyle.ThirdPersonOmniscient)
+        {
+            // Handle edge scrolling for omniscient camera
+            HandleOmniscientEdgeScrolling();
+
+            // Lock axis control for omniscient camera
+            DisableCinemachineInput(freeLookCam);
+            Debug.Log("DisableCinemachineInput");
+
+            // Make omniscient camera look at player
+            if (freeLookCam != null && player != null)
+            {
+                freeLookCam.Follow = player;
+                freeLookCam.LookAt = player;
+            }
+
+            // Wait for one frame
+            yield return null;
+
+            if (freeLookCam != null && player != null)
+            {
+                freeLookCam.Follow = null;
+                freeLookCam.LookAt = null;
+            }
+        }
+        else
+        {
+            // If not omniscient style, enable axis control
+            EnableCinemachineInput(freeLookCam);
+        }
+    }
+
+    private void HandleOmniscientEdgeScrolling()
+    {
+        // Get mouse position in screen coordinates
+        Vector3 mousePosition = Input.mousePosition;
+
+        // Calculate edge scroll based on screen edges
+        float edgeScrollSpeedThisFrame = edgeScrollSpeed * Time.deltaTime;
+        Vector3 moveDirection = Vector3.zero;
+
+        if (mousePosition.x < edgeScrollBoundary)
+        {
+            moveDirection += Vector3.left;
+        }
+        else if (mousePosition.x > Screen.width - edgeScrollBoundary)
+        {
+            moveDirection += Vector3.right;
+        }
+
+        if (mousePosition.y < edgeScrollBoundary)
+        {
+            moveDirection += Vector3.back;
+        }
+        else if (mousePosition.y > Screen.height - edgeScrollBoundary)
+        {
+            moveDirection += Vector3.forward;
+        }
+
+        // Normalize move direction to prevent faster diagonal movement
+        if (moveDirection != Vector3.zero)
+        {
+            moveDirection.Normalize();
+            moveDirection *= edgeScrollSpeedThisFrame;
+
+            // Apply movement to the camera's position
+            thirdPersonOmniscientFreeLook.transform.position += moveDirection;
+        }
+    }
+
+
+    private void HandleOmniscientEdgeScrollingOld()
+    {
+        // Get mouse position in screen coordinates
+        Vector3 mousePosition = Input.mousePosition;
+
+        // Convert mouse position to world coordinates
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Mathf.Abs(Camera.main.transform.position.z)));
+
+        // Calculate edge scroll based on screen edges
+        float edgeScrollSpeedThisFrame = edgeScrollSpeed * Time.deltaTime;
+        Vector3 moveDirection = Vector3.zero;
+
+        if (mousePosition.x < edgeScrollBoundary)
+        {
+            moveDirection += Vector3.left;
+        }
+        else if (mousePosition.x > Screen.width - edgeScrollBoundary)
+        {
+            moveDirection += Vector3.right;
+        }
+
+        if (mousePosition.y < edgeScrollBoundary)
+        {
+            moveDirection += Vector3.back;
+        }
+        else if (mousePosition.y > Screen.height - edgeScrollBoundary)
+        {
+            moveDirection += Vector3.forward;
+        }
+
+        // Normalize move direction to prevent faster diagonal movement
+        /* if (moveDirection != Vector3.zero)
+        {
+            moveDirection.Normalize();
+            moveDirection *= edgeScrollSpeedThisFrame;
+
+            // Apply movement relative to camera orientation
+            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+
+            // Adjust camera position for omniscient camera only
+            if (freeLookCam == thirdPersonOmniscientFreeLook)
+            {
+                transform.position += moveDirection;
+            }
+        } */
+
+        // Normalize move direction to prevent faster diagonal movement
+        if (moveDirection != Vector3.zero)
+        {
+            moveDirection.Normalize();
+            moveDirection *= edgeScrollSpeedThisFrame;
+
+            // Apply movement relative to camera orientation
+            //transform.position += moveDirection;
+            thirdPersonOmniscientFreeLook.transform.position += moveDirection;
+        }
+    }
+
     private void HandleOrbitScaling()
     {   
         // Handle orbit scaling based on input scroll
@@ -269,6 +503,69 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void RotateOrientation()
     {
+
+        if (currentStyle == CameraStyle.FirstPerson)
+        {
+            /* Debug.Log("FirstPersonCam update RotateOrientation");
+            // Rotate player model based on mouse movement
+            float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
+
+            // Rotate the playerModel (which is typically the camera) around its own axes
+            playerModel.transform.localRotation *= Quaternion.Euler(Vector3.up * mouseX);
+
+            // Rotate the orientation object (which is used for camera rotation)
+            orientation.transform.localRotation *= Quaternion.Euler(Vector3.left * mouseY);
+
+            // Clamp vertical rotation of orientation to avoid flipping
+            Vector3 eulerRotation = orientation.transform.localRotation.eulerAngles;
+            eulerRotation.x = Mathf.Clamp(eulerRotation.x, -90f, 90f);
+            orientation.transform.localRotation = Quaternion.Euler(eulerRotation);
+
+            // Match playerModel rotation to orientation for movement direction
+            playerModel.rotation = Quaternion.Euler(0f, orientation.transform.eulerAngles.y, 0f);
+            Debug.Log("FirstPersonCam update RotateOrientation: playerModel.rotation " + playerModel.rotation + " orientation.transform.localRotation " + orientation.transform.localRotation);
+            Debug.Log("playerModel.parent is " + playerModel.parent.name); */
+
+            /* // Rotate player model based on mouse movement only for virtual camera
+            float mouseX = Input.GetAxis("Mouse X") * 100 *rotationSpeed * Time.deltaTime;
+
+            // Rotate the playerModel around its own y-axis
+            playerModel.transform.Rotate(Vector3.up, mouseX);
+
+            // Keep playerModel upright, resetting x and z rotations to 0
+            Vector3 currentRotation = playerModel.transform.eulerAngles;
+            playerModel.transform.eulerAngles = new Vector3(0f, currentRotation.y, 0f);
+
+            // Rotate the orientation object for free look camera (if needed)
+            orientation.transform.Rotate(Vector3.left, Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime); */
+
+            // Calculate direction from playerModel position to firstPersonCam position
+            //Vector3 viewDirection = firstPersonCam.transform.position - playerModel.position;
+
+            // Calculate direction from firstPersonCam position to playerModel position
+            Vector3 viewDirection = playerModel.position - firstPersonCam.transform.position;
+
+            // Preserve current z and x rotation of playerModel
+            Quaternion currentRotation = playerModel.rotation;
+            Quaternion targetRotation = Quaternion.LookRotation(viewDirection);
+
+            // Preserve z and x rotation
+            targetRotation.eulerAngles = new Vector3(currentRotation.eulerAngles.x, targetRotation.eulerAngles.y, currentRotation.eulerAngles.z);
+
+            // Apply rotation with preservation
+            playerModel.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+
+            return;
+        }
+        else
+        {
+            // For other camera styles (ThirdPerson, Combat, Topdown), handle rotation differently
+            // Depending on your game logic, you may want to handle these cases separately.
+            // Example: Follow target, look at target, etc.
+        }
+        
         if (agent!=null) 
         {
             if (agent.enabled)
@@ -312,12 +609,13 @@ public class ThirdPersonCam : MonoBehaviour
                 // agent is disable
             }
         }
+
         // Rotate orientation
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         orientation.forward = viewDir.normalized;
 
         // Rotate player object based on current camera style
-        if (currentStyle == CameraStyle.Basic || currentStyle == CameraStyle.Topdown)
+        if (currentStyle == CameraStyle.ThirdPerson || currentStyle == CameraStyle.Topdown)
         {
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
@@ -382,12 +680,36 @@ public class ThirdPersonCam : MonoBehaviour
     private void SwitchCameraStyle(CameraStyle newStyle)
     {
         // Deactivate all cameras first
+        firstPersonCam.SetActive(false);
         thirdPersonCam.SetActive(false);
         combatCam.SetActive(false);
         topDownCam.SetActive(false);
+        thirdPersonOmniscientCam.SetActive(false);
 
         // Activate the chosen camera style
-        if (newStyle == CameraStyle.Basic)
+        if (styleToCameraMap.TryGetValue(newStyle, out object camObject))
+        {
+            if (camObject is CinemachineFreeLook freeLook)
+            {
+                freeLook.gameObject.SetActive(true);
+                freeLookCam = freeLook;
+            }
+            else if (camObject is CinemachineVirtualCamera virtualCam)
+            {
+                virtualCam.gameObject.SetActive(true);
+                // Handle Virtual Camera specific settings or assignments
+            }
+        }
+        else
+        {
+            Debug.LogError($"No camera component found for style {newStyle}");
+            return;
+        }
+        /* if (newStyle == CameraStyle.FirstPerson)
+        {
+            firstPersonCam.SetActive(true);
+        }
+        else if (newStyle == CameraStyle.ThirdPerson)
         {
             thirdPersonCam.SetActive(true);
             freeLookCam = thirdPersonFreeLook;
@@ -402,6 +724,11 @@ public class ThirdPersonCam : MonoBehaviour
             topDownCam.SetActive(true);
             freeLookCam = topDownFreeLook;
         }
+        else if (newStyle == CameraStyle.ThirdPersonOmniscient)
+        {
+            thirdPersonOmniscientCam.SetActive(true);
+            freeLookCam = thirdPersonOmniscientFreeLook;
+        } */
 
         // Update current style
         currentStyle = newStyle;
@@ -444,7 +771,7 @@ public class ThirdPersonCam : MonoBehaviour
         }
     }
 
-    public void ApplyOriginalOrbitSettings(CinemachineFreeLook freeLook)
+    public void ApplyOriginalOrbitSettingsOld(CinemachineFreeLook freeLook)
     {
         if (originalOrbitSettings.ContainsKey(freeLook))
         {
@@ -463,6 +790,18 @@ public class ThirdPersonCam : MonoBehaviour
         else
         {
             Debug.LogError("Orbit settings for this CinemachineFreeLook are not stored.");
+        }
+    }
+
+    private void ApplyOriginalOrbitSettings(CinemachineFreeLook freeLook)
+    {
+        if (originalOrbitSettings.TryGetValue(freeLook, out CinemachineFreeLook.Orbit[] orbits))
+        {
+            for (int i = 0; i < freeLook.m_Orbits.Length && i < orbits.Length; i++)
+            {
+                freeLook.m_Orbits[i].m_Height = orbits[i].m_Height;
+                freeLook.m_Orbits[i].m_Radius = orbits[i].m_Radius;
+            }
         }
     }
 

@@ -77,6 +77,7 @@ public class WASDController : MonoBehaviour
     [Header("References")]
     public Climbing climbingScript;
     public Transform orientation;
+    public Transform playerModel;
     public Animator myAnim;
     public PlayerStatsSO playerStats; // Reference to the ScriptableObject
     // Declare a variable to hold the CapsuleCollider component
@@ -84,6 +85,7 @@ public class WASDController : MonoBehaviour
     private Vector3 originalCenter;
     private float originalHeight;
     private CursorLock cursorLock;
+    public ThirdPersonCam thirdPersonCam;
 
     
     public bool isActive = true; // Flag to control whether script is active
@@ -789,8 +791,16 @@ public class WASDController : MonoBehaviour
         if (climbingScript != null)
         if (climbingScript.exitingWall) return;
 
-        // calculate movement direction
+        if (thirdPersonCam.currentStyle == ThirdPersonCam.CameraStyle.FirstPerson)
+        {
+            // Calculate movement direction using playerModel's forward and right vectors
+        moveDirection = playerModel.forward * verticalInput + playerModel.right * horizontalInput;
+        }
+        else
+        {
+            // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        }
 
         // on slope
         if (OnSlope() && !exitingSlope)
