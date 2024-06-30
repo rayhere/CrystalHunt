@@ -393,147 +393,10 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
   m_PrefabInstance: {fileID: 186599204}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &21938214
+--- !u!114 &21938219 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21938213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 101990981850ab84da81a0625d887ad1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clickToMove: {fileID: 21938231}
-  wasdController: {fileID: 21938219}
-  climbing: {fileID: 21938218}
-  ledgeGrabbing: {fileID: 21938217}
-  sliding: {fileID: 21938216}
-  wallRunningAdvanced: {fileID: 21938215}
-  mode: 0
---- !u!114 &21938215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21938213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c53e22513aa4ed43905866beddddb37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  whatIsWall:
-    serializedVersion: 2
-    m_Bits: 256
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 2304
-  wallRunForce: 200
-  wallJumpUpForce: 7
-  wallJumpSideForce: 14
-  wallClimbSpeed: 3
-  maxWallRunTime: 4
-  jumpKey: 32
-  upwardsRunKey: 304
-  downwardsRunKey: 306
-  wallCheckDistance: 0.7
-  minJumpHeight: 2
-  exitingWall: 0
-  exitWallTime: 0.2
-  useGravity: 0
-  gravityCounterForce: 27
-  orientation: {fileID: 808090762}
-  cam: {fileID: 438945840101466424}
-  isActive: 1
---- !u!114 &21938216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21938213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7fc3dc3e981f043a5349b0faa59e6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orientation: {fileID: 808090762}
-  playerObj: {fileID: 21938227}
-  maxSlideTime: 2
-  slideForce: 200
-  slideYScale: 0.5
-  slideKey: 306
-  isActive: 1
---- !u!114 &21938217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21938213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad1dcd9ba8b24c7438563b367af494a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pm: {fileID: 21938219}
-  orientation: {fileID: 808090762}
-  cam: {fileID: 2549006316689351300}
-  rb: {fileID: 21938222}
-  moveToLedgeSpeed: 12
-  maxLedgeGrabDistance: 2
-  minTimeOnLedge: 0.5
-  holding: 0
-  jumpKey: 32
-  ledgeJumpForwardForce: 14
-  ledgeJumpUpwardForce: 5
-  ledgeDetectionLength: 3
-  ledgeSphereCastRadius: 0.5
-  whatIsLedge:
-    serializedVersion: 2
-    m_Bits: 0
-  exitingLedge: 0
-  exitLedgeTime: 0
-  isActive: 1
---- !u!114 &21938218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21938213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16193b40502631b479f3b7d9754058d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orientation: {fileID: 808090762}
-  rb: {fileID: 21938222}
-  pm: {fileID: 21938219}
-  lg: {fileID: 21938217}
-  whatIsWall:
-    serializedVersion: 2
-    m_Bits: 2304
-  climbSpeed: 10
-  maxClimbTime: 0.75
-  climbJumpUpForce: 14
-  climbJumpBackForce: 12
-  jumpKey: 32
-  climbJumps: 1
-  detectionLength: 0.7
-  sphereCastRadius: 0.25
-  maxWallLookAngle: 30
-  minWallNormalAngleChange: 5
-  exitingWall: 0
-  exitWallTime: 0.2
-  isActive: 1
---- !u!114 &21938219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 8444337023501753480, guid: 30900763e3315a1488345a75befec333, type: 3}
+  m_PrefabInstance: {fileID: 186599204}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 21938213}
   m_Enabled: 1
@@ -541,150 +404,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20525bde7033f7d4a93d3312375236c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 2
-  gravityValue: -9.81
-  rotationSpeed: 0.4
-  animationBlendDamp: 0.3
-  inputSmoothDamp: 0.3
-  walkSpeed: 3
-  sprintSpeed: 10
-  wallrunSpeed: 8.5
-  climbSpeed: 3
-  slideSpeed: 30
-  vaultSpeed: 15
-  airMinSpeed: 7
-  speedIncreaseMultiplier: 1.5
-  slopeIncreaseMultiplier: 2.5
-  groundDrag: 4
-  jumpHeight: 1
-  jumpForce: 6
-  jumpCooldown: 0.55
-  airMultiplier: 0.4
-  raycastLandingDistance: 2
-  crouchSpeed: 3.5
-  crouchYScale: 0.5
-  jumpKey: 32
-  sprintKey: 304
-  crouchKey: 306
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 3328
-  grounded: 0
-  _groundCheckOffset: 0.35
-  _groundCheckDistance: 0.35
-  _groundCheckRadius: 0.3
-  playerHeight: 2
-  maxSlopeAngle: 40
-  climbingScript: {fileID: 21938218}
-  orientation: {fileID: 808090762}
-  myAnim: {fileID: 1107110864}
-  playerStats: {fileID: 0}
-  isActive: 1
-  horizontalInput: 0
-  verticalInput: 0
-  state: 0
-  freeze: 0
-  unlimited: 0
-  restricted: 0
-  jumping: 0
-  falling: 0
-  aboutlanding: 0
-  landedonground: 0
-  walking: 0
-  sprinting: 0
-  wallrunning: 0
-  climbing: 0
-  vaulting: 0
-  crouching: 0
-  sliding: 0
-  standingidle: 0
-  text_speed: {fileID: 0}
-  text_mode: {fileID: 0}
-  onMove:
-    m_PersistentCalls:
-      m_Calls: []
-  onJump:
-    m_PersistentCalls:
-      m_Calls: []
-  pauseMenu: 0
---- !u!114 &21938220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21938213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: deabb6536f62dd34eb6a88868963096d, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 86753310-c21e-406e-bdef-6da8cb0d48fb
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 08e6c8a1-65f0-4842-ad88-c5ff9eee7b72
-    m_ActionName: Player/Jump[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c1849e81-2fdf-41fb-baad-bad65a646f97
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: abadbf79-e919-4011-b146-e9b4dab407c1
-    m_ActionName: Player/Fire[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 25235aca-32e9-4b50-941a-06be521f3fb9
-    m_ActionName: UI/Submit[/Keyboard/space]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!54 &21938222 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4877009431915880377, guid: 30900763e3315a1488345a75befec333, type: 3}
   m_PrefabInstance: {fileID: 186599204}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &21938223
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21938213}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Height: 1.83
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.915, z: 0}
 --- !u!4 &21938227 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8808282378655410959, guid: 30900763e3315a1488345a75befec333, type: 3}
@@ -1191,10 +915,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 568721237176726021, guid: 30900763e3315a1488345a75befec333, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 819247099019392282, guid: 30900763e3315a1488345a75befec333, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 2549006316689351300}
+    - target: {fileID: 4428046768854621826, guid: 30900763e3315a1488345a75befec333, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 438945840101466424}
     - target: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
       propertyPath: m_Name
       value: Darkness
@@ -1242,31 +970,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 21938223}
-    - targetCorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 21938220}
-    - targetCorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 21938219}
-    - targetCorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 21938218}
-    - targetCorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 21938217}
-    - targetCorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 21938216}
-    - targetCorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 21938215}
-    - targetCorrespondingSourceObject: {fileID: 5587953136185715614, guid: 30900763e3315a1488345a75befec333, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 21938214}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30900763e3315a1488345a75befec333, type: 3}
 --- !u!1 &198623148
 GameObject:
@@ -3061,11 +2765,6 @@ Transform:
   - {fileID: 1309040300}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1107110864 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1362379909689432175, guid: 30900763e3315a1488345a75befec333, type: 3}
-  m_PrefabInstance: {fileID: 186599204}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1125605309
 GameObject:
   m_ObjectHideFlags: 0
@@ -5356,7 +5055,8 @@ MonoBehaviour:
   isActive: 1
   horizontalInput: 0
   verticalInput: 0
-  state: 0
+  movementState: 0
+  performState: 0
   freeze: 0
   unlimited: 0
   restricted: 0
@@ -5372,14 +5072,6 @@ MonoBehaviour:
   crouching: 0
   sliding: 0
   standingidle: 0
-  text_speed: {fileID: 4100892705036798619}
-  text_mode: {fileID: 4279068008447780520}
-  onMove:
-    m_PersistentCalls:
-      m_Calls: []
-  onJump:
-    m_PersistentCalls:
-      m_Calls: []
   pauseMenu: 0
 --- !u!114 &1986005902
 MonoBehaviour:
@@ -6560,7 +6252,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4731647953039349946}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09252102, y: -0.000000017659858, z: 0.0000000016409465, w: 0.99571073}
+  m_LocalRotation: {x: 0.09252102, y: 0.000000017659856, z: -0.0000000016409463, w: 0.99571073}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

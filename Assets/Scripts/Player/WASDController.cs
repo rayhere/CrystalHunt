@@ -1,11 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Events;
-using UnityEditor;
-using TMPro;
 using System.Collections;
-using System;
-using UnityEngine.UIElements;
+
 
 [RequireComponent(typeof(Rigidbody), typeof(PlayerInput))]
 public class WASDController : MonoBehaviour
@@ -87,7 +83,7 @@ public class WASDController : MonoBehaviour
     private CapsuleCollider capsuleCollider;
     private Vector3 originalCenter;
     private float originalHeight;
-
+    private CursorLock cursorLock;
 
     
     public bool isActive = true; // Flag to control whether script is active
@@ -97,9 +93,9 @@ public class WASDController : MonoBehaviour
     public float horizontalInput;
     public float verticalInput;
 
-    Vector3 moveDirection;
+    private Vector3 moveDirection;
 
-    public MovementState state;
+    public MovementState movementState;
     public enum MovementState
     {
         freeze,
@@ -117,6 +113,23 @@ public class WASDController : MonoBehaviour
         crouching,
         sliding,
         air
+    }
+
+    public PerformState performState;
+    public enum PerformState
+    {
+        isStandingIdle,
+        isWalking,
+        isSprinting,
+        isCrouching,
+        isJumping,
+        isFalling,
+        isAboutLanding,
+        isLandedOnGround,
+        isGrounded,
+        isCrouchedWalking,
+        isCrouchingIdle,
+        isSliding
     }
 
     // For StateHandler
@@ -137,78 +150,25 @@ public class WASDController : MonoBehaviour
     public bool standingidle;
     bool keepMomentum;
 
-    public TextMeshProUGUI text_speed;
-    public TextMeshProUGUI text_mode;
-
-    /*     [Header("Animation")]
-    public Animator animator;
-    public string idleAnimation = "Idle";
-    public string walkAnimation = "Walk";
-    public string jumpAnimation = "Jump";
-
-    [Header("Audio")]
-    public AudioSource jumpSound;
-    public AudioSource walkSound; */
-
-    // Unity Events for Input Actions
-    public UnityEvent onMove;
-    public UnityEvent onJump;
-
-    
     private PlayerInput playerInput;
-    private Animator anim;
-    // private CharacterController controller;
     private Rigidbody rb;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private Transform cameraTransform;
 
-    private InputAction moveAction;
-    private InputAction jumpAction;
-    
-    private int jumpAnimationId;
-    private int blendAnimationParameterID;
-
-    // For onMove InvokeUnityEvents
-    private bool inputMovement = false; 
-    // DefaultInputActions
-    private DefaultInputActions playerInputActions;
-
-
     // InGameUI Manager Controll
-    //public bool lockPlayerInput = false;
     public bool pauseMenu = false;
 
     void Awake()
     {
-        //controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
-        //anim = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-        cameraTransform = Camera.main.transform;
-        // Assign the input actions
-        //playerInputActions = playerInput.actions;
-        //moveAction = playerInput.actions["Move"];
-        //jumpAction = playerInput.actions["Jump"];
-
-        jumpAnimationId = Animator.StringToHash("Jump");
-        blendAnimationParameterID = Animator.StringToHash("Blend");
-
-        //myAnim = GetComponent<Animator>(); // allow to control animations of the GameObject
-
-
-        // Assigning stats to the player
-        //playerStats = GameManager.Instance.playerStats; // Access through a GameManager or directly
-
     }
 
-        private void Start()
+    private void Start()
     {
-        //rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
         readyToJump = true;
-
         startYScale = transform.localScale.y;
 
         // Get the CapsuleCollider component from the current GameObject
@@ -223,12 +183,13 @@ public class WASDController : MonoBehaviour
         }
     }
 
-    private void Update() {
+    private void Update() 
+    {
         if (isActive)
         {
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                // Mouse clicked!
+                // Handle Mouse click
             }
             if (Keyboard.current.tKey.wasPressedThisFrame){
                 Debug.Log("Switch to UI ActionMap!");
@@ -242,88 +203,31 @@ public class WASDController : MonoBehaviour
             // Perform ground check
             GroundCheck();
 
-            //StartCoroutine(MyInput());
-
-            
             if (!pauseMenu)
             {
-                MyInput();
+                HandleInput();
             }
             SpeedControl();
             StateHandler();
-            //TextStuff();
-
+            
             // handle drag
             if (grounded)
                 rb.drag = groundDrag;
             else
                 rb.drag = 0;
         }
-        
-        
     }    
     
-    private void FixedUpdate() {
-        
+    private void FixedUpdate() 
+    {
         if (isActive)
         {   
             MovePlayer();
-            if (!cursorLocked) LockCursor();
-        }
-        else
-        {
-            if (cursorLocked) UnlockCursor();
         }
     }
 
-    // Input Action method to handle movement
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        Vector2 movementInput = context.ReadValue<Vector2>();
-        Vector3 movement = new Vector3(movementInput.x, 0f, movementInput.y);
-        rb.velocity = movement * moveSpeed;
 
-        if (context.performed){
-            Debug.Log("Movement! " + context.phase);
-            //playerRigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
-            inputMovement = true;
-        }else{
-            Debug.Log("Movement Stop! " + context.phase);
-            inputMovement = false;
-        }
-        onMove.Invoke(); // Invoke Unity Event for movement
-    }
-
-    // Input Action method to handle jumping
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsGrounded())
-        {
-            Debug.Log("Jump! " + context.phase);
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-            // Trigger jump animation and sound
-            /* animator.Play(jumpAnimation);
-            jumpSound.Play(); */
-
-            onJump.Invoke(); // Invoke Unity Event for jumping
-        }
-    }
-
-    // Method to check if the player is grounded
-    private bool IsGrounded()
-    {
-        // Implement your grounded check logic here
-        return true; // Placeholder implementation
-    }
-
-    public void Submit (InputAction.CallbackContext context) {
-        if (context.performed){
-            Debug.Log("Submit " + context);
-        }
-    }
-
-    private void MyInput()
+    private void HandleInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
@@ -345,9 +249,9 @@ public class WASDController : MonoBehaviour
             desiredMoveSpeed = 0f;
 
             // Set isJumping to true for the animator
-            jumping = true; // state changed
-            SetAllAnimFalse();
-            myAnim.SetBool("isJumping", true);
+            jumping = true; // movementState changed
+            //SetAllAnimFalse();
+            //myAnim.SetBool("isJumping", true);
 
             // Introduce a delay before initiating jump
             //float jumpDelay = 0.8f;
@@ -385,12 +289,12 @@ public class WASDController : MonoBehaviour
             {
                 if (horizontalInput == 0 && verticalInput == 0)
                 {
-                    crouching = true;
+                    crouching = true; // movementState changed
                     //transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
                     //rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
 
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isCrouching", true);
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isCrouching", true);
                     Debug.Log("StartCrouch");
 
                     // Check if capsuleCollider is not null before accessing its properties
@@ -408,10 +312,10 @@ public class WASDController : MonoBehaviour
                 // start crouch walking
                 else //if (horizontalInput != 0 || verticalInput != 0)
                 {
-                    crouching = true;
+                    crouching = true; // movementState changed
 
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isCrouchedWalking", true);
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isCrouchedWalking", true);
                     Debug.Log("StartCrouchWalking");
 
                     // Check if capsuleCollider is not null before accessing its properties
@@ -433,10 +337,10 @@ public class WASDController : MonoBehaviour
                 // crouch walking to crouch idle
                 if (horizontalInput == 0 && verticalInput == 0)
                 {
-                    crouching = true;
+                    crouching = true; // movementState changed
 
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isCrouchingIdle", true);
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isCrouchingIdle", true);
                     Debug.Log("crouch walking to crouch idle");
 
                     // Check if capsuleCollider is not null before accessing its properties
@@ -454,10 +358,10 @@ public class WASDController : MonoBehaviour
                 // crouch idle to crouch walking
                 else //if ((horizontalInput != 0 || verticalInput != 0) && crouching)
                 {
-                    crouching = true;
+                    crouching = true; // movementState changed
 
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isCrouchedWalking", true);
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isCrouchedWalking", true);
                     Debug.Log("crouch idle to crouch walking");
 
                     // Check if capsuleCollider is not null before accessing its properties
@@ -524,7 +428,7 @@ public class WASDController : MonoBehaviour
         // Mode - Freeze
         if (freeze)
         {
-            state = MovementState.freeze;
+            movementState = MovementState.freeze;
             rb.velocity = Vector3.zero;
             desiredMoveSpeed = 0f;
         }
@@ -532,7 +436,7 @@ public class WASDController : MonoBehaviour
         // Mode - Unlimited
         else if (unlimited)
         {
-            state = MovementState.unlimited;
+            movementState = MovementState.unlimited;
             desiredMoveSpeed = 999f;
             return;
         }
@@ -540,28 +444,29 @@ public class WASDController : MonoBehaviour
         // Mode - Vaulting // Full Climbing System
         else if (vaulting)
         {
-            state = MovementState.vaulting;
+            movementState = MovementState.vaulting;
             desiredMoveSpeed = vaultSpeed;
         }
 
         // Mode - Climbing
         else if (climbing)
         {
-            state = MovementState.climbing;
+            movementState = MovementState.climbing;
             desiredMoveSpeed = climbSpeed;
         }
 
         // Mode - Wallrunning
         else if (wallrunning)
         {
-            state = MovementState.wallrunning;
+            movementState = MovementState.wallrunning;
             desiredMoveSpeed = wallrunSpeed;
         }
 
         // Mode - Sliding
         else if (sliding) 
         {
-            state = MovementState.sliding;
+            movementState = MovementState.sliding;
+            performState = PerformState.isSliding;
 
             if (OnSlope() && rb.velocity.y < 0.1f)
             {
@@ -577,7 +482,8 @@ public class WASDController : MonoBehaviour
         // Mode - Crouching
         else if (crouching) 
         {
-            state = MovementState.crouching;
+            movementState = MovementState.crouching;
+            performState = PerformState.isCrouching;
             desiredMoveSpeed = crouchSpeed; 
 
             //SetAllAnimFalse();
@@ -587,7 +493,8 @@ public class WASDController : MonoBehaviour
         // Mode - Jumping
         else if (jumping)
         {
-            state = MovementState.jumping;
+            movementState = MovementState.jumping; // movementState changed
+            performState = PerformState.isJumping;
 
             
             // Debug.Log("rb.velocity.y is " + rb.velocity.y + " and jumpUpwardThreshold is "+ jumpUpwardThreshold);
@@ -598,13 +505,14 @@ public class WASDController : MonoBehaviour
             if (grounded && !jumpStarted)
             {
                 // Set isJumping to true for the animator
-                SetAllAnimFalse();
-                myAnim.SetBool("isJumping", true);
+                
+                //SetAllAnimFalse();
+                //myAnim.SetBool("isJumping", true);
             }
             //else if (rb.velocity.y > 0)
             else if (!grounded && !jumpStarted)
             {
-                jumpStarted = true;
+                jumpStarted = true; 
                 // Use Air Speed
                 if (moveSpeed < airMinSpeed)
                 {
@@ -623,20 +531,22 @@ public class WASDController : MonoBehaviour
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Abs(rb.velocity.y) + raycastLandingDistance, whatIsGround) && !grounded)
                 {
                     //falling = false;
-                    aboutlanding = true;
-                    state = MovementState.aboutlanding;
+                    aboutlanding = true; // movementState changed
+                    movementState = MovementState.aboutlanding;
+                    performState = PerformState.isAboutLanding;
                     // Ground is detected, change to landing animation
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isAboutLanding", true);
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isAboutLanding", true);
                 }
                 else if (grounded)
                 {
                     //falling = false;
                     //aboutlanding = false;
-                    landedonground = true;
-                    state = MovementState.landedonground;
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isLandedOnGround", true);
+                    landedonground = true; // movementState changed
+                    movementState = MovementState.landedonground;
+                    performState = PerformState.isLandedOnGround;
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isLandedOnGround", true);
 
                     // Delay setting falling = false after the landing animation is played
                     //Invoke("SetFallingFalse", 0.2f); // Adjust delay time as needed
@@ -647,11 +557,12 @@ public class WASDController : MonoBehaviour
                 else
                 {
                     // It is falling
-                    falling = true;
-                    state = MovementState.falling;
+                    falling = true; // movementState changed
+                    movementState = MovementState.falling;
+                    performState = PerformState.isFalling;
 
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isFalling", true);
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isFalling", true);
                 }
             }
         }
@@ -668,21 +579,23 @@ public class WASDController : MonoBehaviour
                 {
                     readyToJump = false;
                     falling = false;
-                    aboutlanding = true;
-                    state = MovementState.aboutlanding;
+                    aboutlanding = true; // movementState changed
+                    movementState = MovementState.aboutlanding;
+                    performState = PerformState.isAboutLanding;
                     // Ground is detected, change to landing animation
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isAboutLanding", true);
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isAboutLanding", true);
 
                 }
                 else if (grounded)
                 {
                     readyToJump = false;
                     falling = false;
-                    landedonground = true;
-                    state = MovementState.landedonground;
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isLandedOnGround", true);
+                    landedonground = true; // movementState changed
+                    movementState = MovementState.landedonground;
+                    performState = PerformState.isLandedOnGround;
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isLandedOnGround", true);
 
                     // Delay setting falling = false after the landing animation is played
                     //Invoke("SetFallingFalse", 0.2f); // Adjust delay time as needed
@@ -692,7 +605,7 @@ public class WASDController : MonoBehaviour
         // Mode - AboutLanding
         else if (aboutlanding)
         {
-            state = MovementState.aboutlanding;
+            movementState = MovementState.aboutlanding;
             //rb.velocity = Vector3.zero;
             desiredMoveSpeed = 0f;
 
@@ -701,10 +614,11 @@ public class WASDController : MonoBehaviour
             {
                 readyToJump = false;
                 aboutlanding = false;
-                landedonground = true;
-                state = MovementState.landedonground;
-                SetAllAnimFalse();
-                myAnim.SetBool("isLandedOnGround", true);
+                landedonground = true; // movementState changed
+                movementState = MovementState.landedonground;
+                performState = PerformState.isLandedOnGround;
+                //SetAllAnimFalse();
+                //myAnim.SetBool("isLandedOnGround", true);
 
                 // Delay setting falling = false after the landing animation is played
                 //Invoke("SetAboutLandingFalse", 0.2f); // Adjust delay time as needed
@@ -715,7 +629,8 @@ public class WASDController : MonoBehaviour
         // Mode - LandedOnGround
         else if (landedonground)
         {
-            state = MovementState.landedonground;
+            movementState = MovementState.landedonground;
+            
             //rb.velocity = Vector3.zero;
             desiredMoveSpeed = 0f;
 
@@ -731,19 +646,22 @@ public class WASDController : MonoBehaviour
         // Mode - Sprinting
         else if(grounded && Input.GetKey(sprintKey))
         {
-            state = MovementState.sprinting;
+            movementState = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed; 
-            if (!myAnim.GetBool("isRunning"))
+            
+            if (!myAnim.GetBool("isSprinting"))
             {
-                SetAllAnimFalse();
-                myAnim.SetBool("isRunning", true);
+                sprinting = true; // movementState changed
+                performState = PerformState.isSprinting;
+                //SetAllAnimFalse();
+                //myAnim.SetBool("isRunning", true);
             }
         }
 
         // Mode - Walking
         else if (grounded)
         {
-            state = MovementState.walking;
+            movementState = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
             
             // Get the velocity components ignoring the y-axis
@@ -758,17 +676,21 @@ public class WASDController : MonoBehaviour
                 // Character is moving
                 if (!myAnim.GetBool("isWalking"))
                 {
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isWalking", true);
+                    walking = true; // movementState changed
+                    performState = PerformState.isWalking;
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isWalking", true);
                 }
                 
             } else {
                 // Character is not moving
-                state = MovementState.standingidle;
+                movementState = MovementState.standingidle;
                 if (!myAnim.GetBool("isStandingIdle"))
                 {
-                    SetAllAnimFalse();
-                    myAnim.SetBool("isStandingIdle", true);
+                    standingidle = true; // movementState changed
+                    performState = PerformState.isStandingIdle;
+                    //SetAllAnimFalse();
+                    //myAnim.SetBool("isStandingIdle", true);
                 }
             }
         }
@@ -776,22 +698,22 @@ public class WASDController : MonoBehaviour
         // Mode - Air
         else
         {
-            state = MovementState.air;
+            movementState = MovementState.air;
 
             if (moveSpeed < airMinSpeed)
                 desiredMoveSpeed = airMinSpeed;
 
             if (rb.velocity.y < 0 && !grounded)
             {
-                falling = true;
-                state = MovementState.falling;
-                SetAllAnimFalse();
-                myAnim.SetBool("isFalling", true);
+                falling = true; // movementState changed
+                movementState = MovementState.falling;
+                performState = PerformState.isFalling;
+                //SetAllAnimFalse();
+                //myAnim.SetBool("isFalling", true);
             }
         }
 
         // check if desiredMoveSpeed has changed drastically
-        //if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
         bool desiredMoveSpeedHasChanged = desiredMoveSpeed != lastDesiredMoveSpeed;
         if (desiredMoveSpeedHasChanged)
         {
@@ -812,7 +734,7 @@ public class WASDController : MonoBehaviour
         if (Mathf.Abs(desiredMoveSpeed - moveSpeed) < 0.1f) keepMomentum = false;
     }
 
-    private void SetFallingFalse()
+   /*  private void SetFallingFalse()
     {
         falling = false;
         aboutlanding = true;
@@ -828,19 +750,29 @@ public class WASDController : MonoBehaviour
     {
         falling = false;
         aboutlanding = false;
-        landedonground = true;
-        SetAllAnimFalse();
-        myAnim.SetBool("isLandedOnGround", true);
+        landedonground = true; // movementState changed
+        //SetAllAnimFalse();
+        //myAnim.SetBool("isLandedOnGround", true);
     }
 
     private void SetAboutLandingTrue()
     {
         falling = false;
         aboutlanding = false;
-        landedonground = true;
-        SetAllAnimFalse();
-        myAnim.SetBool("isLandedOnGround", true);
+        landedonground = true; // movementState changed
+        //SetAllAnimFalse();
+        //myAnim.SetBool("isLandedOnGround", true);
     }
+
+    
+
+    private void SetLandedOnGroundTrue()
+    {
+        falling = false;
+        aboutlanding = false;
+        landedonground = false;
+        myAnim.SetBool("isLandedOnGround", false);
+    } */
 
     private void SetLandedOnGroundFalse()
     {
@@ -849,15 +781,7 @@ public class WASDController : MonoBehaviour
         landedonground = false;
         readyToJump = true;
         Debug.Log("SetLandedOnGroundFalse");
-        myAnim.SetBool("isLandedOnGround", false);
-    }
-
-    private void SetLandedOnGroundTrue()
-    {
-        falling = false;
-        aboutlanding = false;
-        landedonground = false;
-        myAnim.SetBool("isLandedOnGround", false);
+        //myAnim.SetBool("isLandedOnGround", false);
     }
 
     private IEnumerator DelayedLandedOnGroundAction(float delay)
@@ -990,42 +914,6 @@ public class WASDController : MonoBehaviour
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 
-    
-
-
-    private void TextStuff()
-    {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        if (OnSlope())
-            text_speed.SetText("Speed: " + Round(rb.velocity.magnitude, 1) + " / " + Round(moveSpeed, 1));
-
-        else
-            text_speed.SetText("Speed: " + Round(flatVel.magnitude, 1) + " / " + Round(moveSpeed, 1));
-
-        text_mode.SetText(state.ToString());
-    }
-
-
-    public string GetTextSpeed()
-    {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        string _text_speed;
-        if (OnSlope())
-            _text_speed = "Speed: " + Round(rb.velocity.magnitude, 1) + " / " + Round(moveSpeed, 1);
-         else
-            _text_speed = "Speed: " + Round(flatVel.magnitude, 1) + " / " + Round(moveSpeed, 1);
-
-        return _text_speed;
-    }
-
-    public string GetTextMode()
-    {
-        string _textMode = state.ToString();
-        //Debug.Log("GetTextMode: " + _textMode);
-        return _textMode;
-    }
-
     public static float Round(float value, int digits)
     {
         float mult = Mathf.Pow(10.0f, (float)digits);
@@ -1034,12 +922,12 @@ public class WASDController : MonoBehaviour
 
     private void GroundCheck() 
     {
-        grounded = CheckIsGrounded();
+        grounded = IsGrounded();
 
     }
     
     // Check if the player is grounded using a sphere cast.
-    private bool CheckIsGrounded()
+    private bool IsGrounded()
     {
         // Start position for the sphere cast.
         Vector3 start = transform.position + Vector3.up * _groundCheckOffset;
@@ -1059,8 +947,6 @@ public class WASDController : MonoBehaviour
     private void OnDrawGizmosSelected() 
     {
         // Set gizmos color.
-        //Gizmos.color = Color.red;
-        //if (_isGrounded) Gizmos.color = Color.green;
         Gizmos.color = grounded ? Color.green : Color.red;
 
         // Find start/end positions of sphere cast.
@@ -1072,93 +958,25 @@ public class WASDController : MonoBehaviour
         Gizmos.DrawWireSphere(end, _groundCheckRadius);
     }
 
-    // Debug Check variable
-    private void checkVar()
-    {
-        if (Input.GetKeyUp(KeyCode.P))
-        {
-            Debug.Log("check var ");
-        }
+    
 
-        
+    public string GetTextSpeed()
+    {
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        string _text_speed;
+        if (OnSlope())
+            _text_speed = "Speed: " + Round(rb.velocity.magnitude, 1) + " / " + Round(moveSpeed, 1);
+         else
+            _text_speed = "Speed: " + Round(flatVel.magnitude, 1) + " / " + Round(moveSpeed, 1);
+
+        return _text_speed;
     }
 
-    void OnTriggerEnter(Collider other)
+    public string GetTextMode()
     {
-        if (other.gameObject.tag == "Crystal")
-        {
-            print("Crystal Enter");
-            // Crystal destory
-            // Crystal collection update
-            // Check if the collided object is a Crystal
-
-
-            CrystalController crystalController = other.GetComponent<CrystalController>();
-
-            
-
-            // Store the reference for later reactivation if needed
-            // For example, you can store it in a list or use a callback from ObjectPooler
-            crystalController.ReturnToPool(); // Assuming ObjectPooler has this method
-
-            // Set the CrystalController to inactive state
-            //crystalController.gameObject.SetActive(false);
-            // Better do it in CrystalController.cs
-            
-        }
-
-        if (other.gameObject.tag == "StoneCube")
-        {
-            print("StoneCube Stay");
-            playerStats.currentHP -= 10; // Example: Taking damage
-        }
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Crystal")
-        {
-            print("Crystal Stay");
-        }
-
-        if (other.gameObject.tag == "StoneCube")
-        {
-            print("StoneCube Stay");
-            playerStats.currentHP -= 10; // Example: Taking damage
-        }
-        
-
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Crystal")
-        {
-            print("Crystal Exit");
-        }
-
-        if (other.gameObject.tag == "StoneCube")
-        {
-            print("StoneCube Stay");
-            playerStats.currentHP -= 10; // Example: Taking damage
-        }
-    }
-
-    private void LockCursor()
-    {
-        Debug.Log("LockCursor method");
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        UnityEngine.Cursor.visible = false;
-        cursorLocked = true;
-    }
-
-    private void UnlockCursor()
-    {
-        Debug.Log("UnlockCursor method");
-        cursorLocked = false;
-        UnityEngine.Cursor.visible = true;
-        
-        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        string _textMode = movementState.ToString();
+        //Debug.Log("GetTextMode: " + _textMode);
+        return _textMode;
     }
 
 }

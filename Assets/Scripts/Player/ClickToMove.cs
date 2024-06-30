@@ -28,6 +28,24 @@ public class ClickToMove : MonoBehaviour
     public bool pauseMenu = false;
     public bool isActive = true; // Flag to control whether script is active
 
+
+    public PerformState performState;
+    public enum PerformState
+    {
+        isStandingIdle,
+        isWalking,
+        isSprinting,
+        isCrouching,
+        isJumping,
+        isFalling,
+        isAboutLanding,
+        isLandedOnGround,
+        isGrounded,
+        isCrouchedWalking,
+        isCrouchingIdle,
+        isSliding
+    }
+
     private void Awake()
     {
         CreateVisualObject();
@@ -71,13 +89,6 @@ public class ClickToMove : MonoBehaviour
         {
             HandleClickMovement();
             FaceTarget();
-        }
-        else if (!isActive)
-        {
-            
-            //clickToMove.GetComponent<NavMeshAgent>().ResetPath(); // Stop NavMeshAgent from moving
-            // Enable or disable NavMeshAgent based on isActive in ClickToMove
-            //clickToMove.GetComponent<NavMeshAgent>().enabled = clickToMove.isActive;
         }
         
     }
@@ -171,6 +182,7 @@ public class ClickToMove : MonoBehaviour
     {
         //myAnim.SetBool("isStandingIdle", false);
         //myAnim.SetBool("isRunning", true);
+        performState = PerformState.isSprinting;
         //myAnim.Play("PlayerRunning");
         myNavMeshAgent.SetDestination(target);
 
@@ -189,6 +201,7 @@ public class ClickToMove : MonoBehaviour
     {
         if (!myNavMeshAgent.isStopped)
         Debug.Log("Agent isStopped");
+        performState = PerformState.isStandingIdle;
         //myAnim.SetBool("isRunning", false);
         //myAnim.SetBool("isStandingIdle", true);
         //myAnim.Play("PlayerStandingIdle");

@@ -527,6 +527,7 @@ public class InGameUI : MonoBehaviour
         // Check if the PersistentData object does not exist in the scene
         if (GameObject.Find("GameData") == null)
         {
+            UnlockCursor();
             // Load the MainMenu scene
             SceneManager.LoadScene("MainMenu");
         }

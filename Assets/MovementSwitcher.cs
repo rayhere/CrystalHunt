@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class MovementSwitcher : MonoBehaviour
 {
@@ -11,34 +10,31 @@ public class MovementSwitcher : MonoBehaviour
     public LedgeGrabbing ledgeGrabbing;
     public Sliding sliding;
     public WallRunningAdvanced wallRunningAdvanced;
+    
     [SerializeField, Tooltip("mode 0 is wasd mode, mode 1 is click to move mode")]
-    public int mode;
+    private int mode;
+
+    private CursorLock cursorLock;
+    private bool isCursorLocked; // Track the cursor lock state
 
     private void Awake()
     {
-        mode = 0;
+        // Initialize default mode and movement controllers
+        mode = 0; // Assuming mode 0 is WASD mode
         wasdController.isActive = true;
         clickToMove.isActive = false;
-        /* wasdController.enabled = true;
-        clickToMove.enabled = false; */
 
-        // Toggle between WASDController and ClickToMove
-            /* if (wasdController.enabled)
-            {
-                wasdController.enabled = false;
-                clickToMove.enabled = true;
-                Debug.Log("Switched to ClickToMove");
-            }
-            else
-            {
-                wasdController.enabled = true;
-                clickToMove.enabled = false;
-                Debug.Log("Switched to WASDController");
-            } */
+        // Get reference to CursorLock script
+        cursorLock = GetComponent<CursorLock>();
+
+        // Initialize cursor lock state based on initial isActive state
+        isCursorLocked = wasdController.isActive;
+        UpdateCursorLockState();
     }
 
     private void Update()
     {
+        // Toggle movement scripts on Tab key press
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             ToggleMovementScripts();
@@ -50,15 +46,29 @@ public class MovementSwitcher : MonoBehaviour
         // Toggle isActive flag for WASDController and ClickToMove
         wasdController.isActive = !wasdController.isActive;
         clickToMove.isActive = !clickToMove.isActive;
-        
-        //Better do it in ClickToMove.cs
-        //clickToMove.GetComponent<NavMeshAgent>().ResetPath(); // Stop NavMeshAgent from moving
-        // Enable or disable NavMeshAgent based on isActive in ClickToMove
-        //clickToMove.GetComponent<NavMeshAgent>().enabled = clickToMove.isActive;
-     
+
+        // Call toggle functions for other movement scripts based on your logic
         clickToMove.ToggleFunction();
 
+        // Update cursor lock state after toggling
+        isCursorLocked = wasdController.isActive;
+        UpdateCursorLockState();
+
+        // Example debug messages to verify toggle state
         Debug.Log("WASDController active: " + wasdController.isActive);
         Debug.Log("ClickToMove active: " + clickToMove.isActive);
+    }
+
+    private void UpdateCursorLockState()
+    {
+        // Set cursor lock state based on isActive flag
+        if (isCursorLocked)
+        {
+            cursorLock.SetCursorLocked(true);
+        }
+        else
+        {
+            cursorLock.SetCursorLocked(false);
+        }
     }
 }
