@@ -111,7 +111,7 @@ public class CrystalController : MonoBehaviour
     public void PlayerCollisionDetected(Collision collision)
     {
         // Ensure collision with player or Darkness
-        if (!(collision.gameObject.CompareTag("Player")||collision.gameObject.CompareTag("Darkness")))
+        if (!(collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Darkness") || collision.gameObject.CompareTag("Kazuma_Satou")))
             return;
         
         // Run your desired method here
@@ -125,18 +125,10 @@ public class CrystalController : MonoBehaviour
         // Set the isShrinkToOriginal parameter to true
         //animator.SetBool("isShrinkToOriginal", true);
 
-        animator.SetTrigger(ShrinkToOriginal);
+        //animator.SetTrigger(ShrinkToOriginal);
 
         //animator.SetInteger("popped", POPPED);
         //Debug.Log("Popped: " + POPPED);
-
-        Debug.Log("timer: " + timer);
-        Debug.Log("deltaTime: " + Time.deltaTime);
-        Debug.Log("Time.time: " + Time.time);
-    
-        timer += Time.time;
-
-        Debug.Log("new timer: " + timer);
 
         //2. play sound effect
         //AudioSource.PlayClipAtPoint(_audio.clip, transform.position);
@@ -160,11 +152,54 @@ public class CrystalController : MonoBehaviour
             Debug.LogWarning("PersistentData instance not found. Crystal count not updated.");
         }
 
+        // 5. Set collider to trigger true
+        SetColliderTrigger(_crystal, false);
+
+        // 6. Gradually reduce scale over time using coroutine
+        StartCoroutine(ReduceScaleOverTime());
+        
         // Optional: Destroy the crystal object after some delay
         // Destroy(gameObject, 1f); // not going to destory, return to pool
         canDestory = true;
 
         ReturnToPool();
+    }
+
+    void SetColliderTrigger(GameObject _crystal, bool isTrigger)
+    {
+        // Get the collider component attached to _crystal
+        Collider crystalCollider = _crystal.GetComponent<Collider>();
+
+        // Ensure crystalCollider is not null before setting properties
+        if (crystalCollider != null)
+        {
+            // Initially set the collider to not be a trigger
+            crystalCollider.isTrigger = isTrigger;
+        }
+        else
+        {
+            Debug.LogError("Collider component not found on _crystal GameObject.");
+        }
+    }
+
+    // Coroutine to reduce scale over time
+    private IEnumerator ReduceScaleOverTime()
+    {
+        float duration = 1.0f; // Duration over which to reduce scale
+        float timer = 0.0f;
+
+        Vector3 initialScale = _crystal.transform.localScale;
+        Vector3 targetScale = Vector3.zero; // Scale to reduce to (you can adjust this)
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            _crystal.transform.localScale = Vector3.Lerp(initialScale, targetScale, timer / duration);
+            yield return null;
+        }
+
+        // Ensure final scale is exactly the target scale
+        _crystal.transform.localScale = targetScale;
     }
 
     // Method to run when the player triggers the collision
@@ -181,14 +216,6 @@ public class CrystalController : MonoBehaviour
 
         //animator.SetInteger("popped", POPPED);
         //Debug.Log("Popped: " + POPPED);
-
-        Debug.Log("timer: " + timer);
-        Debug.Log("deltaTime: " + Time.deltaTime);
-        Debug.Log("Time.time: " + Time.time);
-    
-        timer += Time.time;
-
-        Debug.Log("new timer: " + timer);
 
         //2. play sound effect
         //AudioSource.PlayClipAtPoint(_audio.clip, transform.position);

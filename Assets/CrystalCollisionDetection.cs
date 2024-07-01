@@ -32,7 +32,7 @@ public class CrystalCollisionDetection : MonoBehaviour
 
         //Check for a match with the specific tag on any GameObject that collides with your GameObject
         // if (collision.gameObject.tag == "Player")
-        if (collision.gameObject.CompareTag("Player")) // Check if collided with the player
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Darkness") || collision.gameObject.CompareTag("Kazuma_Satou")) // Check if collided with the player
         {
             crystalController.PlayerCollisionDetected(collision);
         }
