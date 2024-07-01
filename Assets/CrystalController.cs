@@ -8,6 +8,7 @@ public class CrystalController : MonoBehaviour
 
     [SerializeField] Animator animator;
     // Wanna play clip that smaller the scale while picking up crystal
+    private const string ShrinkToOriginal = "ShrinkToOriginal";
 
     [SerializeField] AudioSource _audio;
 
@@ -122,7 +123,9 @@ public class CrystalController : MonoBehaviour
 
         // Trigger shrinking animation
         // Set the isShrinkToOriginal parameter to true
-        animator.SetBool("isShrinkToOriginal", true);
+        //animator.SetBool("isShrinkToOriginal", true);
+
+        animator.SetTrigger(ShrinkToOriginal);
 
         //animator.SetInteger("popped", POPPED);
         //Debug.Log("Popped: " + POPPED);

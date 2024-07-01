@@ -223,9 +223,9 @@ GameObject:
   - component: {fileID: 7188835518884618909}
   - component: {fileID: 4149087433079539462}
   - component: {fileID: 7802087712854975082}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GreenCabbage
-  m_TagString: Untagged
+  m_TagString: Cabbage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -267,6 +267,7 @@ MonoBehaviour:
   minWaypointDistance: 10
   maxWaypointDistance: 20
   mySpawnedPosition: {x: 0, y: 0, z: 0}
+  chasingTargetDistance: 15
   targets: []
   selectedTarget: {fileID: 0}
   UpdateRate: 0.1

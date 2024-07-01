@@ -8,6 +8,7 @@ TagManager:
   - Darkness
   - Cabbage
   - Crystal
+  - Kazuma_Satou
   layers:
   - Default
   - TransparentFX
@@ -21,9 +22,9 @@ TagManager:
   - 
   - whatIsGround
   - whatIsStoneCube
-  - 
-  - 
-  - 
+  - whatIsCabbage
+  - whatIsHuman
+  - whatIsCrystal
   - 
   - 
   - 

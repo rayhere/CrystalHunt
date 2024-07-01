@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4615019361137961836}
   m_Layer: 11
   m_Name: StoneCube
-  m_TagString: Untagged
+  m_TagString: StoneCube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,12 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2430bcdb0dbdcd40ae4ed8e02bdbc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Targets: []
+  targets: []
+  moveRandomWithoutTarget: 1
+  desiredRangeDistance: 60
+  maxConsecutiveMoves: 3
   cube: {fileID: 770738283966029520}
   center: {fileID: 0}
   lengthOfCube: 10
   step: 9
   speed: 0.01
+  input: 0
   coordinatePlane: {fileID: 0}
   objName: 
 --- !u!114 &4615019361137961836

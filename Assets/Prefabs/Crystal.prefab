@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1492850173853014479}
   - component: {fileID: 7436095416606006898}
   - component: {fileID: 4949920186635074426}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: S_Rock_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 7043675394317489741}
   - component: {fileID: 5654828481172871625}
   - component: {fileID: 3067567751504766819}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Crystal
   m_TagString: Crystal
   m_Icon: {fileID: 0}
