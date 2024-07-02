@@ -552,7 +552,7 @@ public class ThirdPersonCam : MonoBehaviour
         orientation.forward = viewDir.normalized;
 
         // Rotate player object based on current camera style
-        if (currentStyle == CameraStyle.ThirdPerson || currentStyle == CameraStyle.Topdown)
+        if (currentStyle == CameraStyle.ThirdPerson || currentStyle == CameraStyle.Topdown || currentStyle == CameraStyle.Combat)
         {
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");

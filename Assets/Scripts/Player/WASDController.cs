@@ -42,11 +42,21 @@ public class WASDController : MonoBehaviour
     public float jumpCooldown = 0.55f;
     public float airMultiplier = 0.4f;
     bool readyToJump;
-    bool jumpStarted;
+    public bool jumpStarted;
     // public float jumpUpwardThreshold = 0.1f; // Adjust as needed
     [SerializeField, Tooltip("raycastLandingDistance for play landing animation")]
     public float raycastLandingDistance = 2.0f; // Adjust as needed
     private bool landedOnGroundInvokeScheduled = false;
+    public float landingOnGroundDelay;
+    public float landedOnGroundDelay = 0.5f;
+    private float jumpGroundedCheckStartTime; // Time at which to start grounded check for jumping (3 seconds in the future)
+    [SerializeField, Tooltip("Time delay before starting grounded check for jumping")]
+    public float groundedCheckDelay = 1f; 
+    //private float fallDuration;
+    private float fallEndTime; // to calculate landOnGround anim
+    [SerializeField, Tooltip("Minimum duration in seconds after which the player is considered falling for too long.")]
+    public float fallingThreshold = 2f;
+    
 
     [Header("Crouching")]
     public float crouchSpeed = 3.5f;
@@ -125,6 +135,8 @@ public class WASDController : MonoBehaviour
         isSprinting,
         isCrouching,
         isJumping,
+        isMovingJump,
+        isRunningJump,
         isFalling,
         isAboutLanding,
         isLandedOnGround,
@@ -139,6 +151,8 @@ public class WASDController : MonoBehaviour
     public bool unlimited;
     public bool restricted;
     public bool jumping;
+    public bool movingJump;
+    public bool runningJump;
     public bool falling;
     public bool aboutlanding;
     public bool landedonground;
@@ -228,57 +242,126 @@ public class WASDController : MonoBehaviour
         }
     }
 
-
     private void HandleInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
         bool preformJump = false;
-        float jumpDelay = 0.9f;
+        float jumpDelay = 0.7f;
         // when to jump
         if(Input.GetKeyUp(jumpKey) && !grounded){
             Debug.Log("Jumped, but not ground");
         }
-        else if(Input.GetKey(jumpKey) && readyToJump && grounded && !aboutlanding && !landedonground)
+        else if(Input.GetKey(jumpKey) && readyToJump && grounded && !aboutlanding && !landedonground && !jumping)
         {
             Debug.Log("Input.GetKey(jumpKey) && readyToJump && grounded is " + Input.GetKey(jumpKey) + readyToJump + grounded);
             Debug.Log("readyToJump is " + readyToJump);
-            readyToJump = false;
-            jumpStarted = false;
+            readyToJump = false; // prevent jump before jumping action finish
+            jumpStarted = false; // prevent jump action cancelled because grounded on start
             Debug.Log("JumpUp, on ground" + " readyToJump is " + readyToJump);
             
-            desiredMoveSpeed = 0f;
+            
 
             // Set isJumping to true for the animator
-            jumping = true; // movementState changed
+
+            //movingJump = false;
+            //runningJump =false;
+            //standingidle = false;
+            //walking = false;
+            //sprinting = false;
+            //jumping = true; // movementState changed
+            // Time at which to start grounded check for jumping (3 seconds in the future)
+            //jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
+
+
             //SetAllAnimFalse();
             //myAnim.SetBool("isJumping", true);
 
             // Introduce a delay before initiating jump
             //float jumpDelay = 0.8f;
+
             
-            restricted = true;
-            preformJump = true;
-            
-            // jumping = true;
+
             // Jump();
             
             // Invoke(nameof(ResetJump), jumpCooldown);
             //yield return new WaitForSeconds(0.1f);
             //yield return null;
-        }
-        if (preformJump)
-        {
-            readyToJump = false;
-            Debug.Log("preformJump");
-            //StartCoroutine(DelayedJump(jumpDelay));
-            //yield return new WaitForSeconds(0.1f);
-            
-            //yield return null;
-            DelayedJump(jumpDelay);
-        }
+            Debug.Log("Jumped Time.time is " + Time.time);
+            if ((rb.velocity.magnitude < 0.1f) && standingidle == true)
+            {
+                // 1. Stationary Jump: Describes a jump where the player is momentarily stationary before launching into the air.
+                desiredMoveSpeed = 0f;
+                restricted = true;
+                readyToJump = false;
+                // stop jump type group
+                movingJump = false;
+                runningJump =false;
+                // stop all movement state group
+                standingidle = false;
+                walking = false;
+                sprinting = false;
 
+                jumping = true; // movementState changed
+                // Time at which to start grounded check for jumping (3 seconds in the future)
+                jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
+                DelayedJump(jumpDelay);
+            }
+            else if ((rb.velocity.magnitude < walkSpeed) && (walking == true))
+            {
+                // 2. Moving Jump: Describes a jump executed while the player is moving.
+                readyToJump = false;
+                restricted = false;
+                // stop jump type group
+                movingJump = false;
+                runningJump =false;
+                // stop all movement state group
+                standingidle = false;
+                walking = false;
+                sprinting = false;
+                
+                movingJump = true;
+                jumping = true; // movementState changed
+                // Time at which to start grounded check for jumping (3 seconds in the future)
+                jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
+
+                //walking = false; // movementState changed
+                DelayedJump(0f);
+                //movingJump = true;
+            }
+            else if ((rb.velocity.magnitude >= walkSpeed) && (sprinting == true))
+            {
+                // 3. Running Jump: Indicates a jump performed while the player is in motion.
+                readyToJump = false;
+                restricted = false;
+                //sprinting = false; // movementState changed
+
+                // stop jump type group
+                movingJump = false;
+                runningJump =false;
+                // stop all movement state group
+                standingidle = false;
+                walking = false;
+                sprinting = false;
+                
+                movingJump = true;
+                jumping = true; // movementState changed
+                // Time at which to start grounded check for jumping (3 seconds in the future)
+
+                DelayedJump(0f);
+                //movingJump = true;
+                //runningJump = true;
+            }
+            else 
+            {
+                //Debug.LogError("JumpError");
+            }
+        }
+        else if (Input.GetKey(jumpKey))
+        {
+            //Debug.LogError("JumpError. readyToJump " + readyToJump + " grounded " + grounded + " !aboutlanding " + !aboutlanding + " !jumping " + !jumping);
+        }
 
         // Don't do following codes until jumping is done
         if (jumping) return;
@@ -379,9 +462,7 @@ public class WASDController : MonoBehaviour
                     }
                 }
             }
-            
         }
-
 
         // stop crouch
         if (Input.GetKeyUp(crouchKey))
@@ -398,18 +479,89 @@ public class WASDController : MonoBehaviour
         }
     }
 
-    private void DelayedJump(float delay)
+    private void DelayedJump(float jumpDelay)
     {
         //readyToJump = false;
         //yield return new WaitForSeconds(delay);
         Debug.Log("DelayedJump start");
         jumping = true;
-        restricted = false;
+        //restricted = false;
         //Jump();
-        Invoke(nameof(Jump), delay);
         
-        Invoke(nameof(ResetJump), delay + jumpCooldown);
+        //Invoke(nameof(Jump), delay);
+        
+        //Invoke(nameof(ResetJump), delay + jumpCooldown);
+        StartCoroutine(Jump(jumpDelay));
+        StartCoroutine(ResetJump(jumpDelay + jumpCooldown));
     }
+
+    IEnumerator ResetJump(float delay)
+    {
+        yield return new WaitForSeconds (delay);
+        while (true)
+        {
+            if (grounded && !falling && !jumping && !movingJump && !runningJump && !aboutlanding && !landedonground)
+            {
+                readyToJump = true;
+                exitingSlope = false;
+                yield break;
+            }
+            yield return new WaitForSeconds (0.2f);
+        }
+    }
+
+    /* private void ResetJump()
+    {
+        readyToJump = true;
+        exitingSlope = false;
+    } */
+
+    IEnumerator Jump(float jumpDelay)
+    {
+        yield return new WaitForSeconds(jumpDelay);
+        exitingSlope = true;
+        restricted = false;
+        // Time at which to start grounded check for jumping (3 seconds in the future)
+        jumpGroundedCheckStartTime = Time.time + groundedCheckDelay;
+        if (movingJump || runningJump) jumpGroundedCheckStartTime +=2.8f;
+
+        // reset y velocity
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        if (runningJump || movingJump)
+        {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
+        else
+        {
+            rb.AddForce(transform.up * 1.18f * jumpForce, ForceMode.Impulse);
+        }
+        
+    }
+
+    private void JumpOld()
+    {
+        exitingSlope = true;
+        restricted = false;
+        // Time at which to start grounded check for jumping (3 seconds in the future)
+        jumpGroundedCheckStartTime = Time.time + groundedCheckDelay;
+        if (movingJump || runningJump) jumpGroundedCheckStartTime +=2.8f;
+
+        // reset y velocity
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        if (runningJump || movingJump)
+        {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
+        else
+        {
+            rb.AddForce(transform.up * 1.18f * jumpForce, ForceMode.Impulse);
+        }
+        
+    }
+    
+    
 
     private void SetAllAnimFalse()
     {
@@ -487,52 +639,96 @@ public class WASDController : MonoBehaviour
             movementState = MovementState.crouching;
             performState = PerformState.isCrouching;
             desiredMoveSpeed = crouchSpeed; 
-
-            //SetAllAnimFalse();
-            //myAnim.SetBool("isCrouching", true);
         }
 
         // Mode - Jumping
         else if (jumping)
         {
             movementState = MovementState.jumping; // movementState changed
-            performState = PerformState.isJumping;
-
             
-            // Debug.Log("rb.velocity.y is " + rb.velocity.y + " and jumpUpwardThreshold is "+ jumpUpwardThreshold);
-            // Check if the player is jumping up
-            //if (rb.velocity.y > jumpUpwardThreshold)
-            // Check if player is still ascending
-            //if (rb.velocity.y == 0 && !jumpStarted)
             if (grounded && !jumpStarted)
             {
-                // Set isJumping to true for the animator
+                if (!(performState == PerformState.isMovingJump || performState == PerformState.isJumping))
+                {
+                    if (movingJump)
+                    {
+                        performState = PerformState.isMovingJump; // Moving Jump
+                    }
+                    else if (runningJump)
+                    {
+                        //performState = PerformState.isRunningJump; // Running Jump
+                        performState = PerformState.isMovingJump; // Moving Jump
+                    }
+                    else
+                    {
+                        performState = PerformState.isJumping; // Stationary Jump
+                    }
+                }
                 
-                //SetAllAnimFalse();
-                //myAnim.SetBool("isJumping", true);
+                // Sometime it will jump on mountain and always ground
+                float delay = 2.8f;
+                //if (movingJump || runningJump) delay -=0.7f;
+                if (!(Time.time < (jumpGroundedCheckStartTime - groundedCheckDelay + delay)))
+                {
+                    Debug.Log("Jump but hit the ground. Cannot Perform Jump. Time.time is " + Time.time + " jumpGroundedCheckStartTime is " + jumpGroundedCheckStartTime);
+                    // Even it cannont jumping up, it still count jumped
+                    jumpStarted = true; 
+                }
+
             }
             //else if (rb.velocity.y > 0)
             else if (!grounded && !jumpStarted)
             {
                 jumpStarted = true; 
-                // Use Air Speed
+                // Use Air Speedw
                 if (moveSpeed < airMinSpeed)
                 {
                     desiredMoveSpeed = airMinSpeed;
                 }
             }
             //else if (rb.velocity.y < 0)
+            else if (grounded && jumpStarted)
+            {
+
+                if (!(Time.time < jumpGroundedCheckStartTime))
+                {
+                    Debug.Log("Jump but hit the ground. Ready to do Ground Check. Time.time is " + Time.time + " jumpGroundedCheckStartTime is " + jumpGroundedCheckStartTime);
+                    // Even it is jumping up, it may still landed on ground
+                    jumping = false;
+                    movingJump = false;
+                    runningJump = false;
+                    standingidle = false;
+                    walking = false;
+                    sprinting = false;
+                    jumpStarted = false; // set to false only when exist state
+                    landedonground = true; // movementState changed
+                    movementState = MovementState.landedonground;
+                    performState = PerformState.isLandedOnGround;
+                }
+                else
+                {
+                    Debug.Log("Jump but hit the ground. NOT ready to do Ground Check. Time.time is " + Time.time + " jumpGroundedCheckStartTime is " + jumpGroundedCheckStartTime);
+                }
+            }
             else if (!grounded && jumpStarted && rb.velocity.y < 0)
             {
                 // jumpingdown
-                jumping = false;
-                jumpStarted = true;
+                
+                
+                standingidle = false;
+                walking = false;
+                sprinting = false;
+                
                 
                 // Perform raycast downward to detect ground
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Abs(rb.velocity.y) + raycastLandingDistance, whatIsGround) && !grounded)
                 {
                     //falling = false;
+                    jumping = false;
+                    movingJump = false;
+                    runningJump =false;
+                    jumpStarted = false; // set to false only when exist state
                     aboutlanding = true; // movementState changed
                     movementState = MovementState.aboutlanding;
                     performState = PerformState.isAboutLanding;
@@ -540,31 +736,26 @@ public class WASDController : MonoBehaviour
                     //SetAllAnimFalse();
                     //myAnim.SetBool("isAboutLanding", true);
                 }
-                else if (grounded)
-                {
-                    //falling = false;
-                    //aboutlanding = false;
+                /* else if (grounded)
+                {  
+                    // it wont run
                     landedonground = true; // movementState changed
                     movementState = MovementState.landedonground;
                     performState = PerformState.isLandedOnGround;
-                    //SetAllAnimFalse();
-                    //myAnim.SetBool("isLandedOnGround", true);
-
-                    // Delay setting falling = false after the landing animation is played
-                    //Invoke("SetFallingFalse", 0.2f); // Adjust delay time as needed
-                    // Delay setting falling = false after the landing animation is played
-                    
-                    //Invoke("SetAboutLandingFalse", 0.2f); // Adjust delay time as needed
-                }
+                } */
+                
                 else
                 {
                     // It is falling
+                    jumping = false;
+                    movingJump = false;
+                    runningJump =false;
+                    jumpStarted = false; // set to false only when exist state 
                     falling = true; // movementState changed
+                    //fallStartTime = Time.time; // Record the start time of falling
+                    fallEndTime = Time.time + fallingThreshold; // Set the fall end time to fallingThreshold seconds after current time
                     movementState = MovementState.falling;
                     performState = PerformState.isFalling;
-
-                    //SetAllAnimFalse();
-                    //myAnim.SetBool("isFalling", true);
                 }
             }
         }
@@ -572,36 +763,22 @@ public class WASDController : MonoBehaviour
         // Mode - Falling
         else if (falling)
         {
-            //SetAllAnimFalse();
-            //myAnim.SetBool("isFalling", true);
-
             // Perform raycast downward to detect ground
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround) && !grounded)
-                {
-                    readyToJump = false;
-                    falling = false;
-                    aboutlanding = true; // movementState changed
-                    movementState = MovementState.aboutlanding;
-                    performState = PerformState.isAboutLanding;
-                    // Ground is detected, change to landing animation
-                    //SetAllAnimFalse();
-                    //myAnim.SetBool("isAboutLanding", true);
-
-                }
-                else if (grounded)
-                {
-                    readyToJump = false;
-                    falling = false;
-                    landedonground = true; // movementState changed
-                    movementState = MovementState.landedonground;
-                    performState = PerformState.isLandedOnGround;
-                    //SetAllAnimFalse();
-                    //myAnim.SetBool("isLandedOnGround", true);
-
-                    // Delay setting falling = false after the landing animation is played
-                    //Invoke("SetFallingFalse", 0.2f); // Adjust delay time as needed
-                }
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastLandingDistance, whatIsGround) && !grounded)
+            {
+                falling = false;
+                aboutlanding = true; // movementState changed
+                movementState = MovementState.aboutlanding;
+                performState = PerformState.isAboutLanding;
+            }
+            else if (grounded)
+            {
+                falling = false;
+                landedonground = true; // movementState changed
+                movementState = MovementState.landedonground;
+                performState = PerformState.isLandedOnGround;
+            }
         }
 
         // Mode - AboutLanding
@@ -610,8 +787,24 @@ public class WASDController : MonoBehaviour
             movementState = MovementState.aboutlanding;
             //rb.velocity = Vector3.zero;
             //desiredMoveSpeed = 0f;
+            // BOOST Landing
+            float landingTime = .7f;
+            float boostFactor = .018f; // Adjust this value to control the boost amount
+            float initialBoostFactor = 0.5f; // Adjust this value to control the initial boost amount
 
-            
+            float boostDuration = 0.5f; // Duration over which to interpolate the boost
+
+            float timeSinceLanding = Time.time - landingTime; // Calculate time since landing, landingTime being the time when landing detected
+
+            // Calculate interpolation factor based on time since landing and boostDuration
+            float t = Mathf.Clamp01(timeSinceLanding / boostDuration);
+
+            // Interpolate between initialBoostFactor and boostFactor to gradually increase boost over time
+            float currentBoostFactor = Mathf.Lerp(initialBoostFactor, boostFactor, t);
+
+
+            // Reduce the y-component of velocity to increase downward speed upon landing
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y - (10f * currentBoostFactor), rb.velocity.z);
             if (grounded)
             {
                 readyToJump = false;
@@ -619,11 +812,6 @@ public class WASDController : MonoBehaviour
                 landedonground = true; // movementState changed
                 movementState = MovementState.landedonground;
                 performState = PerformState.isLandedOnGround;
-                //SetAllAnimFalse();
-                //myAnim.SetBool("isLandedOnGround", true);
-
-                // Delay setting falling = false after the landing animation is played
-                //Invoke("SetAboutLandingFalse", 0.2f); // Adjust delay time as needed
             }
                 
         }
@@ -632,17 +820,31 @@ public class WASDController : MonoBehaviour
         else if (landedonground)
         {
             movementState = MovementState.landedonground;
-            
+            //performState = PerformState.isLandedOnGround;
+
             //rb.velocity = Vector3.zero;
-            desiredMoveSpeed = 0f;
-
-            //Invoke("SetLandedOnGroundFalse", 0.8f); // Adjust delay time as needed
-
-            if (!landedOnGroundInvokeScheduled)
+            // Check if the player has been falling for more than 2 seconds
+            if ((Time.time > fallEndTime) && (fallEndTime > jumpGroundedCheckStartTime))
             {
-                landedOnGroundInvokeScheduled = true;
-                StartCoroutine(DelayedLandedOnGroundAction(1.0f));
+                Debug.Log("Player has been falling for more than " + fallingThreshold + " seconds." + "  Time.time: " + Time.time + " fallEndTime: " + fallEndTime);
+                desiredMoveSpeed = 0f;
+
+                if (!landedOnGroundInvokeScheduled)
+                {
+                    landedOnGroundInvokeScheduled = true;
+                    StartCoroutine(DelayedLandedOnGroundAction(landedOnGroundDelay));
+                }
             }
+            else
+            {
+                if (!landedOnGroundInvokeScheduled)
+                {
+                    landedOnGroundInvokeScheduled = true;
+                    StartCoroutine(DelayedLandedOnGroundAction(0.25f));
+                }
+            }
+            
+            
         }
 
         // Mode - Sprinting
@@ -653,6 +855,12 @@ public class WASDController : MonoBehaviour
             
             if (!myAnim.GetBool("isSprinting"))
             {
+                falling = false;
+                jumping = false;
+                movingJump = false;
+                runningJump = false;
+                standingidle = false; // movementState changed
+                walking = false; // movementState changed
                 sprinting = true; // movementState changed
                 performState = PerformState.isSprinting;
                 //SetAllAnimFalse();
@@ -678,7 +886,14 @@ public class WASDController : MonoBehaviour
                 // Character is moving
                 if (!myAnim.GetBool("isWalking"))
                 {
+                    falling = false;
+                    jumping = false;
+                    movingJump = false;
+                    runningJump = false;
+                    standingidle = false; // movementState changed
+                    sprinting = false; // movementState changed
                     walking = true; // movementState changed
+                    
                     performState = PerformState.isWalking;
                     //SetAllAnimFalse();
                     //myAnim.SetBool("isWalking", true);
@@ -689,10 +904,14 @@ public class WASDController : MonoBehaviour
                 movementState = MovementState.standingidle;
                 if (!myAnim.GetBool("isStandingIdle"))
                 {
+                    falling = false;
+                    jumping = false;
+                    movingJump = false;
+                    runningJump = false;
+                    walking = false;
+                    sprinting = false;
                     standingidle = true; // movementState changed
                     performState = PerformState.isStandingIdle;
-                    //SetAllAnimFalse();
-                    //myAnim.SetBool("isStandingIdle", true);
                 }
             }
         }
@@ -707,11 +926,17 @@ public class WASDController : MonoBehaviour
 
             if (rb.velocity.y < 0 && !grounded)
             {
+                jumping = false;
+                movingJump = false;
+                runningJump =false;
+                walking = false;
+                sprinting = false;
+                readyToJump = false;
                 falling = true; // movementState changed
+                fallEndTime = Time.time + fallingThreshold; // Set the fall end time to fallingThreshold seconds after current time
+                
                 movementState = MovementState.falling;
                 performState = PerformState.isFalling;
-                //SetAllAnimFalse();
-                //myAnim.SetBool("isFalling", true);
             }
         }
 
@@ -849,22 +1074,7 @@ public class WASDController : MonoBehaviour
         }
     }
 
-    private void Jump()
-    {
-        exitingSlope = true;
-
-        // reset y velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-    }
     
-    private void ResetJump()
-    {
-        readyToJump = true;
-
-        exitingSlope = false;
-    }
 
     public bool OnSlope()
     {

@@ -16,6 +16,8 @@ public class MovementStateAnimator : MonoBehaviour
         isSprinting,
         isCrouching,
         isJumping,
+        isMovingJump,
+        isRunningJump,
         isFalling,
         isAboutLanding,
         isLandedOnGround,
