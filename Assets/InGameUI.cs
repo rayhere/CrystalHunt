@@ -341,6 +341,7 @@ public class InGameUI : MonoBehaviour
         }
         else
         {
+            // Make Sure Resume ClickEvent do the same
             ShowUIElement("PauseMenu");
             ShowUIElement("pmMidContainer");
             UnlockCursor();
@@ -371,20 +372,22 @@ public class InGameUI : MonoBehaviour
     private void OnPauseClick(ClickEvent evt)
     {
         Debug.Log("You press the Pause Button");
-        ShowUIElement("PauseMenu");
+        //ShowUIElement("PauseMenu");
         //HideUIElement("MidContainerEmpty");
-        ShowUIElement("pmMidContainer");
-        Debug.Log(" cursorLocked : " + cursorLocked);
-        pauseMenuVisible = true;
+        //ShowUIElement("pmMidContainer");
+        //Debug.Log(" cursorLocked : " + cursorLocked);
+        //pauseMenuVisible = true;
+        TogglePauseMenu();
     }
 
     private void OnPMResumeClick(ClickEvent evt)
     {
         Debug.Log("You press the pmResume Button");
-        HideUIElement("PauseMenu");
+        //HideUIElement("PauseMenu");
         //HideUIElement("MidContainer1");
         //ShowUIElement("MidContainerEmpty");
-        pauseMenuVisible = false;
+        //pauseMenuVisible = false;
+        TogglePauseMenu();
     }
 
     private void OnPMQuitClick(ClickEvent evt)
