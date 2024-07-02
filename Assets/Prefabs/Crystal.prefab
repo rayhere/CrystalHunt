@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f25d0a96fd3de1744b20a756d323a970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _crystal: {fileID: 9165328445014396882}
+  _crystal: {fileID: 8663977003947799473}
   animator: {fileID: 0}
   _audio: {fileID: 0}
   timer: 0.5

@@ -185,6 +185,9 @@ public class CrystalController : MonoBehaviour
     // Coroutine to reduce scale over time
     private IEnumerator ReduceScaleOverTime()
     {
+        // temp set it back to this object for adjust
+        GameObject _crystal = gameObject;
+
         float duration = 1.0f; // Duration over which to reduce scale
         float timer = 0.0f;
 

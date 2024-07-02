@@ -79,6 +79,7 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Start()
     {
+        currentStyle = CameraStyle.ThirdPerson;
         InitializeFreeLookCam();
         //if (freeLookCam == null) freeLookCam
         Debug.Log("CameraStyle currentStyle is " + currentStyle);
@@ -86,36 +87,6 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void InitializeFreeLookCam()
     {
-        // Initialize Cinemachine FreeLook component
-        /* if (freeLookCam == null)
-        {
-            freeLookCam = styleToCameraMap[currentStyle];
-            if (freeLookCam == null)
-            {
-                Debug.LogError("CinemachineFreeLook component not found for current camera style.");
-                return;
-            }
-            ApplyOriginalOrbitSettings(freeLookCam);
-        } */
-
-        /* if (!styleToCameraMap.ContainsKey(currentStyle))
-        {
-            Debug.LogError($"Camera style {currentStyle} not found in styleToCameraMap.");
-            return;
-        }
-
-        object camObject = styleToCameraMap[currentStyle];
-        if (camObject is CinemachineFreeLook freeLook)
-        {
-            freeLookCam = freeLook;
-            ApplyOriginalOrbitSettings(freeLookCam);
-        }
-        else
-        {
-            Debug.LogError($"Expected CinemachineFreeLook but found {camObject.GetType()} for camera style {currentStyle}.");
-            // Handle the case where the camera object retrieved is not CinemachineFreeLook
-        } */
-
         if (!styleToCameraMap.ContainsKey(currentStyle))
         {
             Debug.LogError($"Camera style {currentStyle} not found in styleToCameraMap.");
@@ -138,13 +109,13 @@ public class ThirdPersonCam : MonoBehaviour
             Debug.LogError($"Unexpected camera type found for style {currentStyle}: {camObject.GetType()}.");
         }
         
-        SwitchCameraStyle(CameraStyle.ThirdPerson);
-        ApplyOriginalOrbitSettings(freeLookCam);
+        //SwitchCameraStyle(CameraStyle.ThirdPerson);
+        //ApplyOriginalOrbitSettings(freeLookCam);
     }
 
     private void InitializeOrbitSettings()
     {
-        // Store original orbit settings for each camera
+        // Store original orbit settings for each camera ***IN ORDER***
         StoreOriginalOrbitSettings(thirdPersonFreeLook);
         StoreOriginalOrbitSettings(combatFreeLook);
         StoreOriginalOrbitSettings(topDownFreeLook);
@@ -468,8 +439,11 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void HandleOrbitScaling()
     {   
+        if (currentStyle == CameraStyle.FirstPerson) return;
+
         // Handle orbit scaling based on input scroll
         float scroll = Input.GetAxis("Mouse ScrollWheel");
+        
         if (scroll != 0)
         {
             // Calculate new scale factor
@@ -495,7 +469,7 @@ public class ThirdPersonCam : MonoBehaviour
     {   
         if (pauseMenu) return;
         //HandleSwitchCameraStyles();
-        HandleOrbitScaling();
+        //HandleOrbitScaling(); // bug
         
         RotateOrientation();
 
@@ -506,43 +480,6 @@ public class ThirdPersonCam : MonoBehaviour
 
         if (currentStyle == CameraStyle.FirstPerson)
         {
-            /* Debug.Log("FirstPersonCam update RotateOrientation");
-            // Rotate player model based on mouse movement
-            float mouseX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
-
-            // Rotate the playerModel (which is typically the camera) around its own axes
-            playerModel.transform.localRotation *= Quaternion.Euler(Vector3.up * mouseX);
-
-            // Rotate the orientation object (which is used for camera rotation)
-            orientation.transform.localRotation *= Quaternion.Euler(Vector3.left * mouseY);
-
-            // Clamp vertical rotation of orientation to avoid flipping
-            Vector3 eulerRotation = orientation.transform.localRotation.eulerAngles;
-            eulerRotation.x = Mathf.Clamp(eulerRotation.x, -90f, 90f);
-            orientation.transform.localRotation = Quaternion.Euler(eulerRotation);
-
-            // Match playerModel rotation to orientation for movement direction
-            playerModel.rotation = Quaternion.Euler(0f, orientation.transform.eulerAngles.y, 0f);
-            Debug.Log("FirstPersonCam update RotateOrientation: playerModel.rotation " + playerModel.rotation + " orientation.transform.localRotation " + orientation.transform.localRotation);
-            Debug.Log("playerModel.parent is " + playerModel.parent.name); */
-
-            /* // Rotate player model based on mouse movement only for virtual camera
-            float mouseX = Input.GetAxis("Mouse X") * 100 *rotationSpeed * Time.deltaTime;
-
-            // Rotate the playerModel around its own y-axis
-            playerModel.transform.Rotate(Vector3.up, mouseX);
-
-            // Keep playerModel upright, resetting x and z rotations to 0
-            Vector3 currentRotation = playerModel.transform.eulerAngles;
-            playerModel.transform.eulerAngles = new Vector3(0f, currentRotation.y, 0f);
-
-            // Rotate the orientation object for free look camera (if needed)
-            orientation.transform.Rotate(Vector3.left, Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime); */
-
-            // Calculate direction from playerModel position to firstPersonCam position
-            //Vector3 viewDirection = firstPersonCam.transform.position - playerModel.position;
-
             // Calculate direction from firstPersonCam position to playerModel position
             Vector3 viewDirection = playerModel.position - firstPersonCam.transform.position;
 

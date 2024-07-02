@@ -609,7 +609,7 @@ public class WASDController : MonoBehaviour
         {
             movementState = MovementState.aboutlanding;
             //rb.velocity = Vector3.zero;
-            desiredMoveSpeed = 0f;
+            //desiredMoveSpeed = 0f;
 
             
             if (grounded)

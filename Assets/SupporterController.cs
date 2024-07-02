@@ -236,7 +236,7 @@ public class SupporterController : MonoBehaviour
             {
                 // Check if the collider is a valuable item
                 // For simplicity, let's assume items are tagged as "Item"
-                if (itemCollider.CompareTag("Item"))
+                if (itemCollider.CompareTag("Crystal"))
                 {
                     float distance = Vector3.Distance(transform.position, itemCollider.transform.position);
                     if (distance < nearestDistance)
