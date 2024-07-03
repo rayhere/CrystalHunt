@@ -13,6 +13,7 @@ public class InGameUI : MonoBehaviour
     public WASDController pm; // Reference to the WASDController component on the Player GameObject
     public ClickToMove ctm;
     public ThirdPersonCam tpc;
+    public MovementSwitcher ms;
     //public DarknessStatsSO playerStats; // Reference to the ScriptableObject
     public bool playerAlive = true;
 
@@ -24,6 +25,8 @@ public class InGameUI : MonoBehaviour
     private Label text_mode;
     private Label text_cursorStatus;
     private Label text_crystalcollectStatus;
+    private Label text_controlMode;
+    private Label text_cameraType;
 
     private Button _pauseButton;
     private Button _pmResumeButton;
@@ -214,6 +217,8 @@ public class InGameUI : MonoBehaviour
         text_mode = _document.rootVisualElement.Q<Label>("BottomRightLabel");
         text_cursorStatus = _document.rootVisualElement.Q<Label>("CursorStatusLabel");
         text_crystalcollectStatus = _document.rootVisualElement.Q<Label>("CrystalCollectLabel");
+        text_controlMode = _document.rootVisualElement.Q<Label>("ControlModeLabel");
+        text_cameraType = _document.rootVisualElement.Q<Label>("CameraTypeLabel");
 
         if (text_speed == null)
         {
@@ -249,6 +254,24 @@ public class InGameUI : MonoBehaviour
         else
         {
             Debug.Log("CrystalCollectLabel found!");
+        }
+
+        if (text_controlMode == null)
+        {
+            Debug.LogError("ControlModeLabel not found!");
+        }
+        else
+        {
+            Debug.Log("ControlModeLabel found!");
+        }
+
+        if (text_cameraType == null)
+        {
+            Debug.LogError("CameraTypeLabel not found!");
+        }
+        else
+        {
+            Debug.Log("CameraTypeLabel found!");
         }
 
         // Lock the cursor initially
@@ -294,6 +317,25 @@ public class InGameUI : MonoBehaviour
         UpdatePlayerMovementStatus();
         UpdateCursorStatus();
         UpdateCrystalCollectStatus();
+        UpdateControlMode();
+        UpdateCameraType();
+    }
+
+    void UpdateControlMode()
+    {
+        if (pm != null)
+        {
+            text_controlMode.text = ms.GetTextMode();
+        }
+    }
+
+    void UpdateCameraType()
+    {
+        if (pm != null)
+        {
+
+            text_cameraType.text = tpc.GetTextMode();
+        }
     }
 
     private void UpdatePlayerMovementStatus()

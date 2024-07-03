@@ -71,4 +71,22 @@ public class MovementSwitcher : MonoBehaviour
             cursorLock.SetCursorLocked(false);
         }
     }
+
+    public string GetTextMode()
+    {
+        string _textMode;
+        if (wasdController.isActive)
+        {
+            _textMode = "WASD Mode";
+        }
+        else if (clickToMove.isActive)
+        {
+            _textMode = "Click To Move";
+        }
+        else 
+        {
+            _textMode = "";
+        }
+        return _textMode;
+    }
 }

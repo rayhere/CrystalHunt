@@ -776,4 +776,10 @@ public class ThirdPersonCam : MonoBehaviour
         UnityEngine.Cursor.lockState = cursorLock ? CursorLockMode.Locked : CursorLockMode.None;
         UnityEngine.Cursor.visible = !cursorLock;
     }
+
+    public string GetTextMode()
+    {
+        string _textMode = currentStyle.ToString();
+        return _textMode;
+    }
 }

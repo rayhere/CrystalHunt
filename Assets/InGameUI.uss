@@ -39,7 +39,6 @@
 
 .LeftContainer {
     flex-basis: 25%;
-    align-self: flex-start;
 }
 
 .MidContainer {

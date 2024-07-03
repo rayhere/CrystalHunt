@@ -15,11 +15,13 @@
         <ui:VisualElement name="BodyPanel" class="BodyPanel">
             <ui:VisualElement name="LeftContainer" class="LeftContainer">
                 <ui:Label tabindex="-1" text="CrystalCollected" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CrystalCollectLabel" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
+                <ui:Label tabindex="-1" text="ControlMode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ControlModeLabel" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
             </ui:VisualElement>
             <ui:VisualElement name="MidContainer" class="MidContainer" />
             <ui:VisualElement name="RighContainer" class="RighContainer">
                 <ui:Label tabindex="-1" text="Press ESC to unlock Cursor" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CursorLabel" style="align-items: center; align-self: flex-end; flex-basis: 25%; -unity-text-align: upper-right; font-size: 36%; color: rgb(255, 255, 255); white-space: normal; height: 30%; width: 100%; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
                 <ui:Label tabindex="-1" text="Cursor State Lock/ unLock" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CursorStatusLabel" style="align-items: center; align-self: flex-end; flex-basis: 25%; -unity-text-align: upper-right; font-size: 36%; color: rgb(255, 255, 255); white-space: normal; height: 30%; width: 100%; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
+                <ui:Label tabindex="-1" text="Camera" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CameraTypeLabel" style="align-items: center; align-self: flex-end; flex-basis: 25%; -unity-text-align: upper-right; font-size: 36%; color: rgb(255, 255, 255); white-space: normal; height: 30%; width: 100%; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BottomPanel" class="BottomPanel">
@@ -40,7 +42,10 @@
                 <ui:VisualElement name="TopRightContainer" class="TopRightContainer" />
             </ui:VisualElement>
             <ui:VisualElement name="BodyPanel" class="BodyPanel">
-                <ui:VisualElement name="LeftContainer" class="LeftContainer" />
+                <ui:VisualElement name="LeftContainer" class="LeftContainer">
+                    <ui:Label tabindex="-1" text="Control Mode: (Tab)&#10;Click to Move / WASD Control" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
+                    <ui:Label tabindex="-1" text="Camera: (Key 1-5)&#10;1. First Person&#10;2. ThirdPerson&#10;3. Combat&#10;4. Top-Down&#10;5. Third Person Ominiscient" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
+                </ui:VisualElement>
                 <ui:VisualElement name="pmMidContainer" class="MidContainer">
                     <ui:VisualElement name="GroupContainer" class="GroupContainer">
                         <ui:Label tabindex="-1" text="Paused" parse-escape-sequences="true" display-tooltip-when-elided="true" class="BodyMidLabel" style="font-size: 100%; flex-wrap: wrap; flex-direction: column-reverse; justify-content: flex-end; align-self: center; align-items: center; -unity-text-align: lower-center; color: rgb(255, 255, 255);" />
@@ -57,7 +62,10 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="RighContainer" class="RighContainer" />
+                <ui:VisualElement name="RighContainer" class="RighContainer">
+                    <ui:Label tabindex="-1" text="Click To Move: &#10;Better use with &#10;Camera 5" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
+                    <ui:Label tabindex="-1" text="WASD Control: &#10;Input Direction (WASD)&#10;Jump (Space)&#10;Sprint (Shift)&#10;Crouch (Z)&#10;Slide (Left Ctrl)" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="BottomPanel" class="BottomPanel">
                 <ui:VisualElement name="BottomLeftContainer" class="BottomLeftContainer" />
