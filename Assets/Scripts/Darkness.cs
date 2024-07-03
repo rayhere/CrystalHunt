@@ -10,7 +10,7 @@ public class Darkness : MonoBehaviour, IDamageable
     public WASDController wasdController;
     public NavMeshAgent Agent;
     public DarknessStatsSO DarknessStatsSO;
-    public int Health = 100;
+    public int Health;
 
     private Coroutine LookCoroutine;
     private const string ATTACK_TRIGGER = "Attack";
@@ -75,7 +75,7 @@ public class Darkness : MonoBehaviour, IDamageable
         
         //wasdController.UpdateRate = DarknessStatsSO.AIUpdateInterval;
 
-        Health = DarknessStatsSO.Health;
+        Health = DarknessStatsSO.maxHP;
 
         (AttackRadius.Collider == null ? AttackRadius.GetComponent<SphereCollider>() : AttackRadius.Collider).radius = DarknessStatsSO.AttackRadius;
         AttackRadius.AttackDelay = DarknessStatsSO.AttackDelay;

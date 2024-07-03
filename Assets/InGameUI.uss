@@ -107,11 +107,9 @@
 }
 
 .PauseButton {
-    z-index: 10;
 }
 
 .PauseMenu {
-    z-index: 5;
     flex-shrink: 1;
     flex-wrap: wrap-reverse;
     flex-grow: 0;
@@ -137,4 +135,105 @@
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
     font-size: 100%;
     -unity-text-align: lower-center;
+}
+
+.InGameUI {
+    flex-grow: 1;
+    flex-basis: auto;
+    flex-wrap: nowrap;
+    overflow: visible;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.56);
+    position: absolute;
+}
+
+.healthProgressBar {
+    width: 50%;
+    height: 20%;
+    padding-top: 9.5%;
+    padding-left: 16%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    display: flex;
+    position: absolute;
+    flex-shrink: 1;
+    flex-grow: 1;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
+    border-bottom-right-radius: 10%;
+    border-bottom-left-radius: 10%;
+    border-right-width: 0;
+}
+
+.healthProgressBar .unity-progress-bar__progress {
+    background-color: rgb(235, 52, 52);
+}
+
+.manaProgressBar .unity-progress-bar__progress {
+    background-color: rgb(52, 52, 235);
+}
+
+.staminaProgressBar .unity-progress-bar__progress {
+    background-color: rgb(52, 235, 52);
+}
+
+.unity-progress-bar__container {
+    min-height: 10px;
+    height: 15%;
+}
+
+.unity-progress-bar__background {
+    border-radius: 3px;
+    min-height: 10px;
+    height: 17%;
+    background-color: rgb(102, 102, 102);
+}
+
+.unity-progress-bar__progress {
+    height: 90%;
+    margin: 0;
+    border-radius: 2px;
+}
+
+.manaProgressBar {
+    width: 50%;
+    height: 20%;
+    padding-top: 11.5%;
+    padding-left: 16%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    display: flex;
+    position: absolute;
+    flex-shrink: 1;
+    flex-grow: 1;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
+    border-bottom-right-radius: 10%;
+    border-bottom-left-radius: 10%;
+    border-right-width: 0;
+}
+
+.staminaProgressBar {
+    width: 50%;
+    height: 20%;
+    padding-top: 13.5%;
+    padding-left: 16%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    display: flex;
+    position: absolute;
+    flex-shrink: 1;
+    flex-grow: 1;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
+    border-bottom-right-radius: 10%;
+    border-bottom-left-radius: 10%;
+    border-right-width: 0;
 }

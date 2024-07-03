@@ -34,6 +34,31 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:VisualElement name="InGameUI" class="InGameUI" style="background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement style="flex-grow: 1; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%;">
+            <ui:VisualElement name="TopPanel" style="width: 100%; height: 100%; align-self: stretch; align-items: flex-start; justify-content: center; flex-direction: row;">
+                <ui:VisualElement name="TopLeftContainer" style="flex-basis: 35%; width: 100%; height: 100%;">
+                    <ui:VisualElement name="Profile" class="hide" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Textures/UI/Profile.png?fileID=2800000&amp;guid=ec10571eca84d0c4f959937b9b5d268d&amp;type=3#Profile&apos;); -unity-background-scale-mode: scale-to-fit; width: 72%; height: 20%; position: absolute; padding-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; -unity-slice-left: 0; white-space: normal;" />
+                    <ui:ProgressBar value="500" high-value="1000" name="healthProgressBar" low-value="0" usage-hints="None" class="healthProgressBar" />
+                    <ui:ProgressBar value="500" high-value="1000" name="manaProgressBar" low-value="0" usage-hints="None" class="manaProgressBar" />
+                    <ui:ProgressBar value="500" high-value="1000" name="staminaProgressBar" low-value="0" usage-hints="None" class="staminaProgressBar" />
+                    <ui:VisualElement name="Outcircle" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Textures/UI/Outcircle.png?fileID=2800000&amp;guid=300d93f103574ee42bc3f172475284c8&amp;type=3#Outcircle&apos;); -unity-background-scale-mode: scale-to-fit; width: 25%; height: 25%; position: absolute;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="TopMidContainer" style="flex-basis: 30%; width: 100%; height: 100%;" />
+                <ui:VisualElement name="TopRightContainer" style="flex-basis: 35%; width: 100%; height: 100%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BodyPanel" class="BodyPanel">
+                <ui:VisualElement name="LeftContainer" class="LeftContainer" />
+                <ui:VisualElement name="MidContainer" class="MidContainer" />
+                <ui:VisualElement name="RighContainer" class="RighContainer" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BottomPanel" class="BottomPanel">
+                <ui:VisualElement name="BottomLeftContainer" class="BottomLeftContainer" />
+                <ui:VisualElement name="BottomMidContainer" class="BottomMidContainer" />
+                <ui:VisualElement name="BottomRightContainer" class="BottomRightContainer" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
     <ui:VisualElement name="PauseMenu" class="PauseMenu hide" style="flex-grow: 1; flex-basis: auto; flex-wrap: nowrap; overflow: visible; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.56); position: absolute;">
         <ui:VisualElement style="flex-grow: 1; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%;">
             <ui:VisualElement name="TopPanel" class="TopPanel" style="width: 100%; height: 100%; align-self: stretch; align-items: flex-start; justify-content: center;">
