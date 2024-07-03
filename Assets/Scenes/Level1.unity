@@ -5232,6 +5232,7 @@ MonoBehaviour:
     m_Bits: 1024
   positivePosition: {x: 50, y: 50}
   negativePosition: {x: -50, y: -50}
+  cabbageSpawnInterval: 20
 --- !u!114 &1673984826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10569,7 +10570,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4731647953039349946}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.26058534, y: 0.000000016625867, z: -0.0000000044874966, w: 0.9654508}
+  m_LocalRotation: {x: 0.26058534, y: -0.000000016611915, z: 0.0000000044837307, w: 0.9654508}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -27474,6 +27475,8 @@ MonoBehaviour:
   currentStyle: 0
   cursorLock: 0
   pauseMenu: 0
+  followObj: {fileID: 0}
+  lookAtObj: {fileID: 0}
   freeLookCam: {fileID: 0}
 --- !u!1 &4224283835553345224
 GameObject:
@@ -28483,7 +28486,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552149930991054768}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30517742, y: 0.000000017683242, z: -0.0000000056668603, w: 0.95229554}
+  m_LocalRotation: {x: 0.30517742, y: 0.000000016385561, z: -0.0000000052509987, w: 0.95229554}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -32566,7 +32569,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5021452275146828287}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2340823, y: 1e-45, z: -0, w: 0.9722168}
+  m_LocalRotation: {x: 0.2340823, y: -0, z: -0, w: 0.9722168}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33375,7 +33378,7 @@ MonoBehaviour:
     m_MaxSpeed: 2
     m_AccelTime: 0.2
     m_DecelTime: 0.1
-    m_InputAxisName: Mouse Y
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 1
     m_MinValue: 0
@@ -33399,7 +33402,7 @@ MonoBehaviour:
     m_MaxSpeed: 300
     m_AccelTime: 0.1
     m_DecelTime: 0.1
-    m_InputAxisName: Mouse X
+    m_InputAxisName: 
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -180

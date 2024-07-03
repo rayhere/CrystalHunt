@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.AI;
 using System.Runtime.InteropServices;
+using UnityEngine.WSA;
 
 public class ThirdPersonCam : MonoBehaviour
 {
@@ -67,8 +68,14 @@ public class ThirdPersonCam : MonoBehaviour
     [Header("PauseMenuEvent")]
     public bool pauseMenu = false;
 
+    [Header("Get Direction for Omniscient")]
+    public Transform followObj;
+    public Transform lookAtObj;
+
     // Cinemachine FreeLook settings
     public CinemachineFreeLook freeLookCam;
+
+
 
     private void Awake()
     {
@@ -310,6 +317,7 @@ public class ThirdPersonCam : MonoBehaviour
         // Check if omniscient camera style is active
         if (currentStyle == CameraStyle.ThirdPersonOmniscient)
         {
+            
             // Handle edge scrolling for omniscient camera
             HandleOmniscientEdgeScrolling();
 
@@ -320,9 +328,29 @@ public class ThirdPersonCam : MonoBehaviour
             // Make omniscient camera look at player
             if (freeLookCam != null && player != null)
             {
+                // Calculate the desired follow position based on cameraTarget's position and an offset
+                Vector3 followPosition = player.position + player.rotation * new Vector3(0, 60, 0);
+                //gameObject.transform.position = new Vector3(player.position.x, 10, player.position.z);
+                //freeLookCam.m_Follow.position = new Vector3(player.position.x, 10, player.position.z);
+
+                //freeLookCam.Follow = obj.transform;
+                //freeLookCam.Follow = player;
+                // Calculate the desired look at position based on cameraTarget's position and an offset
+                Vector3 lookAtPosition = player.position + player.rotation * new Vector3(0, 60, 0);
+
+                //freeLookCam.m_LookAt.rotation = Quaternion.Euler(60, 0, 0);
+                //freeLookCam.LookAt = player;
+                //freeLookCam.transform.position = Vector3.zero;
+                //freeLookCam.Follow = followObj;
+                //freeLookCam.LookAt = lookAtObj;
+
                 freeLookCam.Follow = player;
                 freeLookCam.LookAt = player;
             }
+
+            // Set initial position and rotation
+            //freeLookCam.transform.position = new Vector3(0, 60, 0);
+            //freeLookCam.transform.rotation = Quaternion.Euler(60, 0, 0);
 
             // Wait for one frame
             yield return null;
@@ -336,7 +364,7 @@ public class ThirdPersonCam : MonoBehaviour
         else
         {
             // If not omniscient style, enable axis control
-            EnableCinemachineInput(freeLookCam);
+            //EnableCinemachineInput(freeLookCam);
         }
     }
 
@@ -745,7 +773,7 @@ public class ThirdPersonCam : MonoBehaviour
     private void InitializeCursorSettings()
     {
         // Initialize cursor lock state
-        Cursor.lockState = cursorLock ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !cursorLock;
+        UnityEngine.Cursor.lockState = cursorLock ? CursorLockMode.Locked : CursorLockMode.None;
+        UnityEngine.Cursor.visible = !cursorLock;
     }
 }

@@ -185,4 +185,20 @@ public static class ObjectPooler
         }
         parentDictionary.Clear();
     }
+
+    // Method to check if there are inactive objects in a specific pool
+    public static bool HasInactiveObjects(string key)
+    {
+        if (poolDictionary.ContainsKey(key))
+        {
+            foreach (var item in poolDictionary[key])
+            {
+                if (!item.gameObject.activeSelf)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
