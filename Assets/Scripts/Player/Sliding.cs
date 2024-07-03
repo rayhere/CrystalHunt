@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using UnityEngine;
 
 public class Sliding : MonoBehaviour
@@ -10,6 +11,8 @@ public class Sliding : MonoBehaviour
     public Transform playerObj;
     private Rigidbody rb;
     private WASDController pm;
+    private StaminaManager sm;
+    public DarknessStatsSO playerStats;
 
     [Header("Sliding")]
     public float maxSlideTime =2f;
@@ -31,6 +34,7 @@ public class Sliding : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<WASDController>();
+        sm = GetComponent<StaminaManager>();
 
         startYScale = playerObj.localScale.y;
     }
@@ -40,8 +44,12 @@ public class Sliding : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0) && !pm.jumping && !pm.falling && !pm.aboutlanding && !pm.landedonground)
-            StartSlide();
+        if (Input.GetKeyDown(slideKey))
+        {
+            if ((playerStats.currentSP >= playerStats.slideSPCost) && (horizontalInput != 0 || verticalInput != 0) && !pm.jumping && !pm.falling && !pm.aboutlanding && !pm.landedonground)
+                StartSlide();
+        }
+        
 
         if (Input.GetKeyUp(slideKey) && pm.sliding)
             StopSlide();
@@ -55,8 +63,10 @@ public class Sliding : MonoBehaviour
 
     private void StartSlide()
     {
+        //if (!(playerStats.currentSP >= playerStats.slideSPCost)) return;
         pm.sliding = true;
-
+        if (sm != null) sm.isSliding = true;
+        Debug.Log("Sliding playerStats.currentSP >= playerStats.slideSPCost " + playerStats.currentSP + " >= " +playerStats.slideSPCost + " TIme.time " + Time.time);
         //playerObj.localScale = new Vector3(playerObj.localScale.x, slideYScale, playerObj.localScale.z);
         rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
 
@@ -88,7 +98,7 @@ public class Sliding : MonoBehaviour
     private void StopSlide()
     {
         pm.sliding = false;
-
+        if (sm != null) sm.isSliding = false;
         //playerObj.localScale = new Vector3(playerObj.localScale.x, startYScale, playerObj.localScale.z);
     }
 }

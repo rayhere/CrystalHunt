@@ -72,7 +72,7 @@ public class PlayerStatsSO : ScriptableObject
         climbSPCost = 2f;
         slideSPCost = 10f;
         jumpSPCost = 5f;
-        sPRecoveryRate = 2f;
+        sPRecoveryRate = 1f;
     }
 
     // Methods for custom behavior (optional)

@@ -20,6 +20,8 @@ public class StaminaManager : MonoBehaviour
     private float slideTimer;
     private float jumpTimer;
 
+    private bool hasStartedSliding = false;
+
     private void Start()
     {
         pm = GetComponent<WASDController>();
@@ -44,13 +46,19 @@ public class StaminaManager : MonoBehaviour
 
     private void HandleSprint()
     {
+        isSprinting = pm.sprinting;
         if (isSprinting)
         {
             if (playerStats.currentSP >= playerStats.sprintSPCost)
-            {
-                playerStats.currentSP -= playerStats.sprintSPCost;
-                sprintTimer += Time.deltaTime;
+            {   
+                /* if (Time.time < sprintTimer) return;
+                // perform every one sec
+                sprintTimer = Time.time + 1; 
+                playerStats.currentSP -= playerStats.sprintSPCost; */
+                
                 // Perform sprinting action here
+
+                playerStats.currentSP -= (playerStats.sprintSPCost * Time.deltaTime);
             }
             else
             {
@@ -86,22 +94,24 @@ public class StaminaManager : MonoBehaviour
 
     private void HandleSlide()
     {
-        if (isSliding)
+        //isSliding = pm.sliding;
+        if (isSliding && !hasStartedSliding)
         {
             if (playerStats.currentSP >= playerStats.slideSPCost)
             {
                 playerStats.currentSP -= playerStats.slideSPCost;
-                slideTimer += Time.deltaTime;
                 // Perform sliding action here
+
+                hasStartedSliding = true; // Set flag to true to indicate sliding has started
             }
             else
             {
                 isSliding = false; // Stop sliding if not enough stamina
             }
         }
-        else
+        else if (!isSliding)
         {
-            slideTimer = 0f; // Reset slide timer if not sliding
+            hasStartedSliding = false; // Reset flag when not sliding
         }
     }
 

@@ -263,7 +263,7 @@ public class WASDController : MonoBehaviour
         if(Input.GetKeyUp(jumpKey) && !grounded){
             Debug.Log("Jumped, but not ground");
         }
-        else if(Input.GetKey(jumpKey) && readyToJump && grounded && !aboutlanding && !landedonground && !jumping)
+        else if(Input.GetKey(jumpKey) && readyToJump && grounded && !aboutlanding && !landedonground && !jumping && (playerStats.currentSP >= playerStats.jumpSPCost))
         {
             Debug.Log("Input.GetKey(jumpKey) && readyToJump && grounded is " + Input.GetKey(jumpKey) + readyToJump + grounded);
             Debug.Log("readyToJump is " + readyToJump);

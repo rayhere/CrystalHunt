@@ -14,7 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP: 100
-  Health: 100
+  maxMP: 100
+  currentMP: 100
+  maxSP: 100
+  currentSP: 25.230673
+  sprintSPCost: 2
+  climbSPCost: 2
+  slideSPCost: 10
+  jumpSPCost: 5
+  sPRecoveryRate: 2
   AttackDelay: 1
   Damage: 5
   AttackRadius: 1.5
