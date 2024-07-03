@@ -14,8 +14,15 @@ public class PlayerStatsSO : ScriptableObject
     public int currentHP;
     public int maxMP;
     public int currentMP;
-    public int maxSP;
-    public int currentSP;
+    public float maxSP;
+    public float currentSP;
+
+    public float sprintSPCost;
+    public float climbSPCost;
+    public float slideSPCost;
+    public float jumpSPCost;
+    public float sPRecoveryRate;
+
 
     //public int Health = 100;
     public float AttackDelay = 1f;
@@ -58,8 +65,14 @@ public class PlayerStatsSO : ScriptableObject
 
         maxSP = 100;
         Debug.Log("PlayerStatsSO: maxSP is " + maxSP + " currentSP is " + currentSP);
-        currentHP = maxSP;
+        currentSP = maxSP;
         Debug.Log("PlayerStatsSO: maxSP is " + maxSP + " currentSP is " + currentSP);
+
+        sprintSPCost = 2f;
+        climbSPCost = 2f;
+        slideSPCost = 10f;
+        jumpSPCost = 5f;
+        sPRecoveryRate = 2f;
     }
 
     // Methods for custom behavior (optional)

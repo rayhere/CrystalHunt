@@ -12,6 +12,7 @@ public class WASDController : MonoBehaviour
     public Transform playerModel;
     public Animator myAnim;
     public PlayerStatsSO playerStats; // Reference to the ScriptableObject
+    private StaminaManager sm;
     // Declare a variable to hold the CapsuleCollider component
     private CapsuleCollider capsuleCollider;
     private Vector3 originalCenter;
@@ -186,6 +187,7 @@ public class WASDController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
+        sm = GetComponent<StaminaManager>();
     }
 
     private void Start()
@@ -268,6 +270,32 @@ public class WASDController : MonoBehaviour
             readyToJump = false; // prevent jump before jumping action finish
             jumpStarted = false; // prevent jump action cancelled because grounded on start
             Debug.Log("JumpUp, on ground" + " readyToJump is " + readyToJump);
+            if (sprinting)
+            {
+                if (rb.velocity.magnitude < 0.1f)
+                {
+                    // 2. Moving Jump: Describes a jump executed while the player is moving.
+                    readyToJump = false;
+                    restricted = false;
+                    // stop jump type group
+                    movingJump = false;
+                    runningJump =false;
+                    // stop all movement state group
+                    standingidle = false;
+                    walking = false;
+                    sprinting = false;
+                    
+                    movingJump = true;
+                    jumping = true; // movementState changed
+                    sm.isJumping = true;
+                    Debug.Log("sm.isJumping = true "+ 0);
+                    // Time at which to start grounded check for jumping (3 seconds in the future)
+                    jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
+                    DelayedJump(0f);
+                }
+
+            }
+
             if (sliding)
             {
                 sliding = false;
@@ -284,6 +312,8 @@ public class WASDController : MonoBehaviour
                 
                 movingJump = true;
                 jumping = true; // movementState changed
+                sm.isJumping = true;
+                Debug.Log("sm.isJumping = true "+ 0);
                 // Time at which to start grounded check for jumping (3 seconds in the future)
                 jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
 
@@ -310,6 +340,8 @@ public class WASDController : MonoBehaviour
                     sprinting = false;
 
                     jumping = true; // movementState changed
+                    sm.isJumping = true;
+                    Debug.Log("sm.isJumping = true "+ 1);
                     // Time at which to start grounded check for jumping (3 seconds in the future)
                     jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
                     DelayedJump(jumpDelay);
@@ -329,6 +361,8 @@ public class WASDController : MonoBehaviour
                     
                     movingJump = true;
                     jumping = true; // movementState changed
+                    sm.isJumping = true;
+                    Debug.Log("sm.isJumping = true "+ 2);
                     // Time at which to start grounded check for jumping (3 seconds in the future)
                     jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
 
@@ -378,6 +412,8 @@ public class WASDController : MonoBehaviour
                 sprinting = false;
 
                 jumping = true; // movementState changed
+                sm.isJumping = true;
+                Debug.Log("sm.isJumping = true "+ 3);
                 // Time at which to start grounded check for jumping (3 seconds in the future)
                 jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
                 DelayedJump(jumpDelay);
@@ -397,6 +433,8 @@ public class WASDController : MonoBehaviour
                 
                 movingJump = true;
                 jumping = true; // movementState changed
+                sm.isJumping = true;
+                Debug.Log("sm.isJumping = true "+ 4);
                 // Time at which to start grounded check for jumping (3 seconds in the future)
                 jumpGroundedCheckStartTime = Time.time + groundedCheckDelay; // Delay time for Any Jump
 
@@ -421,6 +459,8 @@ public class WASDController : MonoBehaviour
                 
                 movingJump = true;
                 jumping = true; // movementState changed
+                sm.isJumping = true;
+                Debug.Log("sm.isJumping = true "+ 5);
                 // Time at which to start grounded check for jumping (3 seconds in the future)
 
                 DelayedJump(0f);
@@ -576,6 +616,8 @@ public class WASDController : MonoBehaviour
         //yield return new WaitForSeconds(delay);
         Debug.Log("DelayedJump start");
         jumping = true;
+        sm.isJumping = true;
+        Debug.Log("sm.isJumping = true "+ 6);
         //restricted = false;
         //Jump();
         
