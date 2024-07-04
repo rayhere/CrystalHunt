@@ -721,10 +721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58647c90a55714c43aad973193750598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myNavMeshData: {fileID: 0}
   patrolWaypoints: []
   patrolSpeed: 3
   chaseSpeed: 7
+  advoidSpeed: 15
   chaseDistance: 20
   chaseAngle: 40
   minWaypointDistance: 5
@@ -738,6 +738,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Health: 0
   avoidanceRange: 20
+  avoidTargets: []
   awarenessRadius: 10
   chaseRange: 20
   searchRange: 15
@@ -756,6 +757,7 @@ MonoBehaviour:
     m_Bits: 16384
   searchSpeed: 3
   turnSpeed: 5
+  avoidTarget: {fileID: 0}
   isAvoidTarget: 0
   isAware: 0
   isSearchingItem: 0
@@ -944,7 +946,7 @@ Transform:
   m_GameObject: {fileID: 67171637}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15, y: 0, z: -50}
+  m_LocalPosition: {x: -15, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5322,10 +5324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58647c90a55714c43aad973193750598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myNavMeshData: {fileID: 0}
   patrolWaypoints: []
   patrolSpeed: 3
   chaseSpeed: 7
+  advoidSpeed: 15
   chaseDistance: 20
   chaseAngle: 40
   minWaypointDistance: 5
@@ -5339,6 +5341,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Health: 0
   avoidanceRange: 20
+  avoidTargets: []
   awarenessRadius: 10
   chaseRange: 20
   searchRange: 15
@@ -5357,6 +5360,7 @@ MonoBehaviour:
     m_Bits: 16384
   searchSpeed: 3
   turnSpeed: 5
+  avoidTarget: {fileID: 0}
   isAvoidTarget: 0
   isAware: 0
   isSearchingItem: 0
@@ -5545,7 +5549,7 @@ Transform:
   m_GameObject: {fileID: 1436743878}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: -50}
+  m_LocalPosition: {x: -10, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6461,7 +6465,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673984819}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83ed64e49beba1049a6b080914773f39, type: 3}
   m_Name: 
@@ -6566,7 +6570,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673984819}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7986d519b268dab4197bbe741a3674a8, type: 3}
   m_Name: 
@@ -12047,7 +12051,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4731647953039349946}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.26058534, y: -0.000000019225286, z: 0.000000005189108, w: 0.9654508}
+  m_LocalRotation: {x: 0.26058534, y: 0.000000018280987, z: -0.0000000049342317, w: 0.9654508}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -28514,7 +28518,7 @@ Transform:
   m_GameObject: {fileID: 1050188603142849491}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20, y: 0, z: -50}
+  m_LocalPosition: {x: -20, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30044,7 +30048,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552149930991054768}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30517742, y: -0.000000028380622, z: 0.000000009094997, w: 0.95229554}
+  m_LocalRotation: {x: 0.30517742, y: -1.5550827e-16, z: -2.0801197e-16, w: 0.95229554}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34167,7 +34171,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5021452275146828287}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2340823, y: 1e-45, z: -0, w: 0.9722168}
+  m_LocalRotation: {x: 0.2340823, y: 5.4461154e-30, z: -1.3066669e-30, w: 0.9722168}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -51866,10 +51870,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58647c90a55714c43aad973193750598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myNavMeshData: {fileID: 0}
   patrolWaypoints: []
   patrolSpeed: 3
   chaseSpeed: 7
+  advoidSpeed: 15
   chaseDistance: 20
   chaseAngle: 40
   minWaypointDistance: 5
@@ -51883,6 +51887,7 @@ MonoBehaviour:
   Animator: {fileID: 1841751160}
   Health: 0
   avoidanceRange: 20
+  avoidTargets: []
   awarenessRadius: 10
   chaseRange: 20
   searchRange: 15
@@ -51901,6 +51906,7 @@ MonoBehaviour:
     m_Bits: 16384
   searchSpeed: 3
   turnSpeed: 5
+  avoidTarget: {fileID: 0}
   isAvoidTarget: 0
   isAware: 0
   isSearchingItem: 0

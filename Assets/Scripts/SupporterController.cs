@@ -9,8 +9,8 @@ using UnityEngine.AI;
 public class SupporterController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField, Tooltip("Reference your NavMesh data asset here")]
-    public NavMeshData myNavMeshData; // Reference to your NavMeshData
+    //[SerializeField, Tooltip("Reference your NavMesh data asset here")]
+    //public NavMeshData myNavMeshData; // Reference to your NavMeshData
     //private NavMeshDataInstance navMeshDataInstance; // Instance of the NavMeshData
 
     // Patrol Settings
@@ -20,6 +20,7 @@ public class SupporterController : MonoBehaviour
     [Tooltip("Speed of patrol movement.")]
     public float patrolSpeed = 3f;       // Speed of patrol movement
     public float chaseSpeed = 10f;        // Speed of chasing the target
+    public float advoidSpeed = 15f;        // Speed of chasing the target
     public float chaseDistance = 20f;    // Distance at which Supporter starts chasing
     public float chaseAngle = 40f;       // Angle within which Supporter detects the target
     private int currentWaypointIndex;
@@ -65,10 +66,10 @@ public class SupporterController : MonoBehaviour
 
     public float avoidanceRange = 20f;  // Range within which to detect and avoid targets
 
-    private List<Transform> avoidTargets = new List<Transform>();
+    public List<Transform> avoidTargets = new List<Transform>();
 
 
-    public float awarenessRadius = 10f;             // Radius within which the AI detects targets or items
+    public float awarenessRadius = 20f;             // Radius within which the AI detects targets or items
     public float chaseRange = 20f;                  // Range within which the AI starts chasing a detected target
     public float searchRange = 15f;                 // Range within which the AI searches for items
     public float scanInterval = 2f;                 // Interval at which the AI scans its surroundings
@@ -83,7 +84,7 @@ public class SupporterController : MonoBehaviour
     public float turnSpeed = 5f;                    // Speed at which the AI turns towards its target
 
     //private NavMeshAgent agent;
-    private Transform avoidTarget;
+    public Transform avoidTarget;
     public bool isAvoidTarget = false;
     private Transform teammateTarget;
     private Transform enemyTarget;
@@ -92,6 +93,9 @@ public class SupporterController : MonoBehaviour
     public bool isAware;                           // Flag to indicate if the AI is aware of a target
     private Transform nearestItem;                  // Nearest detected valuable item
     public bool isSearchingItem;                   // Flag to indicate if the AI is searching for an item
+
+    // Track if avoidTarget was added during the current frame
+    private bool avoidTargetAddedThisFrame = false;
 
 
     private void Awake()
@@ -186,17 +190,34 @@ public class SupporterController : MonoBehaviour
         // Scan for targets and items
         while (true)
         {
-            // Detect all nearby Danger objects with the tags "StoneCube" and "Cabbage"
-            avoidTargets.Clear();
-            Collider[] avoidColliders = Physics.OverlapSphere(transform.position, avoidanceRange, avoidTargetLayer);
-            foreach (Collider avoidCollider in avoidColliders)
+            // Check if items were added this frame and schedule clearing if they were
+            if (avoidTargetAddedThisFrame)
             {
-                if (avoidCollider.CompareTag("StoneCube") || avoidCollider.CompareTag("Cabbage"))
+                StartCoroutine(ClearAvoidTargetsAfterDelay());
+                avoidTargetAddedThisFrame = false; // Reset flag after scheduling
+            }
+            
+            // Detect all nearby Danger objects with the tags "StoneCube" and "Cabbage"
+            if (avoidTargets.Count < 1)
+            {
+                Collider[] avoidColliders = Physics.OverlapSphere(transform.position, avoidanceRange, avoidTargetLayer);
+                Debug.Log($"Found {avoidColliders.Length} colliders in scan.");
+                foreach (Collider avoidCollider in avoidColliders)
                 {
-                    avoidTargets.Add(avoidCollider.transform);
+                    Debug.Log($"Collider tag: {avoidCollider.tag}");
+                    if (avoidCollider.CompareTag("StoneCube") || avoidCollider.CompareTag("Cabbage"))
+                    {
+                        isAware = true;
+                        isSearchingItem = false;  // Stop searching for items if chasing a teammateTarget
+                        nearestItem = null;
+                        avoidTargets.Add(avoidCollider.transform);
+                        avoidTargetAddedThisFrame = true; // Set flag to true when items are added
+                    }
                 }
             }
 
+            
+            
             // Scan for teammateTargets
             Collider[] teammateColliders = Physics.OverlapSphere(transform.position, awarenessRadius, teammateTargetLayer);
             foreach (Collider teammateCollider in teammateColliders)
@@ -271,22 +292,65 @@ public class SupporterController : MonoBehaviour
             Vector3 awayPosition = transform.position + awayDirection.normalized * avoidanceRange;
 
             // Sample a valid position on the NavMesh using the NavMeshDataInstance's area mask
-            if (myNavMeshData != null)
-            {
-                // Move towards the calculated position
-                NavMeshHit hit;
-                NavMesh.SamplePosition(awayPosition, out hit, avoidanceRange, NavMesh.AllAreas);
-                agent.SetDestination(hit.position);
+            
+            // Move towards the calculated position
+            NavMeshHit hit;
+            NavMesh.SamplePosition(awayPosition, out hit, avoidanceRange, NavMesh.AllAreas);
+            agent.SetDestination(hit.position);
+            agent.speed = advoidSpeed;
 
-                if (NavMesh.SamplePosition(awayPosition, out hit, avoidanceRange, NavMesh.AllAreas))
-                {
-                    agent.SetDestination(hit.position);
-                }
-                else
-                {
-                    Debug.LogWarning("Failed to find a valid position on NavMesh.");
-                }
+            if (NavMesh.SamplePosition(awayPosition, out hit, avoidanceRange, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+                agent.speed = advoidSpeed;
             }
+            else
+            {
+                Debug.LogWarning("Failed to find a valid position on NavMesh.");
+            }
+            
+            
+        }
+    }
+
+    // Coroutine to clear avoidTargets after a delay
+    IEnumerator ClearAvoidTargetsAfterDelay()
+    {
+        yield return new WaitForSeconds(3f); // Wait for 3 seconds
+        avoidTargets.Clear(); // Clear the avoidTargets list
+    }
+
+    private IEnumerator CheckDestinationRoutineOld()
+    {
+        WaitForSeconds wait = new WaitForSeconds(1f); // Check every 1 second
+
+        while (gameObject.activeSelf)
+        {
+            if (avoidTargets.Count > 0)
+            {
+                // Check if agent has a path and is still calculating it
+                if (agent.hasPath && agent.pathPending)
+                {
+                    float elapsedTime = 0f;
+
+                    // Wait until the agent reaches its destination or timeout
+                    while (agent.remainingDistance > agent.stoppingDistance && elapsedTime < 3f)
+                    {
+                        elapsedTime += Time.deltaTime;
+                        yield return null; // Wait for the next frame
+                    }
+
+                    // If the agent takes more than 3 seconds to reach the destination
+                    if (elapsedTime >= 3f)
+                    {
+                        Debug.LogWarning("Agent took more than 5 seconds to reach destination. Clearing avoidTargets.");
+                        avoidTargets.Clear();
+                    }
+                }
+                yield return wait; // Wait for the next check interval
+            }
+            
+
             
         }
     }
