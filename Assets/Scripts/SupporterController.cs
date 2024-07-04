@@ -91,12 +91,14 @@ public class SupporterController : MonoBehaviour
     private Transform target;
     private Vector3 lastKnownPosition;              // Last known position of the target
     public bool isAware;                           // Flag to indicate if the AI is aware of a target
-    private Transform nearestItem;                  // Nearest detected valuable item
+    public Transform nearestItem;                  // Nearest detected valuable item
     public bool isSearchingItem;                   // Flag to indicate if the AI is searching for an item
 
     // Track if avoidTarget was added during the current frame
     private bool avoidTargetAddedThisFrame = false;
 
+
+    public Vector3 currentDestination; // for display in Inspector
 
     private void Awake()
     {
@@ -141,16 +143,19 @@ public class SupporterController : MonoBehaviour
 
     private void Update()
     {
-        UpdateBehavior();
+        StartCoroutine(UpdateBehavior());
     }
 
     private void FixedUpdate()
     {
         DrawPath();
+        currentDestination = agent.destination; // just for display in inspector
     }
 
-    void UpdateBehavior()
+    IEnumerator UpdateBehavior()
     {
+        yield return new WaitForSeconds (0.1f);
+
         if (isAware)
         {
             if (avoidTargets.Count > 0)
@@ -177,6 +182,7 @@ public class SupporterController : MonoBehaviour
         {
             // If searching for an item, move towards it
             MoveTowardsItem();
+            //Debug.Log(gameObject.name+": item found, MoveTowardsItem");
         }
         else
         {
@@ -204,33 +210,45 @@ public class SupporterController : MonoBehaviour
                 Debug.Log($"Found {avoidColliders.Length} colliders in scan.");
                 foreach (Collider avoidCollider in avoidColliders)
                 {
-                    Debug.Log($"Collider tag: {avoidCollider.tag}");
-                    if (avoidCollider.CompareTag("StoneCube") || avoidCollider.CompareTag("Cabbage"))
+                    if (avoidCollider.gameObject.activeSelf)
                     {
-                        isAware = true;
-                        isSearchingItem = false;  // Stop searching for items if chasing a teammateTarget
-                        nearestItem = null;
-                        avoidTargets.Add(avoidCollider.transform);
-                        avoidTargetAddedThisFrame = true; // Set flag to true when items are added
+                        Debug.Log($"Collider tag: {avoidCollider.tag}");
+                        if (avoidCollider.CompareTag("StoneCube") || avoidCollider.CompareTag("Cabbage"))
+                        {
+                            isAware = true;
+                            isSearchingItem = false;  // Stop searching for items if chasing a teammateTarget
+                            nearestItem = null;
+                            avoidTargets.Add(avoidCollider.transform);
+                            avoidTargetAddedThisFrame = true; // Set flag to true when items are added
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log($"Collider tag: {avoidCollider.tag}" + " but GameObject is not active");
                     }
                 }
             }
-
-            
             
             // Scan for teammateTargets
             Collider[] teammateColliders = Physics.OverlapSphere(transform.position, awarenessRadius, teammateTargetLayer);
             foreach (Collider teammateCollider in teammateColliders)
             {
-                // Check if the collider is a valid target (for example, tagged as "Player")
-                if (teammateCollider.CompareTag("Player") || teammateCollider.CompareTag("Darkness"))
+                if (teammateCollider.gameObject.activeSelf)
                 {
-                    teammateTarget = teammateCollider.transform;
-                    lastKnownPosition = teammateTarget.position;
-                    isAware = true;
-                    isSearchingItem = false;  // Stop searching for items if chasing a teammateTarget
-                    nearestItem = null;
-                    break;
+                    // Check if the collider is a valid target (for example, tagged as "Player")
+                    if (teammateCollider.CompareTag("Player") || teammateCollider.CompareTag("Darkness"))
+                    {
+                        teammateTarget = teammateCollider.transform;
+                        lastKnownPosition = teammateTarget.position;
+                        isAware = true;
+                        isSearchingItem = false;  // Stop searching for items if chasing a teammateTarget
+                        nearestItem = null;
+                        break;
+                    }
+                }
+                else
+                {
+                    Debug.Log($"Collider tag: {teammateCollider.tag}" + " but GameObject is not active");
                 }
             }
 
@@ -238,43 +256,71 @@ public class SupporterController : MonoBehaviour
             Collider[] enemyColliders = Physics.OverlapSphere(transform.position, awarenessRadius, enemyTargetLayer);
             foreach (Collider enemyCollider in enemyColliders)
             {
-                // Check if the collider is a valid target (for example, enemyTarget as "Cabbage")
-                if (enemyCollider.CompareTag("Cabbage"))
+                if (enemyCollider.gameObject.activeSelf)
                 {
-                    enemyTarget = enemyCollider.transform;
-                    lastKnownPosition = enemyTarget.position;
-                    isAware = true;
-                    isSearchingItem = false;  // Stop searching for items if chasing a enemyTarget
-                    nearestItem = null;
-                    break;
+                    // Check if the collider is a valid target (for example, enemyTarget as "Cabbage")
+                    if (enemyCollider.CompareTag("Cabbage"))
+                    {
+                        enemyTarget = enemyCollider.transform;
+                        lastKnownPosition = enemyTarget.position;
+                        isAware = true;
+                        isSearchingItem = false;  // Stop searching for items if chasing a enemyTarget
+                        nearestItem = null;
+                        break;
+                    }
+                }
+                else
+                {
+                    Debug.Log($"Collider tag: {enemyCollider.tag}" + " but GameObject is not active");
                 }
             }
 
             // Scan for valuable items
             Collider[] itemColliders = Physics.OverlapSphere(transform.position, searchRange, itemLayer);
+            // only gameobject with collider will be detected
             float nearestDistance = Mathf.Infinity;
             foreach (Collider itemCollider in itemColliders)
             {
-                // Check if the collider is a valuable item
-                // For simplicity, let's assume items are tagged as "Item"
-                if (itemCollider.CompareTag("Crystal"))
+                if (itemCollider.gameObject.activeSelf)
                 {
-                    float distance = Vector3.Distance(transform.position, itemCollider.transform.position);
-                    if (distance < nearestDistance)
+                    // Check if the collider is a valuable item
+                    // For simplicity, let's assume items are tagged as "Item"
+                    if (itemCollider.CompareTag("Crystal"))
                     {
-                        nearestItem = itemCollider.transform;
-                        nearestDistance = distance;
+                        float distance = Vector3.Distance(transform.position, itemCollider.transform.position);
+                        if (distance < nearestDistance)
+                        {
+                            // Get the parent game object of the item collider
+                            GameObject parentObject = itemCollider.transform.parent.gameObject;
+
+                            // Check if the parent game object is active
+                            if (parentObject.activeSelf)
+                            {
+                                // Assign the parent transform of the itemCollider's gameObject to nearestItem
+                                nearestItem = itemCollider.transform.parent.transform;
+                                Debug.Log(gameObject.name + ": found " + itemCollider.transform.parent.name + " locate at: " + itemCollider.transform.parent.position);
+
+                                // Update nearestDistance to the new closest distance
+                                nearestDistance = distance;
+                            }
+                        }
                     }
+                }
+                else
+                {
+                    Debug.Log($"Collider tag: {itemCollider.tag}" + " but GameObject is not active");
                 }
             }
 
             // If found a nearest item, start searching for it
             if (nearestItem != null)
             {
-                isSearchingItem = true;
-                isAware = false;  // Stop chasing targets if searching for an item
+                if (nearestItem.gameObject.activeSelf)
+                {
+                    isSearchingItem = true;
+                    isAware = false;  // Stop chasing targets if searching for an item
+                }
             }
-
             yield return new WaitForSeconds(scanInterval);
         }
     }
@@ -629,20 +675,32 @@ public class SupporterController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
     }
 
-    private IEnumerator MoveTowardsItem()
+    private void MoveTowardsItem()
     {
-        WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
+        //WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
         
-        while (gameObject.activeSelf)
-        {
+        //while (gameObject.activeSelf)
+        //{
+            Debug.Log(gameObject.name+": item found, MoveTowardsItem");
             if (nearestItem != null)
             {
-                // Move towards the nearest item's position
-                agent.SetDestination(nearestItem.position);
-                agent.speed = searchSpeed;
+                if (nearestItem.gameObject.activeSelf)
+                {
+                    // Move towards the nearest item's position
+                    agent.SetDestination(nearestItem.position);
+                    Debug.Log("Set item " + nearestItem.name + " locate at: " + nearestItem.position);
+                    agent.speed = searchSpeed;
 
-                // Rotate towards the item's position
-                LookAtPosition(nearestItem.position);
+                    // Rotate towards the item's position
+                    LookAtPosition(nearestItem.position);
+
+                    if (agent.remainingDistance < 0.5f) nearestItem = null;
+                }
+                else
+                {
+                    nearestItem = null;
+                    isSearchingItem = false;
+                }
             }
             else
             {
@@ -651,9 +709,10 @@ public class SupporterController : MonoBehaviour
                 Patrol();
             }
             
-            agent.SetDestination(selectedTarget.transform.position);
-            yield return Wait;
-        }
+            //agent.SetDestination(selectedTarget.transform.position);
+            //yield return Wait;
+            //yield return null;
+        //}
     }
 
     private void HandleLinkStart()

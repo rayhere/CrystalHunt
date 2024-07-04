@@ -760,7 +760,9 @@ MonoBehaviour:
   avoidTarget: {fileID: 0}
   isAvoidTarget: 0
   isAware: 0
+  nearestItem: {fileID: 0}
   isSearchingItem: 0
+  currentDestination: {x: 0, y: 0, z: 0}
 --- !u!120 &67171640
 LineRenderer:
   serializedVersion: 2
@@ -5363,7 +5365,9 @@ MonoBehaviour:
   avoidTarget: {fileID: 0}
   isAvoidTarget: 0
   isAware: 0
+  nearestItem: {fileID: 0}
   isSearchingItem: 0
+  currentDestination: {x: 0, y: 0, z: 0}
 --- !u!120 &1436743881
 LineRenderer:
   serializedVersion: 2
@@ -8564,9 +8568,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &44901753057966516
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8678,9 +8682,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &49058288885804672
 Tree:
   m_ObjectHideFlags: 0
@@ -8792,9 +8796,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!54 &50101447031535604
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8933,9 +8937,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &59687289366274198
 GameObject:
   m_ObjectHideFlags: 0
@@ -9047,9 +9051,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &94276765610604226
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9161,9 +9165,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &106764322590788001
 Tree:
   m_ObjectHideFlags: 0
@@ -9275,9 +9279,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &129833070478544635
 Transform:
   m_ObjectHideFlags: 0
@@ -9543,9 +9547,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &152878826660218564
 GameObject:
   m_ObjectHideFlags: 0
@@ -9681,9 +9685,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &216188967710276088
 Tree:
   m_ObjectHideFlags: 0
@@ -9795,9 +9799,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &227408201652464945
 Tree:
   m_ObjectHideFlags: 0
@@ -9909,9 +9913,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &234480624730695626
 Transform:
   m_ObjectHideFlags: 0
@@ -10038,9 +10042,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &312120443208372177
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -10179,9 +10183,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &358759883077320298
 Tree:
   m_ObjectHideFlags: 0
@@ -10293,9 +10297,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &366175168595743981
 Transform:
   m_ObjectHideFlags: 0
@@ -10425,9 +10429,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &414117464818855074
 GameObject:
   m_ObjectHideFlags: 0
@@ -10689,9 +10693,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &473889709515016929
 GameObject:
   m_ObjectHideFlags: 0
@@ -10803,9 +10807,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &485446345697900203
 GameObject:
   m_ObjectHideFlags: 0
@@ -10977,9 +10981,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &543450652696044393
 Transform:
   m_ObjectHideFlags: 0
@@ -11111,9 +11115,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &581850737694719100
 Tree:
   m_ObjectHideFlags: 0
@@ -11225,9 +11229,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &588783876959626338
 GameObject:
   m_ObjectHideFlags: 0
@@ -11550,9 +11554,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &644213807809139410
 Transform:
   m_ObjectHideFlags: 0
@@ -11682,9 +11686,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &680860061980617003
 GameObject:
   m_ObjectHideFlags: 0
@@ -11812,9 +11816,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &693111380362101924
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -11926,9 +11930,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &710877221199219143
 Tree:
   m_ObjectHideFlags: 0
@@ -12040,9 +12044,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &727622786732072356
 Transform:
   m_ObjectHideFlags: 3
@@ -12051,7 +12055,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4731647953039349946}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.26058534, y: 0.000000018280987, z: -0.0000000049342317, w: 0.9654508}
+  m_LocalRotation: {x: 0.26058534, y: -0.000000016611915, z: 0.0000000044837307, w: 0.9654508}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12170,9 +12174,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &762624376327341221
 Transform:
   m_ObjectHideFlags: 0
@@ -12284,9 +12288,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &767870538531246481
 Tree:
   m_ObjectHideFlags: 0
@@ -12398,9 +12402,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!224 &773960863782139926
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12569,9 +12573,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &919132148958935507
 GameObject:
   m_ObjectHideFlags: 0
@@ -12722,9 +12726,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &946613179743378244
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -12836,9 +12840,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &963428790374455316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12964,9 +12968,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &978781763002922795
 Transform:
   m_ObjectHideFlags: 3
@@ -13094,9 +13098,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &1015519397594424914
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -13372,9 +13376,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &1023099535917962372
 GameObject:
   m_ObjectHideFlags: 0
@@ -13486,9 +13490,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &1031408894658338907
 Tree:
   m_ObjectHideFlags: 0
@@ -13600,9 +13604,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &1031632034878003508
 Transform:
   m_ObjectHideFlags: 0
@@ -13769,9 +13773,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &1067355041838865108
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13883,9 +13887,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &1082271957685590664
 GameObject:
   m_ObjectHideFlags: 0
@@ -14013,9 +14017,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &1092408308386598871
 Transform:
   m_ObjectHideFlags: 0
@@ -14143,9 +14147,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &1110307039013363096
 Transform:
   m_ObjectHideFlags: 0
@@ -14257,9 +14261,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &1112891925687257097
 GameObject:
   m_ObjectHideFlags: 3
@@ -14493,9 +14497,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &1155344850369227214
 Transform:
   m_ObjectHideFlags: 0
@@ -14623,9 +14627,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &1189529853466053866
 Transform:
   m_ObjectHideFlags: 0
@@ -14753,9 +14757,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &1202371032128644230
 Transform:
   m_ObjectHideFlags: 0
@@ -14899,9 +14903,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &1249078220466173890
 GameObject:
   m_ObjectHideFlags: 3
@@ -15030,9 +15034,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &1258276538263617954
 Tree:
   m_ObjectHideFlags: 0
@@ -15144,9 +15148,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &1297364671991998347
 GameObject:
   m_ObjectHideFlags: 0
@@ -15308,9 +15312,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &1365636367667876072
 Transform:
   m_ObjectHideFlags: 0
@@ -15437,9 +15441,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &1438103262616737345
 Tree:
   m_ObjectHideFlags: 0
@@ -15669,9 +15673,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &1445926503225059354
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15783,9 +15787,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &1552149930991054768
 GameObject:
   m_ObjectHideFlags: 3
@@ -16001,9 +16005,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!222 &1591868168751448342
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16123,9 +16127,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!136 &1621912535887285139
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -16505,9 +16509,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &1747851841672219460
 Tree:
   m_ObjectHideFlags: 0
@@ -16757,9 +16761,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &1809341155092687012
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16871,9 +16875,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &1818954997541685166
 Tree:
   m_ObjectHideFlags: 0
@@ -16985,9 +16989,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &1840368780045356226
 GameObject:
   m_ObjectHideFlags: 0
@@ -17170,9 +17174,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &1905330764544305034
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17284,9 +17288,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &1919969779831885639
 Tree:
   m_ObjectHideFlags: 0
@@ -17398,9 +17402,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &1924517480898446649
 Transform:
   m_ObjectHideFlags: 0
@@ -17527,9 +17531,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &1982760397684385109
 Tree:
   m_ObjectHideFlags: 0
@@ -17641,9 +17645,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &1999621654947568980
 Tree:
   m_ObjectHideFlags: 0
@@ -17755,9 +17759,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!222 &2002966317801578071
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17944,9 +17948,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &2101602236751303387
 GameObject:
   m_ObjectHideFlags: 0
@@ -18246,9 +18250,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2202195913514210930
 Tree:
   m_ObjectHideFlags: 0
@@ -18360,9 +18364,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2211177531472547716
 Tree:
   m_ObjectHideFlags: 0
@@ -18474,9 +18478,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &2222866924389506011
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -18600,9 +18604,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2291234668790480909
 Tree:
   m_ObjectHideFlags: 0
@@ -18714,9 +18718,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &2301172640612314185
 Transform:
   m_ObjectHideFlags: 0
@@ -18828,9 +18832,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2311395044423983645
 Tree:
   m_ObjectHideFlags: 0
@@ -18942,9 +18946,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &2325615477787189808
 Transform:
   m_ObjectHideFlags: 0
@@ -19071,9 +19075,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &2348787447653325491
 Transform:
   m_ObjectHideFlags: 0
@@ -19217,9 +19221,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &2420202491093320822
 Transform:
   m_ObjectHideFlags: 0
@@ -19347,9 +19351,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &2431073209540798225
 GameObject:
   m_ObjectHideFlags: 0
@@ -19477,9 +19481,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &2455146755961563882
 Transform:
   m_ObjectHideFlags: 0
@@ -19607,9 +19611,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &2476923785802737457
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -19748,9 +19752,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2548198871599220316
 Tree:
   m_ObjectHideFlags: 0
@@ -19862,9 +19866,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &2549006316689351300
 Transform:
   m_ObjectHideFlags: 0
@@ -20023,9 +20027,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &2583093917244744271
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -20198,9 +20202,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2613933766702796406
 Tree:
   m_ObjectHideFlags: 0
@@ -20312,9 +20316,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2623215565097697853
 Tree:
   m_ObjectHideFlags: 0
@@ -20552,9 +20556,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &2660112752446772202
 Transform:
   m_ObjectHideFlags: 0
@@ -20666,9 +20670,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &2664949774957578498
 GameObject:
   m_ObjectHideFlags: 0
@@ -20780,9 +20784,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2680499108996826141
 Tree:
   m_ObjectHideFlags: 0
@@ -20894,9 +20898,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &2715566404902168963
 GameObject:
   m_ObjectHideFlags: 0
@@ -21024,9 +21028,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &2739178714128084595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21265,9 +21269,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2790780990603415742
 Tree:
   m_ObjectHideFlags: 0
@@ -21379,9 +21383,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2791348301458668672
 Tree:
   m_ObjectHideFlags: 0
@@ -21611,9 +21615,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &2805936353391714912
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -21725,9 +21729,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &2831937937628117565
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -21839,9 +21843,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &2842296243075378340
 GameObject:
   m_ObjectHideFlags: 0
@@ -21985,9 +21989,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2886577700099537412
 Tree:
   m_ObjectHideFlags: 0
@@ -22217,9 +22221,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &2898355158902993222
 GameObject:
   m_ObjectHideFlags: 0
@@ -22347,9 +22351,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &2916570863290061354
 Transform:
   m_ObjectHideFlags: 0
@@ -22492,9 +22496,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &2988780741297278555
 GameObject:
   m_ObjectHideFlags: 0
@@ -22622,9 +22626,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &2999190344244914301
 Tree:
   m_ObjectHideFlags: 0
@@ -22736,9 +22740,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3007540263745880403
 GameObject:
   m_ObjectHideFlags: 0
@@ -22850,9 +22854,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3026583455206879883
 Tree:
   m_ObjectHideFlags: 0
@@ -22964,9 +22968,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3047284247144313200
 GameObject:
   m_ObjectHideFlags: 0
@@ -23110,9 +23114,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &3095490687773527659
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -23342,9 +23346,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3135921508863151791
 GameObject:
   m_ObjectHideFlags: 0
@@ -23472,9 +23476,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!136 &3165099856817813740
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -23740,9 +23744,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3180279736697738024
 Tree:
   m_ObjectHideFlags: 0
@@ -23854,9 +23858,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3182234309037283352
 Tree:
   m_ObjectHideFlags: 0
@@ -24118,9 +24122,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!136 &3220555817447144406
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -24368,9 +24372,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &3303073464529002134
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24482,9 +24486,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3314950767128033000
 Tree:
   m_ObjectHideFlags: 0
@@ -24596,9 +24600,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &3325611554332439898
 Transform:
   m_ObjectHideFlags: 0
@@ -24747,9 +24751,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3365675183223529732
 GameObject:
   m_ObjectHideFlags: 0
@@ -24995,9 +24999,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3409194834634982682
 Tree:
   m_ObjectHideFlags: 0
@@ -25109,9 +25113,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3450720672188552779
 Tree:
   m_ObjectHideFlags: 0
@@ -25466,9 +25470,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3588849560510477978
 GameObject:
   m_ObjectHideFlags: 0
@@ -25612,9 +25616,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!95 &3636466629734336011
 Animator:
   serializedVersion: 5
@@ -25747,9 +25751,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3661821584094028821
 GameObject:
   m_ObjectHideFlags: 0
@@ -25893,9 +25897,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3699195130397377166
 GameObject:
   m_ObjectHideFlags: 0
@@ -26144,9 +26148,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3779800630192445765
 Tree:
   m_ObjectHideFlags: 0
@@ -26258,9 +26262,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &3787650411165792182
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -26380,9 +26384,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3807534839063351185
 Tree:
   m_ObjectHideFlags: 0
@@ -26494,9 +26498,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3817785071481934874
 GameObject:
   m_ObjectHideFlags: 0
@@ -26626,9 +26630,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3881908769371248378
 Tree:
   m_ObjectHideFlags: 0
@@ -26740,9 +26744,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3882815354700185521
 GameObject:
   m_ObjectHideFlags: 0
@@ -26889,9 +26893,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &3936540681931931642
 Tree:
   m_ObjectHideFlags: 0
@@ -27121,9 +27125,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &3948933248436785609
 GameObject:
   m_ObjectHideFlags: 0
@@ -27290,9 +27294,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &4007318220762895676
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -27404,9 +27408,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &4013733750280698885
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -27572,9 +27576,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4028323153952354810
 GameObject:
   m_ObjectHideFlags: 0
@@ -27717,9 +27721,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4076761979603098358
 Tree:
   m_ObjectHideFlags: 0
@@ -27831,9 +27835,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &4082752030715810852
 Transform:
   m_ObjectHideFlags: 0
@@ -27945,9 +27949,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &4100892705036798619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28148,9 +28152,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4110362945775386460
 Tree:
   m_ObjectHideFlags: 0
@@ -28262,9 +28266,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4113266251149170518
 GameObject:
   m_ObjectHideFlags: 0
@@ -28376,9 +28380,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4114030614777424307
 GameObject:
   m_ObjectHideFlags: 0
@@ -28506,9 +28510,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &4116904801299186498
 Transform:
   m_ObjectHideFlags: 0
@@ -28656,9 +28660,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &4161018564151815464
 Transform:
   m_ObjectHideFlags: 0
@@ -28770,9 +28774,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4166122442871132462
 Tree:
   m_ObjectHideFlags: 0
@@ -28884,9 +28888,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4170735844746447607
 GameObject:
   m_ObjectHideFlags: 0
@@ -28998,9 +29002,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &4195467670076574399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29167,9 +29171,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4237274457623316011
 GameObject:
   m_ObjectHideFlags: 0
@@ -29504,9 +29508,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!224 &4346114542013302971
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29755,9 +29759,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &4381470840118074160
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -29923,9 +29927,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4410293783728187236
 Tree:
   m_ObjectHideFlags: 0
@@ -30037,9 +30041,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &4410569694290517685
 Transform:
   m_ObjectHideFlags: 3
@@ -30048,7 +30052,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552149930991054768}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30517742, y: -1.5550827e-16, z: -2.0801197e-16, w: 0.95229554}
+  m_LocalRotation: {x: 0.30517742, y: 0.00000001638556, z: -0.0000000052509987, w: 0.95229554}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -30167,9 +30171,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4441848306264192559
 GameObject:
   m_ObjectHideFlags: 0
@@ -30297,9 +30301,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4494945602842463566
 GameObject:
   m_ObjectHideFlags: 0
@@ -30427,9 +30431,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &4519853073511761193
 Transform:
   m_ObjectHideFlags: 3
@@ -30603,9 +30607,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4549111882197785439
 GameObject:
   m_ObjectHideFlags: 0
@@ -30733,9 +30737,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4566483921785645726
 Tree:
   m_ObjectHideFlags: 0
@@ -30847,9 +30851,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4567611934842070697
 Tree:
   m_ObjectHideFlags: 0
@@ -30961,9 +30965,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4575895883220369861
 Tree:
   m_ObjectHideFlags: 0
@@ -31469,9 +31473,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4676808798833967546
 Tree:
   m_ObjectHideFlags: 0
@@ -31583,9 +31587,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &4715514235603879957
 Transform:
   m_ObjectHideFlags: 0
@@ -31753,9 +31757,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &4747904709614305543
 Transform:
   m_ObjectHideFlags: 0
@@ -31883,9 +31887,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4766653931340459002
 GameObject:
   m_ObjectHideFlags: 0
@@ -32014,9 +32018,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &4806607038325131292
 Tree:
   m_ObjectHideFlags: 0
@@ -32128,9 +32132,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &4807954172047560559
 Transform:
   m_ObjectHideFlags: 0
@@ -32315,9 +32319,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &4945339226602987486
 GameObject:
   m_ObjectHideFlags: 0
@@ -32445,9 +32449,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &5004005126495066957
 GameObject:
   m_ObjectHideFlags: 0
@@ -32594,9 +32598,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &5048025440738248916
 Transform:
   m_ObjectHideFlags: 0
@@ -32724,9 +32728,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &5097370190248775616
 Transform:
   m_ObjectHideFlags: 0
@@ -32870,9 +32874,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5166526398615247550
 Tree:
   m_ObjectHideFlags: 0
@@ -32984,9 +32988,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &5185279462992338265
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -33098,9 +33102,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5205402735670529013
 Tree:
   m_ObjectHideFlags: 0
@@ -33212,9 +33216,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &5220350251906647547
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -33326,9 +33330,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5234437306600359429
 Tree:
   m_ObjectHideFlags: 0
@@ -33440,9 +33444,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &5261010971741030661
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33554,9 +33558,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5320979069997101441
 Tree:
   m_ObjectHideFlags: 0
@@ -33786,9 +33790,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &5372056943764667358
 Transform:
   m_ObjectHideFlags: 0
@@ -33916,9 +33920,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5387492616459964205
 Tree:
   m_ObjectHideFlags: 0
@@ -34030,9 +34034,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5414406866921072604
 Tree:
   m_ObjectHideFlags: 0
@@ -34144,9 +34148,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &5423976338648503828
 GameObject:
   m_ObjectHideFlags: 0
@@ -34171,7 +34175,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5021452275146828287}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2340823, y: 5.4461154e-30, z: -1.3066669e-30, w: 0.9722168}
+  m_LocalRotation: {x: 0.2340823, y: -1e-45, z: -0, w: 0.9722168}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34290,9 +34294,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &5456600932069578292
 Transform:
   m_ObjectHideFlags: 0
@@ -34610,9 +34614,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5512603282733610812
 Tree:
   m_ObjectHideFlags: 0
@@ -34724,9 +34728,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5525864196442436309
 Tree:
   m_ObjectHideFlags: 0
@@ -34838,9 +34842,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &5550771191424915441
 Transform:
   m_ObjectHideFlags: 0
@@ -34952,9 +34956,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &5563189370327603197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35171,9 +35175,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &5591349154008491678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35376,9 +35380,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &5680486696294906463
 GameObject:
   m_ObjectHideFlags: 0
@@ -35536,9 +35540,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &5742672707915542638
 Transform:
   m_ObjectHideFlags: 0
@@ -35682,9 +35686,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &5790970487408351162
 Transform:
   m_ObjectHideFlags: 0
@@ -35879,9 +35883,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &5899102254892054080
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -35993,9 +35997,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &5901452234794988010
 Transform:
   m_ObjectHideFlags: 0
@@ -36123,9 +36127,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &5976915084026317899
 Tree:
   m_ObjectHideFlags: 0
@@ -36237,9 +36241,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6000407479415626631
 Transform:
   m_ObjectHideFlags: 0
@@ -36383,9 +36387,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &6023386498735835315
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36497,9 +36501,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &6056548830164670799
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36611,9 +36615,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6069836246209710930
 Transform:
   m_ObjectHideFlags: 0
@@ -36758,9 +36762,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6108649404435763001
 Transform:
   m_ObjectHideFlags: 0
@@ -36872,9 +36876,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &6136935970451533833
 GameObject:
   m_ObjectHideFlags: 0
@@ -37019,9 +37023,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &6180041419946713693
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -37187,9 +37191,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &6201474260358215456
 Tree:
   m_ObjectHideFlags: 0
@@ -37419,9 +37423,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6223095490435790285
 Transform:
   m_ObjectHideFlags: 0
@@ -37533,9 +37537,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &6225585433969586578
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -37675,9 +37679,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &6323386136558018383
 GameObject:
   m_ObjectHideFlags: 0
@@ -37825,9 +37829,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6341119541998345102
 Transform:
   m_ObjectHideFlags: 0
@@ -38013,9 +38017,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &6417432854677452476
 Tree:
   m_ObjectHideFlags: 0
@@ -38127,9 +38131,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6452705232341611564
 Transform:
   m_ObjectHideFlags: 0
@@ -38257,9 +38261,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6502182838886535489
 Transform:
   m_ObjectHideFlags: 0
@@ -38423,9 +38427,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &6521265117695471321
 Tree:
   m_ObjectHideFlags: 0
@@ -38537,9 +38541,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &6524662585806760093
 Tree:
   m_ObjectHideFlags: 0
@@ -38651,9 +38655,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &6544207753116152466
 GameObject:
   m_ObjectHideFlags: 0
@@ -38765,9 +38769,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6558750962629795231
 Transform:
   m_ObjectHideFlags: 3
@@ -38941,9 +38945,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!136 &6605711863059423270
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -39188,9 +39192,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6629111072813536477
 Transform:
   m_ObjectHideFlags: 0
@@ -39318,9 +39322,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &6648339703628429432
 Tree:
   m_ObjectHideFlags: 0
@@ -39432,9 +39436,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &6655383506367527733
 Transform:
   m_ObjectHideFlags: 0
@@ -39814,9 +39818,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &6696409957652844668
 Tree:
   m_ObjectHideFlags: 0
@@ -39928,9 +39932,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &6700384689311872677
 Tree:
   m_ObjectHideFlags: 0
@@ -40199,9 +40203,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &6766904075318870533
 Tree:
   m_ObjectHideFlags: 0
@@ -40313,9 +40317,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!137 &6792134569422140912
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -40483,9 +40487,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &6811372318178486885
 GameObject:
   m_ObjectHideFlags: 0
@@ -40629,9 +40633,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!218 &6890131413387937685
 Terrain:
   m_ObjectHideFlags: 0
@@ -40782,9 +40786,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &6929249406530297925
 GameObject:
   m_ObjectHideFlags: 0
@@ -41014,9 +41018,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &6960026688143075148
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41128,9 +41132,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &6971787014681692532
 GameObject:
   m_ObjectHideFlags: 0
@@ -41384,9 +41388,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &7078722787636460831
 Transform:
   m_ObjectHideFlags: 0
@@ -41514,9 +41518,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7092509544135765269
 Tree:
   m_ObjectHideFlags: 0
@@ -41628,9 +41632,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &7138560356955684918
 GameObject:
   m_ObjectHideFlags: 0
@@ -41774,9 +41778,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &7219307225697069524
 Transform:
   m_ObjectHideFlags: 0
@@ -41903,9 +41907,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &7263916387960130149
 Transform:
   m_ObjectHideFlags: 0
@@ -42017,9 +42021,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7288018817849513505
 Tree:
   m_ObjectHideFlags: 0
@@ -42131,9 +42135,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &7307309833048921244
 GameObject:
   m_ObjectHideFlags: 0
@@ -42245,9 +42249,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7310000562688492502
 Tree:
   m_ObjectHideFlags: 0
@@ -42359,9 +42363,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &7330904352203017636
 GameObject:
   m_ObjectHideFlags: 3
@@ -42492,9 +42496,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &7358631407657540281
 Transform:
   m_ObjectHideFlags: 0
@@ -42699,9 +42703,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7439764846077225679
 Tree:
   m_ObjectHideFlags: 0
@@ -42813,9 +42817,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &7442015436240373734
 GameObject:
   m_ObjectHideFlags: 0
@@ -42943,9 +42947,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1001 &7449253440093963699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43283,9 +43287,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7490415113763621183
 Tree:
   m_ObjectHideFlags: 0
@@ -43397,9 +43401,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &7519898546011802819
 GameObject:
   m_ObjectHideFlags: 0
@@ -43599,9 +43603,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &7571041480119171862
 Transform:
   m_ObjectHideFlags: 3
@@ -43809,9 +43813,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7648859538090567548
 Tree:
   m_ObjectHideFlags: 0
@@ -44083,9 +44087,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &7666680084091103434
 Transform:
   m_ObjectHideFlags: 0
@@ -44213,9 +44217,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &7732535365775061373
 GameObject:
   m_ObjectHideFlags: 0
@@ -44343,9 +44347,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7766326133665669421
 Tree:
   m_ObjectHideFlags: 0
@@ -44457,9 +44461,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7773056524037576154
 Tree:
   m_ObjectHideFlags: 0
@@ -44571,9 +44575,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!33 &7774601088397668064
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -44839,9 +44843,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &7797580425727798024
 GameObject:
   m_ObjectHideFlags: 0
@@ -45087,9 +45091,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7895825186718036602
 Tree:
   m_ObjectHideFlags: 0
@@ -45201,9 +45205,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &7904985754609745743
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45315,9 +45319,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &7915454708750111892
 Tree:
   m_ObjectHideFlags: 0
@@ -45429,9 +45433,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &7930214444346369375
 Transform:
   m_ObjectHideFlags: 0
@@ -45652,9 +45656,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &8008803874357828667
 GameObject:
   m_ObjectHideFlags: 3
@@ -45865,9 +45869,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8108061340820881980
 Tree:
   m_ObjectHideFlags: 0
@@ -45979,9 +45983,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8141025625384083279
 Tree:
   m_ObjectHideFlags: 0
@@ -46093,9 +46097,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8149877175602810866
 Tree:
   m_ObjectHideFlags: 0
@@ -46413,9 +46417,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &8206656761583088635
 GameObject:
   m_ObjectHideFlags: 3
@@ -46546,9 +46550,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &8231030533829435728
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46660,9 +46664,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8236819034603305182
 Tree:
   m_ObjectHideFlags: 0
@@ -46774,9 +46778,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!95 &8245045105383806657
 Animator:
   serializedVersion: 5
@@ -46946,9 +46950,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8254044545390761984
 Tree:
   m_ObjectHideFlags: 0
@@ -47060,9 +47064,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &8255111156974531434
 Transform:
   m_ObjectHideFlags: 0
@@ -47190,9 +47194,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &8325101412948797919
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -47350,9 +47354,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &8352548718739651615
 Transform:
   m_ObjectHideFlags: 0
@@ -47480,9 +47484,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!23 &8410609906956143468
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47594,9 +47598,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8422934336614178604
 Tree:
   m_ObjectHideFlags: 0
@@ -47708,9 +47712,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &8423409407537721923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47839,9 +47843,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &8447082966202814588
 Transform:
   m_ObjectHideFlags: 0
@@ -47969,9 +47973,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8460932040666027821
 Tree:
   m_ObjectHideFlags: 0
@@ -48083,9 +48087,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8462829832434146751
 Tree:
   m_ObjectHideFlags: 0
@@ -48197,9 +48201,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8465373014743336842
 Tree:
   m_ObjectHideFlags: 0
@@ -48311,9 +48315,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8467159669592752753
 Tree:
   m_ObjectHideFlags: 0
@@ -48677,9 +48681,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &8503419375069129102
 Transform:
   m_ObjectHideFlags: 3
@@ -48853,9 +48857,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8542474290774085318
 Tree:
   m_ObjectHideFlags: 0
@@ -48967,9 +48971,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &8597872342553201650
 GameObject:
   m_ObjectHideFlags: 0
@@ -49081,9 +49085,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8597877145001243662
 Tree:
   m_ObjectHideFlags: 0
@@ -49195,9 +49199,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!114 &8611188484952979370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49354,9 +49358,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &8664342967139544481
 Tree:
   m_ObjectHideFlags: 0
@@ -49468,9 +49472,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &8670540289544317357
 GameObject:
   m_ObjectHideFlags: 0
@@ -49598,9 +49602,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &8695925320078421006
 GameObject:
   m_ObjectHideFlags: 0
@@ -49712,9 +49716,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &8700783698879509764
 Transform:
   m_ObjectHideFlags: 0
@@ -49841,9 +49845,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &8803121012055483996
 GameObject:
   m_ObjectHideFlags: 0
@@ -49955,9 +49959,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &8812429121424171749
 GameObject:
   m_ObjectHideFlags: 0
@@ -50069,9 +50073,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &8817898888722870529
 GameObject:
   m_ObjectHideFlags: 0
@@ -50581,9 +50585,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &8899134784014014783
 Transform:
   m_ObjectHideFlags: 0
@@ -50993,9 +50997,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &9118037115989603745
 Transform:
   m_ObjectHideFlags: 0
@@ -51256,9 +51260,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!4 &9143321656620658923
 Transform:
   m_ObjectHideFlags: 0
@@ -51370,9 +51374,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!1 &9146825082440714046
 GameObject:
   m_ObjectHideFlags: 0
@@ -51500,9 +51504,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!193 &9164060253882483915
 Tree:
   m_ObjectHideFlags: 0
@@ -51614,9 +51618,9 @@ MonoBehaviour:
   m_Area: 0
   m_OverrideGenerateLinks: 0
   m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
+  m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
+  m_AffectedAgents: 00000000ed7d1d11a776e103
 --- !u!136 &9166124518736796190
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -51909,7 +51913,9 @@ MonoBehaviour:
   avoidTarget: {fileID: 0}
   isAvoidTarget: 0
   isAware: 0
+  nearestItem: {fileID: 0}
   isSearchingItem: 0
+  currentDestination: {x: 0, y: 0, z: 0}
 --- !u!114 &9179876388297597213
 MonoBehaviour:
   m_ObjectHideFlags: 0
