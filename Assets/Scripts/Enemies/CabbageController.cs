@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,14 +17,13 @@ public class CabbageController : MonoBehaviour
     public float chaseSpeed = 5f;        // Speed of chasing the target
     public float chaseDistance = 10f;    // Distance at which cabbage starts chasing
     public float chaseAngle = 30f;       // Angle within which cabbage detects the target
-    private int currentWaypointIndex;
-    private bool isChasing = false;
+    public int currentWaypointIndex;
+    public bool isChasing = false;
     [Tooltip("Minimum distance for waypoints from spawn location.")]
     public float minWaypointDistance = 5f; // Minimum distance for waypoints from spawn location
     [Tooltip("Maximum distance for waypoints from spawn location.")]
     public float maxWaypointDistance = 10f; // Maximum distance for waypoints from spawn location
     public Vector3 mySpawnedPosition; // Used for setup Nearby PatrolWaypoints
-
 
     // Coroutine for Chasing Target
     private Coroutine chasingCoroutine;
@@ -32,9 +32,6 @@ public class CabbageController : MonoBehaviour
     [Header("Chasing Distance Settings")]
     [Tooltip("Distance at which the cabbage will start chasing the target.")]
     public float chasingTargetDistance = 15f; // Distance at which the cabbage will start chasing the target
-
-
-
 
     public Transform[] targets;
     public Transform selectedTarget;
@@ -61,7 +58,12 @@ public class CabbageController : MonoBehaviour
     private LineRenderer myLineRenderer;
 
 
-    
+    [Header("Check")]
+
+    [SerializeField]
+    public float remainingDistance;
+    public Vector3 givenPatorlWaypoint;
+    public float distanceThreshold = 0.1f;
 
     private void Awake()
     {
@@ -124,21 +126,47 @@ public class CabbageController : MonoBehaviour
     private void FixedUpdate()
     {
         DrawPath();
+        
     }
 
     private IEnumerator FollowPatrolRoute()
     {
+        float checkRD;
         while (gameObject.activeSelf)
         {
-            if (!isChasing && !Agent.pathPending && Agent.remainingDistance < 0.1f)
+            checkRD = Agent.remainingDistance;
+            remainingDistance = Agent.remainingDistance;
+            /* if (!isChasing && !Agent.pathPending && Agent.remainingDistance < distanceThreshold)
             {
                 currentWaypointIndex = (currentWaypointIndex + 1) % patrolWaypoints.Length;
                 Agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
+                remainingDistance = Agent.remainingDistance;
+                givenPatorlWaypoint = patrolWaypoints[currentWaypointIndex].position;
+            } */
+            
+            /* If Agent.remainingDistance is not behaving as expected, so replace the condition Agent.remainingDistance < distanceThreshold with a check using Vector3.Distance between the agent's position and the waypoint's position. */
+            if (!isChasing && !Agent.pathPending)
+            {
+                /* if (Vector3.Distance(Agent.transform.position, patrolWaypoints[currentWaypointIndex].position) < distanceThreshold)
+                {
+                    currentWaypointIndex = (currentWaypointIndex + 1) % patrolWaypoints.Length;
+                    Agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
+                    givenPatorlWaypoint = patrolWaypoints[currentWaypointIndex].position;
+                } */
+
+                // Check if agent has reached the current waypoint
+                if (Agent.remainingDistance <= Agent.stoppingDistance)
+                {
+                    currentWaypointIndex = (currentWaypointIndex + 1) % patrolWaypoints.Length;
+                    Agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
+                    givenPatorlWaypoint = patrolWaypoints[currentWaypointIndex].position;
+                }
             }
 
             yield return null;
         }
     }
+
 
     private void SetupTargetUsingTag()
     {
@@ -337,179 +365,6 @@ public class CabbageController : MonoBehaviour
         Animator.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);
     }
 
-    // Method to initialize the cabbage's movement and set its initial patrol waypoints
-    public void InitialiseOld(Transform[] waypoints)
-    {
-        patrolWaypoints = waypoints;
-
-        if (patrolWaypoints.Length > 0)
-        {
-            Agent.SetDestination(patrolWaypoints[0].position);
-            currentWaypointIndex = 0;
-        }
-    }
-
-    public void SetupPatrolWayPointOld()
-    {
-        if (patrolWaypoints.Length > 0)  // Check if there are waypoints in the array
-        {
-            Agent.SetDestination(patrolWaypoints[0].position);
-            currentWaypointIndex = 0;
-        }
-        else
-        {
-            Debug.LogError("No patrol waypoints set for the CabbageController.");
-        }
-    }
-
-    private void SetupPatrolWayPointsOld()
-    {
-        // Clear previous waypoints
-        List<Transform> waypoints = new List<Transform>();
-
-        // Add first waypoint as the current position
-        waypoints.Add(transform);
-
-        // Generate additional waypoints near the current position
-        NavMeshTriangulation triangulation = NavMesh.CalculateTriangulation();
-        int randomIndex1 = Random.Range(0, triangulation.vertices.Length);
-        int randomIndex2 = Random.Range(0, triangulation.vertices.Length);
-        int randomIndex3 = Random.Range(0, triangulation.vertices.Length);
-
-        Vector3 waypointPosition1 = triangulation.vertices[randomIndex1];
-        Vector3 waypointPosition2 = triangulation.vertices[randomIndex2];
-        Vector3 waypointPosition3 = triangulation.vertices[randomIndex3];
-
-        // Ensure the waypoints are within the NavMesh bounds
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(waypointPosition1, out hit, 1.0f, NavMesh.AllAreas))
-        {
-            waypoints.Add(new GameObject().transform);
-            waypoints[1].position = hit.position;
-        }
-        if (NavMesh.SamplePosition(waypointPosition2, out hit, 1.0f, NavMesh.AllAreas))
-        {
-            waypoints.Add(new GameObject().transform);
-            waypoints[2].position = hit.position;
-        }
-        if (NavMesh.SamplePosition(waypointPosition3, out hit, 1.0f, NavMesh.AllAreas))
-        {
-            waypoints.Add(new GameObject().transform);
-            waypoints[3].position = hit.position;
-        }
-
-        patrolWaypoints = waypoints.ToArray();
-    }
-
-    private void SetupPatrolWayPointsVer2()
-    {
-        // Clear previous waypoints
-        List<Transform> waypoints = new List<Transform>();
-
-        // Add first waypoint as the current position
-        waypoints.Add(transform);
-
-        // Generate additional waypoints near the current position
-        NavMeshTriangulation triangulation = NavMesh.CalculateTriangulation();
-        int randomIndex1 = Random.Range(0, triangulation.vertices.Length);
-        int randomIndex2 = Random.Range(0, triangulation.vertices.Length);
-        int randomIndex3 = Random.Range(0, triangulation.vertices.Length);
-
-        Vector3 waypointPosition1 = triangulation.vertices[randomIndex1];
-        Vector3 waypointPosition2 = triangulation.vertices[randomIndex2];
-        Vector3 waypointPosition3 = triangulation.vertices[randomIndex3];
-
-        // Ensure the waypoints are within the NavMesh bounds
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(waypointPosition1, out hit, 1.0f, NavMesh.AllAreas))
-        {
-            Transform newWaypoint1 = new GameObject($"{gameObject.name}_Waypoint1").transform;
-            newWaypoint1.position = hit.position;
-            newWaypoint1.parent = transform.parent; // Set parent to the parent of Cabbage GameObject
-            waypoints.Add(newWaypoint1);
-        }
-        if (NavMesh.SamplePosition(waypointPosition2, out hit, 1.0f, NavMesh.AllAreas))
-        {
-            Transform newWaypoint2 = new GameObject($"{gameObject.name}_Waypoint2").transform;
-            newWaypoint2.position = hit.position;
-            newWaypoint2.parent = transform.parent; // Set parent to the parent of Cabbage GameObject
-            waypoints.Add(newWaypoint2);
-        }
-        if (NavMesh.SamplePosition(waypointPosition3, out hit, 1.0f, NavMesh.AllAreas))
-        {
-            Transform newWaypoint3 = new GameObject($"{gameObject.name}_Waypoint3").transform;
-            newWaypoint3.position = hit.position;
-            newWaypoint3.parent = transform.parent; // Set parent to the parent of Cabbage GameObject
-            waypoints.Add(newWaypoint3);
-        }
-
-        patrolWaypoints = waypoints.ToArray();
-    }
-
-
-    private void SetupPatrolWayPointsVer3()
-    {
-        // Clear previous waypoints
-        List<Transform> waypoints = new List<Transform>();
-
-        // Add first waypoint as the current position
-        waypoints.Add(transform);
-
-        // Generate additional waypoints near the current position
-        for (int i = 0; i < 3; i++) // Create 3 waypoints
-        {
-            Vector3 randomDirection = Random.insideUnitSphere * maxWaypointDistance;
-            randomDirection.y = 0f; // Ensure waypoints are on the same plane as Cabbage
-
-            Vector3 waypointPosition = transform.position + randomDirection;
-
-            // Ensure the waypoints are within the NavMesh bounds
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(waypointPosition, out hit, maxWaypointDistance, NavMesh.AllAreas))
-            {
-                Transform newWaypoint = new GameObject($"{gameObject.name}_Waypoint{i + 1}").transform;
-                newWaypoint.position = hit.position;
-                newWaypoint.parent = transform.parent; // Set parent to the parent of Cabbage GameObject
-                waypoints.Add(newWaypoint);
-            }
-        }
-
-        patrolWaypoints = waypoints.ToArray();
-    }
-
-    private void SetupPatrolWayPointsVer4()
-    {
-        // Clear previous waypoints
-        List<Transform> waypoints = new List<Transform>();
-
-        // Add first waypoint as the spawned position
-        waypoints.Add(new GameObject($"{gameObject.name}_SpawnedWaypoint").transform);
-        waypoints[0].position = mySpawnedPosition;
-        Debug.Log("mySpawnedPosition is " + mySpawnedPosition + " waypoints[0].position is " + waypoints[0].position);
-        waypoints[0].parent = transform.parent; // Set parent to the parent of Cabbage GameObject
-
-        // Generate additional waypoints near the spawned position
-        for (int i = 1; i <= 3; i++) // Create 3 additional waypoints
-        {
-            Vector3 randomDirection = Random.insideUnitSphere * maxWaypointDistance;
-            randomDirection.y = 0f; // Ensure waypoints are on the same plane as Cabbage
-
-            Vector3 waypointPosition = mySpawnedPosition + randomDirection;
-
-            // Ensure the waypoints are within the NavMesh bounds
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(waypointPosition, out hit, maxWaypointDistance, NavMesh.AllAreas))
-            {
-                Transform newWaypoint = new GameObject($"{gameObject.name}_Waypoint{i}").transform;
-                newWaypoint.position = hit.position;
-                newWaypoint.parent = transform.parent; // Set parent to the parent of Cabbage GameObject
-                waypoints.Add(newWaypoint);
-            }
-        }
-
-        patrolWaypoints = waypoints.ToArray();
-    }
-
     private void SetupPatrolWayPoints()
     {
         // Clear previous waypoints
@@ -521,9 +376,10 @@ public class CabbageController : MonoBehaviour
         waypoints[0].parent = transform.parent; // Set parent to the parent of Cabbage GameObject
 
         // Generate additional waypoints near the spawned position
-        for (int i = 1; i <= 3; i++) // Create 3 additional waypoints
+        int i = 0;
+        while (i < 3) // Create 4 additional waypoints
         {
-            Vector3 randomDirection = Random.insideUnitSphere * maxWaypointDistance;
+            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * maxWaypointDistance;
             randomDirection.y = 0f; // Ensure waypoints are on the same plane as Cabbage
 
             Vector3 waypointPosition = mySpawnedPosition + randomDirection;
@@ -537,6 +393,7 @@ public class CabbageController : MonoBehaviour
                 newWaypoint.position = hit.position;
                 newWaypoint.parent = transform.parent; // Set parent to the parent of Cabbage GameObject
                 waypoints.Add(newWaypoint);
+                i++;
             }
         }
 

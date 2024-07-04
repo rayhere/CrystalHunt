@@ -16,6 +16,7 @@
             <ui:VisualElement name="LeftContainer" class="LeftContainer">
                 <ui:Label tabindex="-1" text="CrystalCollected" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CrystalCollectLabel" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
                 <ui:Label tabindex="-1" text="ControlMode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ControlModeLabel" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
+                <ui:Label tabindex="-1" text="SupporterMode" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SupporterModeLabel" style="width: 70%; height: 20%; align-self: flex-start; font-size: 30%; color: rgb(255, 255, 255); flex-basis: 20%;" />
             </ui:VisualElement>
             <ui:VisualElement name="MidContainer" class="MidContainer" />
             <ui:VisualElement name="RighContainer" class="RighContainer">

@@ -25,6 +25,7 @@ public class CrystalController : MonoBehaviour
     public bool collisionTriggered = false;
     public float swingForce;
     public float swingTime;
+    Vector3 _crystalOriginalScale;
 
     private int goLeft = 0;
 
@@ -34,7 +35,7 @@ public class CrystalController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         //animator.SetInteger("popped", UNPOPPED);
-
+        _crystalOriginalScale = _crystal.transform.localScale;
     }
 
     void Update()
@@ -83,7 +84,9 @@ public class CrystalController : MonoBehaviour
             //yield return null; // Wait until 1 second has passed
             yield return new WaitForSeconds(0.5f);
         }
-
+        canDestory = false; // reset
+        gameObject.transform.localScale = new Vector3(1,1,1);
+        //_crystal.transform.localScale = _crystalOriginalScale; // reset
         // Return this crystal to the object pool
         ObjectPooler.EnqueueObject(this, "Crystal");
         Debug.Log("Crystal return to pool");

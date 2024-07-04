@@ -5,31 +5,35 @@ using UnityEngine.AI;
 // Enemy.cs
 public class CabbageBehavior : MonoBehaviour, IDamageable
 {
+    // References
     public AttackRadius AttackRadius;
     public Animator Animator;
     public CabbageController cabbageController; // Movement
     public NavMeshAgent Agent;
     public CabbageScriptableObject CabbageScriptableObject;
-    public int Health = 100;
-
-    private Coroutine LookCoroutine;
+    
+    // State variables
+    private Coroutine lookCoroutine;
     private const string ATTACK_TRIGGER = "Attack";
+    public int health = 100;
 
+    // Attack event setup
     private void Awake()
     {
         AttackRadius.OnAttack += OnAttack;
     }
 
+    // Handle attack event
     private void OnAttack(IDamageable Target)
     {
         Animator.SetTrigger(ATTACK_TRIGGER);
 
-        if (LookCoroutine != null)
+        if (lookCoroutine != null)
         {
-            StopCoroutine(LookCoroutine);
+            StopCoroutine(lookCoroutine);
         }
 
-        LookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
+        lookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
     }
 
     private IEnumerator LookAt(Transform Target)
@@ -53,12 +57,7 @@ public class CabbageBehavior : MonoBehaviour, IDamageable
         SetupAgentFromConfiguration();
     }
 
-    public void OnDisable()
-    {
-        // Return the cabbage to the object pool
-        ObjectPooler.EnqueueObject(this, "Cabbage");
-    }
-
+    // Agent setup from scriptable object
     public virtual void SetupAgentFromConfiguration()
     {
         Agent.acceleration = CabbageScriptableObject.Acceleration;
@@ -74,25 +73,50 @@ public class CabbageBehavior : MonoBehaviour, IDamageable
         
         cabbageController.UpdateRate = CabbageScriptableObject.AIUpdateInterval;
 
-        Health = CabbageScriptableObject.Health;
+        health = CabbageScriptableObject.Health;
 
         (AttackRadius.Collider == null ? AttackRadius.GetComponent<SphereCollider>() : AttackRadius.Collider).radius = CabbageScriptableObject.AttackRadius;
         AttackRadius.AttackDelay = CabbageScriptableObject.AttackDelay;
         AttackRadius.Damage = CabbageScriptableObject.Damage;
     }
 
-    public void TakeDamage(int Damage)
+    // Return to object pool
+    public void OnDisable()
     {
-        Health -= Damage;
+        // Return the cabbage to the object pool
+        ObjectPooler.EnqueueObject(this, "Cabbage");
+    }
 
-        if (Health <= 0)
+    // Take damage method
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
         {
             gameObject.SetActive(false);
         }
     }
 
+    // Get transform method
     public Transform GetTransform()
     {
         return transform;
     }
+
+    // Implementing attack-related interface methods (placeholders)
+    public void PerformAttack() { }
+    public void StartAttack() { }
+    public void EndAttack() { }
+    public bool IsAttacking() { return false; }
+    public void CancelAttack() { }
+    public bool AttackCooldown() { return false; }
+
+    // Attack-related properties (placeholders)
+    public float AttackRange => 0f;
+    public int AttackDamage => 0;
+    public float AttackSpeed => 0f;
+    public string AttackAnimation => "";
+    public AudioClip AttackSoundEffect => null;
+    public GameObject AttackEffect => null;
 }

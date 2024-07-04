@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c53e7e6a3465874c85b12d7d941c858, type: 3}
   m_Name: Cabbage Configuration
   m_EditorClassIdentifier: 
-  Health: 99
+  Health: 100
   AttackDelay: 1
   Damage: 5
   AttackRadius: 1.5

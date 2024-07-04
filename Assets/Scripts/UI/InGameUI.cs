@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
 
 
 public class InGameUI : MonoBehaviour
@@ -16,6 +17,7 @@ public class InGameUI : MonoBehaviour
     public MovementSwitcher ms;
     public DarknessStatsSO playerStats; // Reference to the ScriptableObject
     public bool playerAlive = true;
+    public SupporterController[] sc;
 
     //public VisualTreeAsset uiTree;
 
@@ -27,6 +29,7 @@ public class InGameUI : MonoBehaviour
     private Label text_crystalcollectStatus;
     private Label text_controlMode;
     private Label text_cameraType;
+    private Label text_supporterMode;
 
     private Button _pauseButton;
     private Button _pmResumeButton;
@@ -260,6 +263,7 @@ public class InGameUI : MonoBehaviour
         text_crystalcollectStatus = _document.rootVisualElement.Q<Label>("CrystalCollectLabel");
         text_controlMode = _document.rootVisualElement.Q<Label>("ControlModeLabel");
         text_cameraType = _document.rootVisualElement.Q<Label>("CameraTypeLabel");
+        text_supporterMode = _document.rootVisualElement.Q<Label>("SupporterModeLabel");
 
         if (text_speed == null)
         {
@@ -315,9 +319,14 @@ public class InGameUI : MonoBehaviour
             Debug.Log("CameraTypeLabel found!");
         }
 
-        // Lock the cursor initially
-        //LockCursor();
-
+        if (text_supporterMode == null)
+        {
+            Debug.LogError("SupporterModeLabel not found!");
+        }
+        else
+        {
+            Debug.Log("SupporterModeLabel found!");
+        }
     }
 
     // Update is called once per frame
@@ -363,6 +372,7 @@ public class InGameUI : MonoBehaviour
         UpdateHealthProgressBar();
         UpdateManaProgressBar();
         UpdateStaminaProgressBar();
+        UpdateSupporterStatus();
     }
 
     void UpdateHealthProgressBar()
@@ -438,6 +448,46 @@ public class InGameUI : MonoBehaviour
             text_speed.text = pm.GetTextSpeed();
             text_mode.text = pm.GetTextMode();
         }
+    }
+
+    private void UpdateSupporterStatus()
+    {
+        // UpdateBehavior
+        // Initialize an empty string to accumulate text
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        string textMode = "";
+        // Iterate through each SupporterController in the array
+        foreach (SupporterController supporter in sc)
+        {
+            if (supporter != null)
+            {
+                if (supporter.isAware == true)
+                {
+                    if (supporter.isAvoidTarget == true)
+                    {
+                        textMode = "Avoid Target";
+                    }
+                    else
+                    {
+                        textMode = "Chase Target";
+                    }
+                }
+                else if (supporter.isSearchingItem == true)
+                {
+                    textMode = "Searching Item";
+                }
+                else
+                {
+                    textMode = "Patrol";
+                }
+                // Append the game object name and text speed to the StringBuilder with a new line
+                sb.AppendLine(supporter.gameObject.name + ": " + textMode);
+            }
+        }
+
+        // Set the text of text_supporterMode to the accumulated string
+        text_supporterMode.text = sb.ToString();
+        //text_supporterMode.text = textMode;
     }
 
     private void UpdateCursorStatus()

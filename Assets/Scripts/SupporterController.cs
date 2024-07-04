@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,21 +8,26 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover), typeof(LineRenderer))]
 public class SupporterController : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField, Tooltip("Reference your NavMesh data asset here")]
+    public NavMeshData myNavMeshData; // Reference to your NavMeshData
+    //private NavMeshDataInstance navMeshDataInstance; // Instance of the NavMeshData
+
     // Patrol Settings
     [Header("Patrol Settings")]
     [Tooltip("Array of patrol waypoints for the Supporter to follow.")]
     public Transform[] patrolWaypoints;  // Array of patrol waypoints
     [Tooltip("Speed of patrol movement.")]
-    public float patrolSpeed = 2f;       // Speed of patrol movement
-    public float chaseSpeed = 5f;        // Speed of chasing the target
-    public float chaseDistance = 10f;    // Distance at which Supporter starts chasing
-    public float chaseAngle = 30f;       // Angle within which Supporter detects the target
+    public float patrolSpeed = 3f;       // Speed of patrol movement
+    public float chaseSpeed = 10f;        // Speed of chasing the target
+    public float chaseDistance = 20f;    // Distance at which Supporter starts chasing
+    public float chaseAngle = 40f;       // Angle within which Supporter detects the target
     private int currentWaypointIndex;
     private bool isChasing = false;
     [Tooltip("Minimum distance for waypoints from spawn location.")]
     public float minWaypointDistance = 5f; // Minimum distance for waypoints from spawn location
     [Tooltip("Maximum distance for waypoints from spawn location.")]
-    public float maxWaypointDistance = 10f; // Maximum distance for waypoints from spawn location
+    public float maxWaypointDistance = 20f; // Maximum distance for waypoints from spawn location
     public Vector3 mySpawnedPosition; // Used for setup Nearby PatrolWaypoints
 
 
@@ -78,13 +84,14 @@ public class SupporterController : MonoBehaviour
 
     //private NavMeshAgent agent;
     private Transform avoidTarget;
+    public bool isAvoidTarget = false;
     private Transform teammateTarget;
     private Transform enemyTarget;
     private Transform target;
     private Vector3 lastKnownPosition;              // Last known position of the target
-    private bool isAware;                           // Flag to indicate if the AI is aware of a target
+    public bool isAware;                           // Flag to indicate if the AI is aware of a target
     private Transform nearestItem;                  // Nearest detected valuable item
-    private bool isSearchingItem;                   // Flag to indicate if the AI is searching for an item
+    public bool isSearchingItem;                   // Flag to indicate if the AI is searching for an item
 
 
     private void Awake()
@@ -94,7 +101,9 @@ public class SupporterController : MonoBehaviour
 
         LinkMover.OnLinkStart += HandleLinkStart;
         LinkMover.OnLinkEnd += HandleLinkEnd;
-        //Health = enemyStats.currentHP;
+
+        // Assign and create NavMeshDataInstance
+        //navMeshDataInstance = NavMesh.AddNavMeshData(myNavMeshData);
 
         SetupItemTargetUsingTag("Crystal");
         SetupLineRenderer();
@@ -102,8 +111,6 @@ public class SupporterController : MonoBehaviour
 
     private void Start()
     {
-
-
         if (patrolWaypoints.Length > 0)
         {
             agent.SetDestination(patrolWaypoints[0].position);
@@ -130,18 +137,7 @@ public class SupporterController : MonoBehaviour
 
     private void Update()
     {
-
         UpdateBehavior();
-        //AvoidTargets();
-
-
-        // Check if in range and angle to start chasing
-        /* if (!isChasing)
-        {
-            CheckForChaseTarget();
-        } */
-
-        
     }
 
     private void FixedUpdate()
@@ -156,11 +152,14 @@ public class SupporterController : MonoBehaviour
             if (avoidTargets.Count > 0)
             {
                 AvoidTargets();
+                Debug.Log(gameObject.name + " is running away from ");
+                isAvoidTarget = true;
             }
             // If aware and target is within chase range, chase it
             else if (Vector3.Distance(transform.position, lastKnownPosition) <= chaseRange)
             {
                 ChaseTarget();
+                isAvoidTarget = false;
             }
             else
             {
@@ -184,6 +183,7 @@ public class SupporterController : MonoBehaviour
 
     IEnumerator ScanForTargetsAndItems()
     {
+        // Scan for targets and items
         while (true)
         {
             // Detect all nearby Danger objects with the tags "StoneCube" and "Cabbage"
@@ -270,10 +270,24 @@ public class SupporterController : MonoBehaviour
             }
             Vector3 awayPosition = transform.position + awayDirection.normalized * avoidanceRange;
 
-            // Move towards the calculated position
-            NavMeshHit hit;
-            NavMesh.SamplePosition(awayPosition, out hit, avoidanceRange, NavMesh.AllAreas);
-            agent.SetDestination(hit.position);
+            // Sample a valid position on the NavMesh using the NavMeshDataInstance's area mask
+            if (myNavMeshData != null)
+            {
+                // Move towards the calculated position
+                NavMeshHit hit;
+                NavMesh.SamplePosition(awayPosition, out hit, avoidanceRange, NavMesh.AllAreas);
+                agent.SetDestination(hit.position);
+
+                if (NavMesh.SamplePosition(awayPosition, out hit, avoidanceRange, NavMesh.AllAreas))
+                {
+                    agent.SetDestination(hit.position);
+                }
+                else
+                {
+                    Debug.LogWarning("Failed to find a valid position on NavMesh.");
+                }
+            }
+            
         }
     }
 

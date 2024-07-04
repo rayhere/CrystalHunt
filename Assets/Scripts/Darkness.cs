@@ -10,9 +10,9 @@ public class Darkness : MonoBehaviour, IDamageable
     public WASDController wasdController;
     public NavMeshAgent Agent;
     public DarknessStatsSO DarknessStatsSO;
-    public int Health;
+    public int health;
 
-    private Coroutine LookCoroutine;
+    private Coroutine lookCoroutine;
     private const string ATTACK_TRIGGER = "Attack";
 
     private void Awake()
@@ -24,12 +24,12 @@ public class Darkness : MonoBehaviour, IDamageable
     {
         Animator.SetTrigger(ATTACK_TRIGGER);
 
-        if (LookCoroutine != null)
+        if (lookCoroutine != null)
         {
-            StopCoroutine(LookCoroutine);
+            StopCoroutine(lookCoroutine);
         }
 
-        LookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
+        lookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
     }
 
     private IEnumerator LookAt(Transform Target)
@@ -55,7 +55,6 @@ public class Darkness : MonoBehaviour, IDamageable
 
     public void OnDisable()
     {
-        //base.OnDisable();
         if (Agent != null)
             Agent.enabled = false;
     }
@@ -75,7 +74,7 @@ public class Darkness : MonoBehaviour, IDamageable
         
         //wasdController.UpdateRate = DarknessStatsSO.AIUpdateInterval;
 
-        Health = DarknessStatsSO.maxHP;
+        health = DarknessStatsSO.maxHP;
 
         (AttackRadius.Collider == null ? AttackRadius.GetComponent<SphereCollider>() : AttackRadius.Collider).radius = DarknessStatsSO.AttackRadius;
         AttackRadius.AttackDelay = DarknessStatsSO.AttackDelay;
@@ -86,9 +85,9 @@ public class Darkness : MonoBehaviour, IDamageable
 
     public void TakeDamage(int Damage)
     {
-        Health -= Damage;
+        health -= Damage;
 
-        if (Health <= 0)
+        if (health <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -98,4 +97,20 @@ public class Darkness : MonoBehaviour, IDamageable
     {
         return transform;
     }
+
+    // Implementing attack-related interface methods (placeholders)
+    public void PerformAttack() { }
+    public void StartAttack() { }
+    public void EndAttack() { }
+    public bool IsAttacking() { return false; }
+    public void CancelAttack() { }
+    public bool AttackCooldown() { return false; }
+
+    // Attack-related properties (placeholders)
+    public float AttackRange => 0f;
+    public int AttackDamage => 0;
+    public float AttackSpeed => 0f;
+    public string AttackAnimation => "";
+    public AudioClip AttackSoundEffect => null;
+    public GameObject AttackEffect => null;
 }
