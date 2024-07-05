@@ -12,9 +12,28 @@ public class GameManager : MonoBehaviour
     public GameObject targetObject;
     public InGameUI inGameUI;
 
+    // Add a public field for your background audio clip
+    public AudioClip backgroundMusicClip;
+
+    // Private reference to the AudioSource component
+    private AudioSource backgroundMusicSource;
+
+    
+
     private void Awake()
     {
         InitializePlayerStats();
+        InitializeAudioSource();
+    }
+
+    void InitializeAudioSource()
+    {
+        // Initialize the AudioSource component
+        backgroundMusicSource = gameObject.AddComponent<AudioSource>();
+        backgroundMusicSource.loop = true; // Loop the background music
+        backgroundMusicSource.clip = backgroundMusicClip;
+        backgroundMusicSource.volume = 0.5f; // Set initial volume (adjust as needed)
+        backgroundMusicSource.Play(); // Start playing the background music
     }
 
     private void Start()

@@ -24,7 +24,7 @@ public class StoneCubeController : MonoBehaviour
     public float lengthOfCube = 10f;
 
     public int step = 9;
-    public float speed = 0.01f;
+    public float speed = 0.1f;
 
     public bool input = false;
 
@@ -33,12 +33,27 @@ public class StoneCubeController : MonoBehaviour
 
     private GridStat gridStat; // Reference to the GridStat component
 
+    // Audio variables
+    public AudioClip impactSoundClip;
+    private AudioSource audioSource;
+    public float impactSoundVolume = 0.1f; // Adjust this value to set impact sound volume
+
+    // Variable for start timer delay
+    public float startTimerDelay = 2f; // Default delay time
+
+    // Variable for MoveCloseToTarget delay
+    [SerializeField, Tooltip("Min Value is time of (speed * step)")]
+    public float moveCloseToTargetDelay = 2f; // Default delay time
+
+
     private void Awake()
     {
         gridStat = GetComponent<GridStat>(); // Get reference to the GridStat component
         coordinatePlane = GameObject.Find("CoordinateMap").GetComponent<CoordinatePlane>();
 
         CreateEmptyObject();
+        InitializeAudioSource();
+        
     }
 
     void Start()
@@ -58,8 +73,18 @@ public class StoneCubeController : MonoBehaviour
         }
     }
 
+    void InitializeAudioSource()
+    {
+        // Initialize AudioSource for impact sound
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
+
     // Initialize the Setup for Stone's Transform, movement and lifetime
-    public void Initialise(Vector3 targetPosition)
+    public void Initialize(Vector3 targetPosition)
     {
         transform.position = targetPosition;
     }
@@ -67,6 +92,9 @@ public class StoneCubeController : MonoBehaviour
     private IEnumerator MoveCloseToTarget()
     {
         input = false;
+
+        float randomDelay = UnityEngine.Random.Range(0f, 1f); // Random delay between 0 and 1 second
+        yield return new WaitForSeconds(randomDelay);
 
         int consecutiveMoves = 0;
         Vector3Int lastDirection = Vector3Int.zero;
@@ -117,13 +145,13 @@ public class StoneCubeController : MonoBehaviour
             {
                 lastDirection = moveDirection;
                 //break; // Exits the loop, but the coroutine continues
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(moveCloseToTargetDelay);
             }
             else
             {
                 // if taret out of range distance, and didn't move object to the direction in some reasons
                 // consecutiveMoves should end
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(moveCloseToTargetDelay);
                 input = true;
                 Debug.Log("input true, target out of range distance, and didn't move object to the direction in some reasons, moveDirection is " + moveDirection);
                 yield break; // Stops the coroutine entirely
@@ -131,7 +159,7 @@ public class StoneCubeController : MonoBehaviour
         }
         // Code here will still run after the loop
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(moveCloseToTargetDelay);
         input = true;
         Debug.Log("input true, MoveCloseToTarget end");
     }
@@ -167,6 +195,9 @@ public class StoneCubeController : MonoBehaviour
         if (coordinatePlane.IsWithinBounds(newX, newZ) && coordinatePlane.IsEmpty(newX, newZ) && (coordinatePlane.GetCheckoutTime(newX, newZ) + 1f > Time.deltaTime))
         {
             UpdateCoordinates(newX, newZ);
+
+            // Play impact sound after a delay
+            StartCoroutine(PlayImpactSoundDelayed());
 
             if (moveDirection == new Vector3Int(0, 0, 1))
             {
@@ -270,6 +301,17 @@ public class StoneCubeController : MonoBehaviour
         }
     }
 
+    private IEnumerator PlayImpactSoundDelayed()
+    {
+        yield return new WaitForSeconds((speed*9) -0.1f); // Adjust delay time as needed
+
+        if (impactSoundClip != null && audioSource != null)
+        {
+            audioSource.volume = impactSoundVolume;
+            audioSource.PlayOneShot(impactSoundClip);
+        }
+    }
+
     private IEnumerator MoveForward()
     {
         yield return MoveInDirection(forward.transform.position, Vector3.right);
@@ -323,7 +365,7 @@ public class StoneCubeController : MonoBehaviour
 
     IEnumerator StartMovementTimer()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(startTimerDelay);
         input = true;
         Debug.Log("input true, StartMovementTimer");
     }

@@ -330,6 +330,7 @@ public class InGameUI : MonoBehaviour
         if (!playerAlive && gameOverStage == -1)
         {
             gameOverStage = 0;
+            PersistentData.Instance.SetGameOverStage(true);
             HideUIElement("PauseMenu");
             HideUIElement("pmMidContainer1");
             ShowUIElement("GameOverMenu");
@@ -585,6 +586,7 @@ public class InGameUI : MonoBehaviour
     {
         Debug.Log("You press the goYes Button");
         PersistentData.Instance.SaveData();
+        PersistentData.Instance.SetGameOverStage(false); // reset
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
 

@@ -161,7 +161,7 @@ public class StoneCubeSpawner : MonoBehaviour
         if (stoneCubeInstance != null)
         {
             Debug.Log("SpawnStoneCubes(2): x is " + x + ", z is " + z);
-            stoneCubeInstance.Initialise(new Vector3(x * unitSize + offset, unitSize / 2, z * unitSize - offset));
+            stoneCubeInstance.Initialize(new Vector3(x * unitSize + offset, unitSize / 2, z * unitSize - offset));
             coordinatePlane.SetGridUnitInfo(x, z, false, "", 0);
 
             GridStat gridStat = stoneCubeInstance.GetComponent<GridStat>();

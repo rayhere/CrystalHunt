@@ -94,6 +94,7 @@ public class CabbageController : MonoBehaviour
         SetupPatrolWayPoints();
         StartCoroutine(FollowPatrolRoute());
         StartCoroutine(CheckForTarget());
+        StartCoroutine(UpdateAnimation());
     }
 
     private void Update()
@@ -108,7 +109,6 @@ public class CabbageController : MonoBehaviour
     private void FixedUpdate()
     {
         DrawPath();
-        StartCoroutine(UpdateAnimation());
     }
 
     private IEnumerator UpdateAnimation()

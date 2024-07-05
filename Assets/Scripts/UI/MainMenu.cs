@@ -125,7 +125,8 @@ public class MainMenu : MonoBehaviour
     private void OnLoadClick(ClickEvent evt)
     {
         Debug.Log("You press the Load Button");
-        SceneManager.LoadScene("Level2");
+        PersistentData.Instance.LoadData();
+        SceneManager.LoadScene("Level1");
     }
 
     private void OnOptionsClick(ClickEvent evt)

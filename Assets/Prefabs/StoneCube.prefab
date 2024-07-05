@@ -54,10 +54,14 @@ MonoBehaviour:
   center: {fileID: 0}
   lengthOfCube: 10
   step: 9
-  speed: 0.01
+  speed: 0.1
   input: 0
   coordinatePlane: {fileID: 0}
   objName: 
+  impactSoundClip: {fileID: 8300000, guid: 90bdf5da04cfe69418fe63c2b57536e8, type: 3}
+  impactSoundVolume: 0.1
+  startTimerDelay: 2
+  moveCloseToTargetDelay: 2
 --- !u!114 &4615019361137961836
 MonoBehaviour:
   m_ObjectHideFlags: 0

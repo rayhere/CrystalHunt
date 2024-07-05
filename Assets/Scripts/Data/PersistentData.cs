@@ -7,6 +7,9 @@ public class PersistentData : MonoBehaviour
     [SerializeField] float elapsedTime;
     [SerializeField] float lastElapsedTime;
     [SerializeField] int crystalCount;
+    [SerializeField] int lastCrystalCount;
+    [SerializeField] bool isGameOver = false;
+    
 
     // Keys for PlayerPrefs (adjust these as needed)
     private const string ElapsedTimeKey = "ElapsedTime";
@@ -51,52 +54,73 @@ public class PersistentData : MonoBehaviour
     // Method to save data to PlayerPrefs
     public void SaveData()
     {
-        if (PlayerPrefs.HasKey(TopCrystalCountKey))
+        if (isGameOver)
         {
-            int topCrystalCount = PlayerPrefs.GetInt(TopCrystalCountKey);
-            if (crystalCount > topCrystalCount)
+            if (PlayerPrefs.HasKey(TopCrystalCountKey))
             {
-                 PlayerPrefs.SetInt(TopCrystalCountKey, crystalCount);
+                int topCrystalCount = PlayerPrefs.GetInt(TopCrystalCountKey);
+                if (crystalCount > topCrystalCount)
+                {
+                    PlayerPrefs.SetInt(TopCrystalCountKey, crystalCount);
+                }
             }
-        }
-        else 
-        {
-            PlayerPrefs.SetInt(TopCrystalCountKey, crystalCount);
-        }
-
-        if (PlayerPrefs.HasKey(TopCrystalCountKey))
-        {
-            PlayerPrefs.SetInt(TotalCrystalsCollectedKey, PlayerPrefs.GetInt(TotalCrystalsCollectedKey) + crystalCount);
-
-        }
-        else
-        {
-            PlayerPrefs.SetInt(TotalCrystalsCollectedKey, crystalCount);
-        }
-
-        if (PlayerPrefs.HasKey(LongestElapsedtimeKey))
-        {
-            float longestElapsedTime = PlayerPrefs.GetFloat(LongestElapsedtimeKey);
-            if (elapsedTime > longestElapsedTime)
+            else 
             {
-                 PlayerPrefs.SetFloat(LongestElapsedtimeKey, elapsedTime);
+                PlayerPrefs.SetInt(TopCrystalCountKey, crystalCount);
             }
-        }
-        else 
-        {
-            PlayerPrefs.SetFloat(LongestElapsedtimeKey, elapsedTime);
-        }
-        
-        if (PlayerPrefs.HasKey(RecordPlayDurationKey))
-        {
-            PlayerPrefs.SetFloat(RecordPlayDurationKey, PlayerPrefs.GetFloat(RecordPlayDurationKey) + elapsedTime);
-        }
-        else 
-        {
-            PlayerPrefs.SetFloat(RecordPlayDurationKey, elapsedTime);
+
+            if (PlayerPrefs.HasKey(TopCrystalCountKey))
+            {
+                PlayerPrefs.SetInt(TotalCrystalsCollectedKey, PlayerPrefs.GetInt(TotalCrystalsCollectedKey) + crystalCount);
+
+            }
+            else
+            {
+                PlayerPrefs.SetInt(TotalCrystalsCollectedKey, crystalCount);
+            }
+
+            if (PlayerPrefs.HasKey(LongestElapsedtimeKey))
+            {
+                float longestElapsedTime = PlayerPrefs.GetFloat(LongestElapsedtimeKey);
+                if (elapsedTime > longestElapsedTime)
+                {
+                    PlayerPrefs.SetFloat(LongestElapsedtimeKey, elapsedTime);
+                }
+            }
+            else 
+            {
+                PlayerPrefs.SetFloat(LongestElapsedtimeKey, elapsedTime);
+            }
+            
+            if (PlayerPrefs.HasKey(RecordPlayDurationKey))
+            {
+                PlayerPrefs.SetFloat(RecordPlayDurationKey, PlayerPrefs.GetFloat(RecordPlayDurationKey) + elapsedTime);
+            }
+            else 
+            {
+                PlayerPrefs.SetFloat(RecordPlayDurationKey, elapsedTime);
+            }
         }
 
         PlayerPrefs.SetFloat(ElapsedTimeKey, elapsedTime);
+
+        if (PlayerPrefs.HasKey(LastElapsedTimeKey) && !isGameOver)
+        {
+            PlayerPrefs.SetFloat(LastElapsedTimeKey, elapsedTime);
+        }
+        else 
+        {
+            PlayerPrefs.SetFloat(LastElapsedTimeKey, 0);
+        }
+
+        if (PlayerPrefs.HasKey(LastCrystalCountKey) && !isGameOver)
+        {
+            PlayerPrefs.SetInt(LastCrystalCountKey, crystalCount);
+        }
+        else 
+        {
+            PlayerPrefs.SetInt(LastCrystalCountKey, 0);
+        }
 
         PlayerPrefs.Save(); // Always remember to save changes
     }
@@ -107,6 +131,21 @@ public class PersistentData : MonoBehaviour
         if (PlayerPrefs.HasKey(LastElapsedTimeKey))
         {
             lastElapsedTime = PlayerPrefs.GetFloat(LastElapsedTimeKey);
+            elapsedTime = lastElapsedTime;
+        }
+        else
+        {
+            ResetPlayer();
+        }
+
+        if (PlayerPrefs.HasKey(LastCrystalCountKey))
+        {
+            lastCrystalCount = PlayerPrefs.GetInt(LastCrystalCountKey);
+            crystalCount = lastCrystalCount;
+        }
+        else
+        {
+            ResetPlayer();
         }
     }
 
@@ -149,5 +188,10 @@ public class PersistentData : MonoBehaviour
     public void IncreaseCrystalCount(int i)
     {
         SetCrystalCount(GetCrystalCount()+i);
+    }
+
+    public void SetGameOverStage(bool isGameOver)
+    {
+        this.isGameOver = isGameOver;
     }
 }
