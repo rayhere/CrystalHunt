@@ -48,7 +48,7 @@ public class CabbageBehavior : MonoBehaviour, IDamageable
             time += Time.deltaTime * 2;
             yield return null;
         }
-
+        Debug.Log("Cabbage rotation, transform.rotation: " + transform.rotation);
         transform.rotation = lookRotation;
     }
 

@@ -51,7 +51,9 @@ public class SupporterController : MonoBehaviour
 
     [SerializeField]
     private Animator Animator = null;
+    private const string IsIdle = "IsIdle";
     private const string IsWalking = "IsWalking";
+    private const string IsRunning = "IsRunning";
     private const string Jump = "Jump";
     private const string Landed = "Landed";
 
@@ -108,9 +110,6 @@ public class SupporterController : MonoBehaviour
         LinkMover.OnLinkStart += HandleLinkStart;
         LinkMover.OnLinkEnd += HandleLinkEnd;
 
-        // Assign and create NavMeshDataInstance
-        //navMeshDataInstance = NavMesh.AddNavMeshData(myNavMeshData);
-
         SetupItemTargetUsingTag("Crystal");
         SetupLineRenderer();
     }
@@ -122,23 +121,15 @@ public class SupporterController : MonoBehaviour
             agent.SetDestination(patrolWaypoints[0].position);
             currentWaypointIndex = 0;
         }
-
-
         // Invoke SetupPatrolWayPoints after .1 second delay
         Invoke("DelayedStartUp", 0.1f);
-
-        //StartCoroutine(FollowPatrolRoute());
-        //StartCoroutine(CheckForTarget());
-
-
     }
 
     private void DelayedStartUp()
     {
         SetupPatrolWayPoints();
-        //StartCoroutine(FollowPatrolRoute());
-        //StartCoroutine(CheckForTarget());
         StartCoroutine(ScanForTargetsAndItems());
+        StartCoroutine(UpdateAnimation());
     }
 
     private void Update()
@@ -149,7 +140,45 @@ public class SupporterController : MonoBehaviour
     private void FixedUpdate()
     {
         DrawPath();
+        
         currentDestination = agent.destination; // just for display in inspector
+    }
+
+    IEnumerator UpdateAnimation()
+    {   
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f) ;
+            PlayIdlingAnim();
+            PlayWalkingAnim();
+            PlayRunningAnim();
+        }
+    }
+    private void PlayIdlingAnim()
+    {
+        Animator.SetBool(IsIdle, agent.velocity.magnitude < 0.3f);
+    }
+
+    private void PlayWalkingAnim()
+    {
+        Animator.SetBool(IsWalking, (agent.velocity.magnitude > 0.3f) && (agent.velocity.magnitude < patrolSpeed +1));
+    }
+
+    private void PlayRunningAnim()
+    {
+        Animator.SetBool(IsRunning, agent.velocity.magnitude >= (patrolSpeed + 1));
+    }
+
+    private void HandleLinkStart()
+    {
+        // Handle any animations or behaviors when agent starts following a link (optional)
+        Animator.SetTrigger(Jump);
+    }
+
+    private void HandleLinkEnd()
+    {
+        // Handle any animations or behaviors when agent finishes following a link (optional)
+        Animator.SetTrigger(Landed);
     }
 
     IEnumerator UpdateBehavior()
@@ -336,8 +365,6 @@ public class SupporterController : MonoBehaviour
                 awayDirection += (transform.position - avoidTarget.position).normalized;
             }
             Vector3 awayPosition = transform.position + awayDirection.normalized * avoidanceRange;
-
-            // Sample a valid position on the NavMesh using the NavMeshDataInstance's area mask
             
             // Move towards the calculated position
             NavMeshHit hit;
@@ -354,8 +381,6 @@ public class SupporterController : MonoBehaviour
             {
                 Debug.LogWarning("Failed to find a valid position on NavMesh.");
             }
-            
-            
         }
     }
 
@@ -364,96 +389,6 @@ public class SupporterController : MonoBehaviour
     {
         yield return new WaitForSeconds(3f); // Wait for 3 seconds
         avoidTargets.Clear(); // Clear the avoidTargets list
-    }
-
-    private IEnumerator CheckDestinationRoutineOld()
-    {
-        WaitForSeconds wait = new WaitForSeconds(1f); // Check every 1 second
-
-        while (gameObject.activeSelf)
-        {
-            if (avoidTargets.Count > 0)
-            {
-                // Check if agent has a path and is still calculating it
-                if (agent.hasPath && agent.pathPending)
-                {
-                    float elapsedTime = 0f;
-
-                    // Wait until the agent reaches its destination or timeout
-                    while (agent.remainingDistance > agent.stoppingDistance && elapsedTime < 3f)
-                    {
-                        elapsedTime += Time.deltaTime;
-                        yield return null; // Wait for the next frame
-                    }
-
-                    // If the agent takes more than 3 seconds to reach the destination
-                    if (elapsedTime >= 3f)
-                    {
-                        Debug.LogWarning("Agent took more than 5 seconds to reach destination. Clearing avoidTargets.");
-                        avoidTargets.Clear();
-                    }
-                }
-                yield return wait; // Wait for the next check interval
-            }
-            
-
-            
-        }
-    }
-
-    IEnumerator ScanForAvoidTargets()
-    {
-
-        WaitForSeconds wait = new WaitForSeconds(0.5f);
-
-        while (gameObject.activeSelf)
-        {
-            //FindTargetsInFront();
-
-            yield return wait;
-        }
-
-        avoidTargets.Clear();
-
-        // Detect all nearby objects with the tags "StoneCube" and "Cabbage"
-        Collider[] colliders = Physics.OverlapSphere(transform.position, avoidanceRange);
-        foreach (Collider collider in colliders)
-        {
-            if (collider.CompareTag("StoneCube") || collider.CompareTag("Cabbage"))
-            {
-                avoidTargets.Add(collider.transform);
-            }
-        }
-
-        if (avoidTargets.Count > 0)
-        {
-            // Calculate the position to move away from all targets
-            Vector3 awayDirection = Vector3.zero;
-            foreach (Transform avoidTarget in avoidTargets)
-            {
-                awayDirection += (transform.position - avoidTarget.position).normalized;
-            }
-            Vector3 awayPosition = transform.position + awayDirection.normalized * avoidanceRange;
-
-            // Move towards the calculated position
-            NavMeshHit hit;
-            NavMesh.SamplePosition(awayPosition, out hit, avoidanceRange, NavMesh.AllAreas);
-            agent.SetDestination(hit.position);
-        }
-    }
-
-    private IEnumerator FollowPatrolRoute()
-    {
-        while (gameObject.activeSelf)
-        {
-            if (!isChasing && !agent.pathPending && agent.remainingDistance < 0.1f)
-            {
-                currentWaypointIndex = (currentWaypointIndex + 1) % patrolWaypoints.Length;
-                agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
-            }
-
-            yield return null;
-        }
     }
 
     private void SetupItemTargetUsingTag(string tagName)
@@ -466,163 +401,6 @@ public class SupporterController : MonoBehaviour
         for (int i = 0; i < foundObjects.Length; i++)
         {
             items[i] = foundObjects[i].transform;
-        }
-    }
-
-    private Transform SelectTargetFromTargets(Transform[] targets)
-    {
-        // Pick the last target if targets is not null and contains elements
-        if (targets != null && targets.Length > 0)
-        {
-            Transform lastTarget = targets[targets.Length - 1];
-            // Use lastTarget as needed
-            Debug.Log("Last target: " + lastTarget.name);
-            return lastTarget;
-        }
-        else
-        {
-            Debug.LogWarning("No targets found or targets array is empty.");
-            return null; // Return null if no valid target is found
-        }
-    }
-
-    // Search for targets within chase angle and distance
-    private void CheckForChaseTargetOld()
-    {
-        /* if (targets != null && targets.Length > 0)
-        {
-            foreach (Transform target in Targets)
-            {
-                Vector3 toTarget = target.position - transform.position;
-                float angle = Vector3.Angle(transform.forward, toTarget);
-
-                if (angle <= chaseAngle)
-                {
-                    float distance = toTarget.magnitude;
-                    if (distance <= chaseDistance)
-                    {
-                        //StartChasing(target);
-                        StartCoroutine(ChasingTarget(target));
-                        break;
-                    }
-                }
-            }
-        } */
-    }
-
-    // Coroutine to continuously check distance to target and start/stop chasing
-    private IEnumerator ChasingTarget(Transform selectedTarget)
-    {
-        while (gameObject.activeSelf)
-        {
-            if (!isChasing && selectedTarget != null)
-            {
-                float distanceToTarget = Vector3.Distance(transform.position, selectedTarget.position);
-
-                if (distanceToTarget <= chasingTargetDistance)
-                {
-                    StartChasing(selectedTarget);
-                }
-            }
-            else if (isChasing && selectedTarget != null)
-            {
-                float distanceToTarget = Vector3.Distance(transform.position, selectedTarget.position);
-
-                if (distanceToTarget > chasingTargetDistance)
-                {
-                    StopChasing();
-                    yield break;
-                }
-                else
-                {
-                    StartChasing(selectedTarget);
-                }
-            }
-            else if (isChasing && selectedTarget == null)
-            {
-                StopChasing();
-                yield break;
-            }
-
-            yield return new WaitForSeconds(0.5f);
-            // Code here will execute after 0.5 seconds of delay
-            yield return null;
-            // Code here will execute in the next frame
-            
-        }
-    }
-
-    // Method to start chasing the specified target
-    private void StartChasing(Transform target)
-    {
-        isChasing = true;
-        agent.speed = chaseSpeed;
-        agent.SetDestination(target.position);
-    }
-
-    // Method to stop chasing and resume patrol
-    private void StopChasing()
-    {
-        isChasing = false;
-        agent.speed = patrolSpeed;
-
-        if (patrolWaypoints.Length > 0)
-        {
-            agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
-        }
-    }
-
-    private IEnumerator CheckForTarget()
-    {
-        WaitForSeconds wait = new WaitForSeconds(0.5f);
-
-        while (gameObject.activeSelf)
-        {
-            //FindTargetsInFront();
-
-            yield return wait;
-        }
-    }
-
-    private void FindTargetsInFrontOld()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, chaseDistance);
-
-        List<Transform> detectedTargets = new List<Transform>();
-
-        foreach (Collider col in hitColliders)
-        {
-            if (col.CompareTag("Player") || col.CompareTag("Darkness"))
-            {
-                Vector3 directionToTarget = col.transform.position - transform.position;
-                float angle = Vector3.Angle(transform.forward, directionToTarget);
-
-                if (angle <= chaseAngle)
-                {
-                    detectedTargets.Add(col.transform);
-                }
-            }
-        }
-        
-
-        //targets = detectedTargets.ToArray();
-    }
-
-
-    private IEnumerator FollowTargetOld()
-    {
-        WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
-        
-        while (gameObject.activeSelf)
-        {
-            if (selectedTarget == null) 
-            {
-                Debug.Log("selectedTarget == null, do SelectTargetFromTargets()");
-                //selectedTarget = SelectTargetFromTargets();
-            }
-            
-            agent.SetDestination(selectedTarget.transform.position);
-            yield return Wait;
         }
     }
 
@@ -651,22 +429,6 @@ public class SupporterController : MonoBehaviour
         LookAtPosition(lastKnownPosition);
     }
 
-    private IEnumerator LookAtTarget(Transform Target)
-    {
-        Quaternion lookRotation = Quaternion.LookRotation(Target.position - transform.position);
-        float time = 0;
-
-        while (time < 1)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, time);
-
-            time += Time.deltaTime * 2;
-            yield return null;
-        }
-
-        transform.rotation = lookRotation;
-    }
-
     private void LookAtPosition(Vector3 targetPosition)
     {
         // Rotate towards the target's position
@@ -677,59 +439,33 @@ public class SupporterController : MonoBehaviour
 
     private void MoveTowardsItem()
     {
-        //WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
-        
-        //while (gameObject.activeSelf)
-        //{
-            Debug.Log(gameObject.name+": item found, MoveTowardsItem");
-            if (nearestItem != null)
+        Debug.Log(gameObject.name+": item found, MoveTowardsItem");
+        if (nearestItem != null)
+        {
+            if (nearestItem.gameObject.activeSelf)
             {
-                if (nearestItem.gameObject.activeSelf)
-                {
-                    // Move towards the nearest item's position
-                    agent.SetDestination(nearestItem.position);
-                    Debug.Log("Set item " + nearestItem.name + " locate at: " + nearestItem.position);
-                    agent.speed = searchSpeed;
+                // Move towards the nearest item's position
+                agent.SetDestination(nearestItem.position);
+                Debug.Log("Set item " + nearestItem.name + " locate at: " + nearestItem.position);
+                agent.speed = searchSpeed;
 
-                    // Rotate towards the item's position
-                    LookAtPosition(nearestItem.position);
+                // Rotate towards the item's position
+                LookAtPosition(nearestItem.position);
 
-                    if (agent.remainingDistance < 0.5f) nearestItem = null;
-                }
-                else
-                {
-                    nearestItem = null;
-                    isSearchingItem = false;
-                }
+                if (agent.remainingDistance < 0.5f) nearestItem = null;
             }
             else
             {
-                // No item found, resume patrolling
+                nearestItem = null;
                 isSearchingItem = false;
-                Patrol();
             }
-            
-            //agent.SetDestination(selectedTarget.transform.position);
-            //yield return Wait;
-            //yield return null;
-        //}
-    }
-
-    private void HandleLinkStart()
-    {
-        // Handle any animations or behaviors when agent starts following a link (optional)
-        Animator.SetTrigger(Jump);
-    }
-
-    private void HandleLinkEnd()
-    {
-        // Handle any animations or behaviors when agent finishes following a link (optional)
-        Animator.SetTrigger(Landed);
-    }
-
-    private void PlayWalkingAnim()
-    {
-        Animator.SetBool(IsWalking, agent.velocity.magnitude > 0.01f);
+        }
+        else
+        {
+            // No item found, resume patrolling
+            isSearchingItem = false;
+            Patrol();
+        }
     }
 
     private void SetupPatrolWayPoints()
@@ -773,7 +509,6 @@ public class SupporterController : MonoBehaviour
         Debug.Log("Supporter spawned location is " + targetPosition);
         FountainDirectionSpawn();
     }
-
 
     void FountainDirectionSpawn()
     {
@@ -822,9 +557,6 @@ public class SupporterController : MonoBehaviour
         // reset EnemyStats.cs 
     }
     
-    
-
-
     void SetupLineRenderer()
     {
         myLineRenderer = GetComponent<LineRenderer>();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -43,7 +44,7 @@ public class CabbageController : MonoBehaviour
 
 
     [SerializeField]
-    private Animator Animator = null;
+    public Animator Animator = null;
     private const string IsWalking = "IsWalking";
     private const string Jump = "Jump";
     private const string Landed = "Landed";
@@ -56,7 +57,6 @@ public class CabbageController : MonoBehaviour
     private EnemyStats enemyStats;
 
     private LineRenderer myLineRenderer;
-
 
     [Header("Check")]
 
@@ -72,36 +72,21 @@ public class CabbageController : MonoBehaviour
 
         LinkMover.OnLinkStart += HandleLinkStart;
         LinkMover.OnLinkEnd += HandleLinkEnd;
-        //Health = enemyStats.currentHP;
 
         SetupTargetUsingTag();
-        //SetupTargetUsingTag("Player");
-
-
         SetupLineRenderer();
-        
-        //SetupPatrolWayPoints();
     }
 
     private void Start()
     {
-        //SetupTargetUsingTag();
-        //StartCoroutine(FollowTarget());
-
         if (patrolWaypoints.Length > 0)
         {
             Agent.SetDestination(patrolWaypoints[0].position);
             currentWaypointIndex = 0;
         }
 
-
         // Invoke SetupPatrolWayPoints after .1 second delay
         Invoke("DelayedSetupPatrolWayPoints", 0.1f);
-
-        //StartCoroutine(FollowPatrolRoute());
-        //StartCoroutine(CheckForTarget());
-
-
     }
 
     private void DelayedSetupPatrolWayPoints()
@@ -113,9 +98,6 @@ public class CabbageController : MonoBehaviour
 
     private void Update()
     {
-        //ReturnToPool();
-        //ReturnToPool(); // Ensure lifetime decrement
-
         // Check if in range and angle to start chasing
         if (!isChasing)
         {
@@ -126,34 +108,24 @@ public class CabbageController : MonoBehaviour
     private void FixedUpdate()
     {
         DrawPath();
-        
+        StartCoroutine(UpdateAnimation());
+    }
+
+    private IEnumerator UpdateAnimation()
+    {   
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f) ;
+            PlayWalkingAnim();
+        }
     }
 
     private IEnumerator FollowPatrolRoute()
     {
-        float checkRD;
         while (gameObject.activeSelf)
         {
-            checkRD = Agent.remainingDistance;
-            remainingDistance = Agent.remainingDistance;
-            /* if (!isChasing && !Agent.pathPending && Agent.remainingDistance < distanceThreshold)
-            {
-                currentWaypointIndex = (currentWaypointIndex + 1) % patrolWaypoints.Length;
-                Agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
-                remainingDistance = Agent.remainingDistance;
-                givenPatorlWaypoint = patrolWaypoints[currentWaypointIndex].position;
-            } */
-            
-            /* If Agent.remainingDistance is not behaving as expected, so replace the condition Agent.remainingDistance < distanceThreshold with a check using Vector3.Distance between the agent's position and the waypoint's position. */
             if (!isChasing && !Agent.pathPending)
             {
-                /* if (Vector3.Distance(Agent.transform.position, patrolWaypoints[currentWaypointIndex].position) < distanceThreshold)
-                {
-                    currentWaypointIndex = (currentWaypointIndex + 1) % patrolWaypoints.Length;
-                    Agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
-                    givenPatorlWaypoint = patrolWaypoints[currentWaypointIndex].position;
-                } */
-
                 // Check if agent has reached the current waypoint
                 if (Agent.remainingDistance <= Agent.stoppingDistance)
                 {
@@ -162,7 +134,6 @@ public class CabbageController : MonoBehaviour
                     givenPatorlWaypoint = patrolWaypoints[currentWaypointIndex].position;
                 }
             }
-
             yield return null;
         }
     }
@@ -194,23 +165,6 @@ public class CabbageController : MonoBehaviour
         }
     }
 
-    private Transform SelectTargetFromTargets()
-    {
-        // Pick the last target if targets is not null and contains elements
-        if (targets != null && targets.Length > 0)
-        {
-            Transform lastTarget = targets[targets.Length - 1];
-            // Use lastTarget as needed
-            Debug.Log("Last target: " + lastTarget.name);
-            return lastTarget;
-        }
-        else
-        {
-            Debug.LogWarning("No targets found or targets array is empty.");
-            return null; // Return null if no valid target is found
-        }
-    }
-
     private void CheckForChaseTarget()
     {
         if (targets != null && targets.Length > 0)
@@ -225,7 +179,6 @@ public class CabbageController : MonoBehaviour
                     float distance = toTarget.magnitude;
                     if (distance <= chaseDistance)
                     {
-                        //StartChasing(target);
                         StartCoroutine(ChasingTarget(target));
                         break;
                     }
@@ -272,7 +225,6 @@ public class CabbageController : MonoBehaviour
             // Code here will execute after 0.5 seconds of delay
             yield return null;
             // Code here will execute in the next frame
-            
         }
     }
 
@@ -326,26 +278,7 @@ public class CabbageController : MonoBehaviour
                 }
             }
         }
-
         targets = detectedTargets.ToArray();
-    }
-
-
-    private IEnumerator FollowTarget()
-    {
-        WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
-        
-        while (gameObject.activeSelf)
-        {
-            if (selectedTarget == null) 
-            {
-                Debug.Log("selectedTarget == null, do SelectTargetFromTargets()");
-                selectedTarget = SelectTargetFromTargets();
-            }
-            
-            Agent.SetDestination(selectedTarget.transform.position);
-            yield return Wait;
-        }
     }
 
     private void HandleLinkStart()
@@ -497,8 +430,6 @@ public class CabbageController : MonoBehaviour
  
         myLineRenderer.positionCount = Agent.path.corners.Length;
         myLineRenderer.SetPosition(0, transform.position);
-
-        
 
         if (Agent.path.corners.Length < 2)
         {
