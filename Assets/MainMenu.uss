@@ -1,11 +1,13 @@
 .ButtonsContainer {
     flex-grow: 1;
-    margin-bottom: 25%;
+    height: 100%;
+    width: 100%;
+    flex-basis: 20%;
 }
 
 .TitleContainer {
     flex-grow: 0;
-    flex-basis: 20%;
+    flex-basis: 30%;
     align-items: center;
     justify-content: center;
     margin-top: 5%;
@@ -14,6 +16,8 @@
     margin-left: 5%;
     background-color: rgba(0, 0, 0, 0);
     flex-wrap: nowrap;
+    height: 100%;
+    width: 100%;
 }
 
 .TitleLabel {
@@ -59,4 +63,50 @@
 
 .hide {
     display: none;
+}
+
+.Background {
+    flex-grow: 1;
+    position: absolute;
+    flex-basis: 100%;
+    width: 100%;
+    height: 100%;
+}
+
+.Canvas {
+    flex-grow: 1;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 100%;
+    width: 100%;
+    height: 100%;
+}
+
+.ContainerL {
+    height: 100%;
+    width: 50%;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.ContainerR {
+    height: 100%;
+    width: 50%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.CrystalCountLabel {
+    width: auto;
+    height: auto;
+    min-width: 50%;
+    min-height: 10%;
+    font-size: 200%;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    -unity-text-align: upper-right;
+    white-space: normal;
+    color: rgb(255, 255, 255);
 }

@@ -19,8 +19,6 @@ public class InGameUI : MonoBehaviour
     public bool playerAlive = true;
     public SupporterController[] sc;
 
-    //public VisualTreeAsset uiTree;
-
     public UIDocument _document;
 
     private Label text_speed;
@@ -44,8 +42,6 @@ public class InGameUI : MonoBehaviour
     private ProgressBar healthProgressBar;
     private ProgressBar manaProgressBar;
     private ProgressBar staminaProgressBar;
-
-    //private TextField text_mode;
 
     private bool cursorLocked = false;
     private bool pauseMenuVisible = false; // Track visibility of PauseMenu
@@ -125,8 +121,6 @@ public class InGameUI : MonoBehaviour
             _goNoButton = _document.rootVisualElement.Q("goNoButton") as Button;
             _goNoButton.RegisterCallback<ClickEvent>(OnGONoClick);
 
-            //healthSlider = _document.rootVisualElement.Q<Slider>("healthSlider");
-            //var healthSlider = visualElement.Q<ProgressBar>("healthSlider");
             healthProgressBar = _document.rootVisualElement.Q<ProgressBar>("healthProgressBar");
             manaProgressBar = _document.rootVisualElement.Q<ProgressBar>("manaProgressBar");
             staminaProgressBar = _document.rootVisualElement.Q<ProgressBar>("staminaProgressBar");
@@ -240,10 +234,8 @@ public class InGameUI : MonoBehaviour
             Debug.Log("staminaProgressBar found!");
         }
         
-        
         // Initially hide the PauseMenu
         HideUIElement("PauseMenu");
-        //HideUIElement("MidContainer");
         HideUIElement("pmMidContainer1");
         // Initially hide the GameOverMenu
         HideUIElement("GameOverMenu");
@@ -253,10 +245,7 @@ public class InGameUI : MonoBehaviour
     void Start()
     {
         // Find the text box by name
-        // text_speed = _document.rootVisualElement.Q<TextField>("BottomLeftLabel");
-
         // Get the references to the UI labels
-        // pm = GetComponent<WASDController>();
         text_speed = _document.rootVisualElement.Q<Label>("BottomLeftLabel");
         text_mode = _document.rootVisualElement.Q<Label>("BottomRightLabel");
         text_cursorStatus = _document.rootVisualElement.Q<Label>("CursorStatusLabel");
@@ -332,23 +321,12 @@ public class InGameUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Start the coroutine to log messages every 5 seconds
-        // StartCoroutine(LogMessageRoutine(5f));
-
-        //CheckInput();
-        //if (playerStats.currentHP > 0)
-        //if (gameOverStage == -1) CheckInput();
         if (playerAlive) CheckInput();
     }
 
     void FixedUpdate ()
     {
         UpdateUI();
-        /* if (playerStats.currentHP <= 0 && gameOverStage == -1)
-        {
-            gameOverStage = 0;
-            ShowUIElement("GameOverMenu");
-        } */
         if (!playerAlive && gameOverStage == -1)
         {
             gameOverStage = 0;
@@ -358,8 +336,6 @@ public class InGameUI : MonoBehaviour
             ShowUIElement("goMidContainer");
             UnlockCursor();
         }
-        
-        
     }
 
     void UpdateUI()
@@ -377,13 +353,7 @@ public class InGameUI : MonoBehaviour
 
     void UpdateHealthProgressBar()
     {
-        // Example: Get the current player's HP
-        //float currentPlayerHP = GetPlayerCurrentHP();
-        
         // Update the ProgressBar value based on player HP
-        healthProgressBar.value = playerStats.currentHP;
-        healthProgressBar.highValue = playerStats.maxHP;
-
         float currentPlayerHP = playerStats.currentHP;
         float maxHP = playerStats.maxHP;
 
@@ -391,7 +361,8 @@ public class InGameUI : MonoBehaviour
         float normalizedHP = currentPlayerHP / maxHP;
 
         // Set the value of the slider (progress bar)
-        //healthProgressBar.value = normalizedHP;
+        healthProgressBar.value = playerStats.currentHP;
+        healthProgressBar.highValue = playerStats.maxHP;
     }
 
     void UpdateManaProgressBar()
@@ -403,8 +374,6 @@ public class InGameUI : MonoBehaviour
         float normalizedMP = currentPlayerMP / maxMP;
 
         // Set the value of the slider (progress bar)
-        //manaProgressBar.value = normalizedMP;
-
         manaProgressBar.value = playerStats.currentMP;
         manaProgressBar.highValue = playerStats.maxMP;
     }
@@ -418,8 +387,6 @@ public class InGameUI : MonoBehaviour
         float normalizedSP = currentPlayerSP / maxSP;
 
         // Set the value of the slider (progress bar)
-        staminaProgressBar.value = normalizedSP;
-
         staminaProgressBar.value = playerStats.currentSP;
         staminaProgressBar.highValue = playerStats.maxSP;
     }
@@ -436,7 +403,6 @@ public class InGameUI : MonoBehaviour
     {
         if (pm != null)
         {
-
             text_cameraType.text = tpc.GetTextMode();
         }
     }
@@ -552,28 +518,18 @@ public class InGameUI : MonoBehaviour
         Debug.Log("UnlockCursor method");
         cursorLocked = false;
         UnityEngine.Cursor.visible = true;
-        
         UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
     
     private void OnPauseClick(ClickEvent evt)
     {
         Debug.Log("You press the Pause Button");
-        //ShowUIElement("PauseMenu");
-        //HideUIElement("MidContainerEmpty");
-        //ShowUIElement("pmMidContainer");
-        //Debug.Log(" cursorLocked : " + cursorLocked);
-        //pauseMenuVisible = true;
         TogglePauseMenu();
     }
 
     private void OnPMResumeClick(ClickEvent evt)
     {
         Debug.Log("You press the pmResume Button");
-        //HideUIElement("PauseMenu");
-        //HideUIElement("MidContainer1");
-        //ShowUIElement("MidContainerEmpty");
-        //pauseMenuVisible = false;
         TogglePauseMenu();
     }
 
@@ -582,17 +538,15 @@ public class InGameUI : MonoBehaviour
         Debug.Log("You press the pmQuit Button");
         HideUIElement("pmMidContainer");
         ShowUIElement("pmMidContainer1");
-        //ActivateSelector("MidContainer", "hide");
         pauseStage = 1;
     }
 
     private void OnPMYesClick(ClickEvent evt)
     {
         Debug.Log("You press the pmYes Button");
+        PersistentData.Instance.SaveData();
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
-        // HideUIElement("MidContainer");
-        // ShowUIElement("MidContainer2");
-        //ActivateSelector("MidContainer", "hide");
     }
 
     private void OnPMNoClick(ClickEvent evt)
@@ -600,18 +554,14 @@ public class InGameUI : MonoBehaviour
         Debug.Log("You press the pmNo Button");
         HideUIElement("pmMidContainer1");
         ShowUIElement("pmMidContainer");
-        //ActivateSelector("MidContainer", "hide");
         pauseStage = 0;
     }
 
     private void OnGOTryAgainClick(ClickEvent evt)
     {
         Debug.Log("You press the goTryAgain Button");
-        //HideUIElement("goMidContainer");
-        //ShowUIElement("goMidContainer1");
-        //ActivateSelector("MidContainer", "hide");
         gameOverStage = 0;
-
+        PersistentData.Instance.ResetPlayer();
         // Reload Scene
         // Get the current active scene's name
         string currentSceneName = SceneManager.GetActiveScene().name;
@@ -632,10 +582,10 @@ public class InGameUI : MonoBehaviour
     private void OnGOYesClick(ClickEvent evt)
     {
         Debug.Log("You press the goYes Button");
+        PersistentData.Instance.SaveData();
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
-        // HideUIElement("MidContainer");
-        // ShowUIElement("MidContainer2");
-        //ActivateSelector("MidContainer", "hide");
+
     }
 
     private void OnGONoClick(ClickEvent evt)
@@ -643,7 +593,6 @@ public class InGameUI : MonoBehaviour
         Debug.Log("You press the goNo Button");
         HideUIElement("goMidContainer1");
         ShowUIElement("goMidContainer");
-        //ActivateSelector("MidContainer", "hide");
         gameOverStage = 0;
     }
 
@@ -680,38 +629,7 @@ public class InGameUI : MonoBehaviour
         {
             // Wait for 5 seconds
             yield return new WaitForSeconds(waitTime);
-
-            // Log a debug message
-            //Debug.Log("Debug message every 5 seconds.");
         }
-    }
-
-    // Method to activate a specific USS selector
-    public void ActivateSelector(string elementName, string selector)
-    {
-        VisualElement visualElement = _document.rootVisualElement.Q<VisualElement>(elementName);
-
-        // if (visualElement != null)
-        // {
-        //     // Set the display style to block (show the element)
-        //     visualElement.style.display = DisplayStyle.Flex;
-        // }
-
-        visualElement.AddToClassList(selector); // Add the CSS class corresponding to the selector
-    }
-
-    // Method to deactivate a specific USS selector
-    public void DeactivateSelector(string elementName, string selector)
-    {
-        VisualElement visualElement = _document.rootVisualElement.Q<VisualElement>(elementName);
-
-        // if (visualElement != null)
-        // {
-        //     // Set the display style to none (hide the element)
-        //     visualElement.style.display = DisplayStyle.None;
-        // }
-
-        visualElement.RemoveFromClassList(selector); // Remove the CSS class corresponding to the selector
     }
     
     void CheckGameDataObject()
@@ -727,17 +645,6 @@ public class InGameUI : MonoBehaviour
 
     void TogglePause()
     {
-        /* if (isPaused)
-        {
-            Time.timeScale = previousTimeScale; // Resume previous time scale
-            isPaused = false;
-        }
-        else
-        {
-            previousTimeScale = Time.timeScale; // Store current time scale
-            Time.timeScale = 1f; // Set time scale to 1 (normal speed)
-            isPaused = true;
-        } */
         if (isPaused)
         {
             Time.timeScale = previousTimeScale; // Resume previous time scale

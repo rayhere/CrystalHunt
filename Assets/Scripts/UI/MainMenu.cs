@@ -14,6 +14,11 @@ public class MainMenu : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    private Label text_topCrystalCount;
+    private Label text_totalCrystalsCollected;
+    private const string TopCrystalCountKey = "TopCrystalCount";
+    private const string TotalCrystalsCollectedKey = "TotalCrystalsCollected";
+
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -33,16 +38,69 @@ public class MainMenu : MonoBehaviour
             _button2.RegisterCallback<ClickEvent>(OnLoadClick);
         }
 
-/*         _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
-        for (int i = 0; i < _menuButtons.Count; i++)
-        {
-            _menuButtons[i].RegisterCallback<ClickEvent>(OnButtonClick);
-        } */
-        // Get all buttons from the UI document and register callbacks for each
         _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
         foreach (var button in _menuButtons)
         {
             button.RegisterCallback<ClickEvent>(OnAllButtonsClick);
+        }
+
+        text_topCrystalCount = _document.rootVisualElement.Q<Label>("TopCrystalCountLabel");
+        text_totalCrystalsCollected = _document.rootVisualElement.Q<Label>("TotalCrystalsCollectedLabel");
+
+        if (text_topCrystalCount == null)
+        {
+            Debug.LogError("TopCrystalCountLabel not found!");
+        }
+        else
+        {
+            Debug.Log("TopCrystalCountLabel found!");
+        }
+
+        if (text_totalCrystalsCollected == null)
+        {
+            Debug.LogError("TotalCrystalsColletedLabel not found!");
+        }
+        else
+        {
+            Debug.Log("TotalCrystalsColletedLabel found!");
+        }
+
+        if (PlayerPrefs.HasKey(TopCrystalCountKey))
+        {
+            int topCrystals = PlayerPrefs.GetInt(TopCrystalCountKey);
+            if (text_topCrystalCount != null)
+            {
+                text_topCrystalCount.text = "Top Crystal Count:\n" + topCrystals.ToString() + " Crystals";
+                Debug.Log("TopCrystalCountLabel is found topCrystals is " + topCrystals);
+            }
+            else
+            {
+                Debug.LogWarning("TopCrystalCountLabel not found in UI.");
+            }
+        }
+        else
+        {
+            // Handle case where the key doesn't exist (optional)
+            Debug.LogWarning("TopCrystalCountKey not found in PlayerPrefs.");
+        }
+
+        if (PlayerPrefs.HasKey(TotalCrystalsCollectedKey))
+        {
+            int totalCrystals = PlayerPrefs.GetInt(TotalCrystalsCollectedKey);
+            if (text_totalCrystalsCollected != null)
+            {
+                text_totalCrystalsCollected.text = "Total Crystals Collected:\n" + totalCrystals.ToString() + " Crystals";
+                Debug.Log("TotalCrystalsCollectedLabel is found topCrystals is " + totalCrystals);
+            }
+            else
+            {
+                Debug.LogWarning("TotalCrystalsCollectedLabel not found in UI.");
+            }
+        }
+        else
+        {
+            // Handle case where the key doesn't exist (optional)
+            Debug.LogWarning("TotalCrystalsCollectedKey not found in PlayerPrefs.");
         }
     }
 
@@ -51,11 +109,6 @@ public class MainMenu : MonoBehaviour
         _button.UnregisterCallback<ClickEvent>(OnStartClick);
         _button2.UnregisterCallback<ClickEvent>(OnLoadClick);
         
-/*         for (int i = 0; i < _menuButtons.Count; i++)
-        {
-            _menuButtons[i].UnregisterCallback<ClickEvent>(OnButtonClick);
-        } */
-        // Unregister callbacks for all buttons when the script is disabled
         foreach (var button in _menuButtons)
         {
             button.UnregisterCallback<ClickEvent>(OnAllButtonsClick);
@@ -65,6 +118,7 @@ public class MainMenu : MonoBehaviour
     private void OnStartClick(ClickEvent evt)
     {
         Debug.Log("You press the Start Button");
+        PersistentData.Instance.ResetPlayer();
         SceneManager.LoadScene("Level1");
     }
 

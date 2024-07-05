@@ -71,7 +71,7 @@ public class SupporterController : MonoBehaviour
 
     public float awarenessRadius = 20f;             // Radius within which the AI detects targets or items
     public float chaseRange = 20f;                  // Range within which the AI starts chasing a detected target
-    public float searchRange = 15f;                 // Range within which the AI searches for items
+    public float searchRange = 30f;                 // Range within which the AI searches for items
     public float scanInterval = 2f;                 // Interval at which the AI scans its surroundings
     public LayerMask avoidTargetLayer;              // Layer(s) to consider as potential dangerous targets
     public LayerMask teammateTargetLayer;              // Layer(s) to consider as potential teammate targets

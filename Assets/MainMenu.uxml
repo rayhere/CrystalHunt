@@ -1,29 +1,39 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/MainMenu.uss?fileID=7433441132597879392&amp;guid=1610a8793a54dda43917008c7fc7425d&amp;type=3#MainMenu" />
-    <ui:VisualElement name="Background" style="flex-grow: 1;">
-        <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.2); padding-right: 0; padding-left: 0; -unity-text-outline-color: rgba(0, 0, 0, 0); border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); margin-right: 70%; margin-left: 5%;">
-            <ui:VisualElement name="TitleContainer" class="TitleContainer">
-                <ui:Label tabindex="-1" text="Crystal Hunt" parse-escape-sequences="true" display-tooltip-when-elided="true" class="TitleLabel" />
+    <ui:VisualElement name="Background" class="Background">
+        <ui:VisualElement name="Canvas" class="Canvas" style="flex-direction: row; align-self: center; align-items: center; justify-content: center; flex-basis: 100%;">
+            <ui:VisualElement name="ContainerL" class="ContainerL">
+                <ui:VisualElement style="flex-grow: 1; width: 100%; padding-left: 10%; padding-right: 40%; height: 100%;">
+                    <ui:VisualElement name="TitleContainer" class="TitleContainer">
+                        <ui:Label tabindex="-1" text="Crystal Hunt" parse-escape-sequences="true" display-tooltip-when-elided="true" class="TitleLabel" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ButtonsContainer" class="ButtonsContainer">
+                        <ui:VisualElement name="StartButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
+                            <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartButton" class="button" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="LoadButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
+                            <ui:Button text="Load" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LoadButton" class="button" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OptionsButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
+                            <ui:Button text="Options" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OptionsButton" class="button" />
+                        </ui:VisualElement>
+                        <ui:RadioButtonGroup label="Radio Button Group" value="-1" choices="UnityEngine.UIElements.RadioButtonGroup+&lt;get_choices&gt;d__7" class="RadioButtonGroup hide" />
+                        <ui:VisualElement name="CreditsButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
+                            <ui:Button text="Credit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreditsButton" class="button" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="QuitButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
+                            <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="button" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="LowerContainer" class="LowerContainer" />
+                </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="ButtonsContainer" class="ButtonsContainer">
-                <ui:VisualElement name="StartButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
-                    <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartButton" class="button" />
-                </ui:VisualElement>
-                <ui:VisualElement name="LoadButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
-                    <ui:Button text="Load" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LoadButton" class="button" />
-                </ui:VisualElement>
-                <ui:VisualElement name="OptionsButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
-                    <ui:Button text="Options" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OptionsButton" class="button" />
-                </ui:VisualElement>
-                <ui:RadioButtonGroup label="Radio Button Group" value="-1" choices="UnityEngine.UIElements.RadioButtonGroup+&lt;get_choices&gt;d__7" class="RadioButtonGroup" />
-                <ui:VisualElement name="CreditsButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
-                    <ui:Button text="Credit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreditsButton" class="button" />
-                </ui:VisualElement>
-                <ui:VisualElement name="QuitButtonContainer" style="flex-grow: 0; margin-top: 0; margin-bottom: 5px; justify-content: center; align-items: stretch; flex-basis: auto; background-color: rgba(0, 0, 0, 0);">
-                    <ui:Button text="Quit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="QuitButton" class="button" />
+            <ui:VisualElement name="ContainerR" class="ContainerR">
+                <ui:VisualElement style="flex-grow: 1; align-items: flex-end; justify-content: flex-end; width: 80%; height: 100%; padding-top: 0; padding-bottom: 10%;">
+                    <ui:Label tabindex="-1" text="Top Crystal Count: x Crystals" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TopCrystalCountLabel" class="CrystalCountLabel" />
+                    <ui:Label tabindex="-1" text="Total Crystals Collected: x" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TotalCrystalsCollectedLabel" class="CrystalCountLabel" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="LowerContainer" class="LowerContainer" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
