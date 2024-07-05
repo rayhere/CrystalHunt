@@ -484,6 +484,7 @@ public class InGameUI : MonoBehaviour
         {
             if (pauseStage !=0) return;
             HideUIElement("PauseMenu");
+            ShowUIElement("BodyContainer");
             TogglePause();
             // Lock only for WASDMovement active
             LockCursor();
@@ -494,6 +495,7 @@ public class InGameUI : MonoBehaviour
         else
         {
             // Make Sure Resume ClickEvent do the same
+            HideUIElement("BodyContainer");
             ShowUIElement("PauseMenu");
             ShowUIElement("pmMidContainer");
             TogglePause();
