@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
                     if (target == null)
                     {
                         //target = GameObject.FindGameObjectWithTag("StoneCube").transform;
-                        target = GameObject.FindGameObjectWithTag("Player").transform;
+                        target = GameObject.FindGameObjectWithTag("Darkness").transform;
                     }
                     // Setting parent to StoneCube Pool
                     cubeInstance.transform.SetParent(ObjectPooler.parentDictionary[poolDictionary].transform);

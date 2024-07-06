@@ -243,7 +243,7 @@ public class WASDController : MonoBehaviour
     {
         if (isActive)
         {   
-            MovePlayer();
+            if (playerStats.currentHP > 0) MovePlayer();
         }
     }
 

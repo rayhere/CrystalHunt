@@ -12,6 +12,7 @@ public class SupporterController : MonoBehaviour
     //[SerializeField, Tooltip("Reference your NavMesh data asset here")]
     //public NavMeshData myNavMeshData; // Reference to your NavMeshData
     //private NavMeshDataInstance navMeshDataInstance; // Instance of the NavMeshData
+    public Transform playerModel;
 
     // Patrol Settings
     [Header("Patrol Settings")]
@@ -130,6 +131,7 @@ public class SupporterController : MonoBehaviour
         SetupPatrolWayPoints();
         StartCoroutine(ScanForTargetsAndItems());
         StartCoroutine(UpdateAnimation());
+        StartCoroutine(RotateTowardsPathDestination());
     }
 
     private void Update()
@@ -140,7 +142,6 @@ public class SupporterController : MonoBehaviour
     private void FixedUpdate()
     {
         DrawPath();
-        
         currentDestination = agent.destination; // just for display in inspector
     }
 
@@ -347,7 +348,7 @@ public class SupporterController : MonoBehaviour
                 if (nearestItem.gameObject.activeSelf)
                 {
                     isSearchingItem = true;
-                    isAware = false;  // Stop chasing targets if searching for an item
+                    //isAware = false;  // Stop chasing targets if searching for an item
                 }
             }
             yield return new WaitForSeconds(scanInterval);
@@ -434,7 +435,7 @@ public class SupporterController : MonoBehaviour
         // Rotate towards the target's position
         Vector3 direction = (targetPosition - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
+        playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
     }
 
     private void MoveTowardsItem()
@@ -519,7 +520,7 @@ public class SupporterController : MonoBehaviour
 
         // Rotate the object to face the movement direction (optional)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        playerModel.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
         //lifetime = 3f;
     }
@@ -555,6 +556,22 @@ public class SupporterController : MonoBehaviour
         // EnqueueObject<T> will Reset the Supporter's state in ObjectPooler.cs
 
         // reset EnemyStats.cs 
+    }
+
+    private IEnumerator LookAtTarget(Transform Target)
+    {
+        Quaternion lookRotation = Quaternion.LookRotation(Target.position - transform.position);
+        float time = 0;
+
+        while (time < 1)
+        {
+            playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, lookRotation, time);
+
+            time += Time.deltaTime * 2;
+            yield return null;
+        }
+
+        playerModel.transform.rotation = lookRotation;
     }
     
     void SetupLineRenderer()
@@ -593,6 +610,26 @@ public class SupporterController : MonoBehaviour
         {
             Vector3 pointPosition = new Vector3(agent.path.corners[i].x, agent.path.corners[i].y, agent.path.corners[i].z);
             myLineRenderer.SetPosition(i, pointPosition);
+        }
+    }
+
+    IEnumerator RotateTowardsPathDestination()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f) ;
+            if (agent.hasPath && agent.path.corners.Length > 0)
+            {
+                // Get the direction to the current destination on the path
+                Vector3 direction = agent.path.corners[agent.path.corners.Length - 1] - playerModel.transform.position;
+
+                // Ensure the direction is not zero (to prevent zero division)
+                if (direction != Vector3.zero)
+                {
+                    Quaternion rotation = Quaternion.LookRotation(direction);
+                    playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, rotation, Time.deltaTime * turnSpeed);
+                }
+            }
         }
     }
 }

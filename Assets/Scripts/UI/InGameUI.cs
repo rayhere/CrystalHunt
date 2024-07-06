@@ -488,7 +488,7 @@ public class InGameUI : MonoBehaviour
             ShowUIElement("BodyContainer");
             TogglePause();
             // Lock only for WASDMovement active
-            LockCursor();
+            if (pm.isActive) LockCursor();
             if (pm != null) pm.pauseMenu = false;
             if (tpc != null) tpc.pauseMenu = false;
             if (ctm != null) ctm.pauseMenu = false;
